@@ -11,7 +11,8 @@ function getFileUrl(url){
   if (!/^\//.test(url)) {
     url = `/${url}`
   }
-  return `${window.BS_CONFIG?.httpConfigs?.fileUrlPrefix}${url}`
+  // return `${window.BS_CONFIG?.httpConfigs?.fileUrlPrefix}${url}`
+  return `${process.env.VUE_APP_BASE_API}${url}`
 }
 
 
