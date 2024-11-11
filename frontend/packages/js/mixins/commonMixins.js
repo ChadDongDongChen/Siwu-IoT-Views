@@ -10,9 +10,11 @@ import { getChatInfo, getUpdateChartInfo } from '../api/bigScreenApi'
 import axiosFormatting from '../../js/utils/httpParamsFormatting'
 import { settingToTheme } from 'data-room-ui/js/utils/themeFormatting'
 import cloneDeep from 'lodash/cloneDeep'
+import mqtt from 'mqtt'
+
 
 export default {
-  data () {
+  data() {
     return {
       filterList: [],
       treeParentId: 0,
@@ -21,19 +23,19 @@ export default {
   },
   watch: {
     'config.expression': { // 表达式发生变化
-      handler (val) {
+      handler(val) {
         this.getDataByExpression(this.config)
       }
     },
     // 标题发生变化时需要及时更新表达式中的数据集库的字段名
     'config.title': {
-      handler (val, oldVal) {
+      handler(val, oldVal) {
         this.updateDataset({ code: this.config.code, title: val, data: [], oldTitle: oldVal, isChangeTitle: true })
         this.updateComputedDatas({ code: this.config.code, title: val, data: [], oldTitle: oldVal, isChangeTitle: true })
       }
     },
     currentDataset: { // 关联的数据发生变化
-      handler (val, old) {
+      handler(val, old) {
         if (val && Object.keys(val).length && JSON.stringify(val) !== JSON.stringify(old)) {
           this.getDataByExpression(this.config)
         }
@@ -42,7 +44,7 @@ export default {
       immediate: true
     },
     currentComputedDatas: { // 关联的数据发生变化
-      handler (val, old) {
+      handler(val, old) {
         if (val && Object.keys(val).length && JSON.stringify(val) !== JSON.stringify(old)) {
           this.getDataByExpression(this.config)
         }
@@ -59,15 +61,15 @@ export default {
       // dataset: state => state.bigScreen.dataset
     }),
     // 所有组件的数据集合
-    dataset () {
+    dataset() {
       return this.$store.state.bigScreen.dataset
     },
     // 所有组件的数据集合
-    computedDatas () {
+    computedDatas() {
       return this.$store.state.bigScreen.computedDatas
     },
     // 跟当前组件计算表达式关联的组件的数据集合
-    currentDataset () {
+    currentDataset() {
       const newDataset = {}
       this.config.expressionCodes?.forEach(item => {
         const code = item.split('_')[1]
@@ -81,7 +83,7 @@ export default {
       return newDataset
     },
     // 跟当前组件计算表达式关联的组件的数据集合
-    currentComputedDatas () {
+    currentComputedDatas() {
       const newDataset = {}
       this.config.expressionCodes?.forEach(item => {
         const code = item.split('_')[1]
@@ -94,12 +96,12 @@ export default {
       })
       return newDataset
     },
-    isPreview () {
+    isPreview() {
       return (this.$route.path === window?.BS_CONFIG?.routers?.previewUrl) || (this.$route.path === '/big-screen/preview')
     }
   },
 
-  mounted () {
+  mounted() {
     if (!['tables', 'flyMap', 'map'].includes(this.config.type)) {
       this.chartInit()
     }
@@ -115,7 +117,7 @@ export default {
     /**
      * 初始化组件
      */
-    chartInit () {
+    chartInit() {
       let config = this.config
       // key和code相等，说明是一进来刷新，调用list接口
       if (this.isPreview) {
@@ -134,7 +136,7 @@ export default {
      * @param settingConfig 设置时的配置。不传则为当前组件的配置
      * @returns {Promise<unknown>}
      */
-    changeDataByCode (config) {
+    changeDataByCode(config) {
       let currentPage = 1
       let size = 10
       if (config?.option?.pagination) {
@@ -153,12 +155,60 @@ export default {
         }).then(async (res) => {
           config.loading = false
           let _res = cloneDeep(res)
+           //--------------------MQTT数据集执行前置条件------------------------------------------------------------
+           if (res.data && res.data.datasetType && res.data.datasetType === 'mqtt') {
+            res.executionByFrontend = true
+          }
+          //--------------------MQTT数据集执行前置条件------------------------------------------------------------
           // 如果是http数据集的前端代理，则需要调封装的axios请求
           if (res.executionByFrontend) {
+            // if (res.data.datasetType === 'mqtt') {
+            //   //   _res = this.httpDataFormatting(res, [{"data":new Date().toLocaleString()}])
+            //   let clientId = "SW-VIEWS" + new Date().getTime();
+            //   let client = mqtt.connect('ws://119.4.52.122:28720/mqtt', {
+            //     clientId: clientId,
+            //     username: 'admin',
+            //     password: '123456'
+            //   })
+            //   let produceTopic = "Time";
+            //   client.on('connect', () => {
+            //     console.log('mqtt 已经连接成功');
+
+            //     client.subscribe(produceTopic, (data) => {
+            //       console.log("mqtt " + produceTopic + " 订阅成功");
+            //     })
+
+            //   });
+            //   client.on('message', (topic, data) => {
+            //     console.log("mqtt 收到" + topic + "的消息");
+            //     // console.log(data.toString());
+            //     if (topic === produceTopic) {
+            //       // 处理指定主题下的消息
+            //       let JsonData = JSON.parse(data.toString());
+            //       // console.log(JsonData);
+            //       _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
+            //       console.log('mqtt_res: ', _res);
+            //     }
+            //   })
+            //   client.on('reconnect', () => {
+            //     console.log("mqtt reconnect");
+            //   })
+            //   client.on('offline', () => {
+            //     console.log("mqtt offline");
+            //   })
+            //   client.on('error', (error) => {
+            //     console.log("mqtt error");
+            //     console.log(error);
+            //   })
+            //   client.on('close', () => {
+            //     console.log("mqtt close");
+            //   })
+            // }
             if (res.data.datasetType === 'http') {
               _res = await axiosFormatting(res.data)
               _res = this.httpDataFormatting(res, _res)
             }
+
             if (res.data.datasetType === 'js') {
               try {
                 const scriptAfterReplacement = res.data.script.replace(/\${(.*?)}/g, (match, p) => {
@@ -197,7 +247,7 @@ export default {
      * @param {Object} config
      * @param {Array} filterList
      */
-    changeData (config, filterList) {
+    changeData(config, filterList) {
       const list = config?.paramsList?.map((item) => {
         if (item.value === '${level}') {
           return { ...item, value: config.customize.level }
@@ -221,13 +271,70 @@ export default {
       return new Promise((resolve, reject) => {
         config.loading = true
         getUpdateChartInfo(params).then(async (res) => {
+
           config.loading = false
           let _res = cloneDeep(res)
+          //--------------------MQTT数据集执行前置条件------------------------------------------------------------
+          if (res.data && res.data.datasetType && res.data.datasetType === 'mqtt') {
+            res.executionByFrontend = true
+          }
+          //--------------------MQTT数据集执行前置条件------------------------------------------------------------
           // 如果是http数据集的前端代理，则需要调封装的axios请求
           if (res.executionByFrontend) {
+            if (res.data.datasetType === 'mqtt') {
+                // _res = this.httpDataFormatting(res, [{"data":new Date().toLocaleString()}])
+              let clientId = "SW-VIEWS" + new Date().getTime();
+              let client = mqtt.connect('ws://119.4.52.122:28720/mqtt', {
+                clientId: clientId,
+                username: 'admin',
+                password: '123456'
+              })
+              let produceTopic = "Time";
+              client.on('connect', () => {
+                console.log('mqtt 已经连接成功');
+
+                client.subscribe(produceTopic, (data) => {
+                  console.log("mqtt " + produceTopic + " 订阅成功");
+                })
+
+              });
+              client.on('message', (topic, data) => {
+                console.log("mqtt 收到" + topic + "的消息");
+                // console.log(data.toString());
+                if (topic === produceTopic) {
+                  // 处理指定主题下的消息
+                  let JsonData = JSON.parse(data.toString());
+                  // console.log(JsonData);
+                  _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
+                  console.log('mqtt_res: ', _res);
+                  if (config) {
+                    config.loading = false
+                  }
+                  resolve(config)
+                }
+              })
+              client.on('reconnect', () => {
+                console.log("mqtt reconnect");
+              })
+              client.on('offline', () => {
+                console.log("mqtt offline");
+              })
+              client.on('error', (error) => {
+                console.log("mqtt error");
+                console.log(error);
+              })
+              client.on('close', () => {
+                console.log("mqtt close");
+              })
+
+              // console.log('this.httpDataFormatting(res, _res): ', _res);
+            }
+
+
             if (res.data.datasetType === 'http') {
               _res = await axiosFormatting(res.data)
               _res = this.httpDataFormatting(res, _res)
+             
             }
             if (res.data.datasetType === 'js') {
               try {
@@ -266,6 +373,7 @@ export default {
             }
           } if (this.config.type === 'candlestick' && this.charts) {
             this.updateChartData(config, _res)
+            console.log('config, _res: ', config, _res);
           } else if (this.charts) {
             // 地图组件的被联动更新
             this.changeMapData(config.option.data)
@@ -281,11 +389,11 @@ export default {
       })
     },
     // 更新图表数据
-    updateChartData () {
+    updateChartData() {
 
     },
     // http前台代理需要对返回的数据进行重新组装
-    httpDataFormatting (chartRes, httpRes) {
+    httpDataFormatting(chartRes, httpRes) {
       let result = {}
       result = {
         columnData: chartRes.columnData,
@@ -295,17 +403,17 @@ export default {
       }
       return result
     },
-    dataFormatting (config, data) {
+    dataFormatting(config, data) {
       // 覆盖
     },
-    newChart (option) {
+    newChart(option) {
       // 覆盖
     },
     // 通过表达式计算获取组件的值
-    getDataByExpression (config) {
+    getDataByExpression(config) {
       // 覆盖
     },
-    changeStyle (config) {
+    changeStyle(config) {
       config = { ...this.config, ...config }
       // 样式改变时更新主题配置
       config.theme = settingToTheme(cloneDeep(config), this.customTheme)
@@ -315,7 +423,7 @@ export default {
       }
     },
     // 缓存组件数据监听
-    watchCacheData () {
+    watchCacheData() {
       EventBus.$on('cacheDataInit', (data, dataSetId) => {
         // 如果是缓存数据集
         // 且当前组件的businessKey和缓存的dataSetId相等时，更新组件

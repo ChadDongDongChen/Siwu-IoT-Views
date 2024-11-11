@@ -116,5 +116,6 @@
             <groupId>com.swiot</groupId>
             <artifactId>swiot-common</artifactId>
         </dependency>
+
     </dependencies>
 </project>

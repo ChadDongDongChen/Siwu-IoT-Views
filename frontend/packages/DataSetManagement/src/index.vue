@@ -647,7 +647,8 @@ export default {
         { name: 'JSON数据集', datasetType: 'json', componentName: 'JsonEditForm', description: '直接定义静态数据' },
         { name: 'JS数据集', datasetType: 'js', componentName: 'JsEditForm', description: '编写JS代码进行动态模拟数据创建' },
         { name: 'HTTP数据集', datasetType: 'http', componentName: 'HttpEditForm', description: '接入第三方HTTP服务查询' },
-        { name: '脚本数据集', datasetType: 'script', componentName: 'ScriptEditForm', description: '支持ES、Mongodb、国产化数据库、自定义Java代码查询' }
+        { name: '脚本数据集', datasetType: 'script', componentName: 'ScriptEditForm', description: '支持ES、Mongodb、国产化数据库、自定义Java代码查询' },
+        // { name: 'MQTT数据集', datasetType: 'mqtt', componentName: 'ScriptEditForm', description: '编写JS代码进行MQTT数据创建' }
 
       ]
       if (window.BS_CONFIG?.datasetTypeList && window.BS_CONFIG?.datasetTypeList?.length !== 0) {

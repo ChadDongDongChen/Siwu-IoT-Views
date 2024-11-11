@@ -53,7 +53,8 @@ export default {
       // this.changeChartConfig(config)
       // }
     },
-    dataFormatting (config, data) {
+    dataFormatting (config, data) { 
+      console.log('config, data: ', config, data);
       // 文本数据配置原则：选择数据集则以后端返回的数据为主，否则以设置面板中标题设置为准
       if (config.dataSource.businessKey && config.dataSource.source === 'dataset') {
         config.customize.title = data && data.data && data.data.length ? data.data[0][config.dataSource.metricField] : '暂无数据'
