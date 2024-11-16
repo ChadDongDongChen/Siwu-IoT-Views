@@ -7,8 +7,8 @@ SiWu:
   # 版权年份
   copyrightYear: 2024
   # 文件路径 示例（ Windows配置 D:/A-SiWu-IoT/uploadPath，Linux配置 /www/JavaProject/A-SiWu-IoT/uploadPath）
-#  profile: A-SiWu-IoT/uploadPath
-  profile:  D:/A-SiWu-IoT/uploadPath
+  profile: /www/wwwroot/JavaProject/A-SiWu-IoT/uploadPath
+#  profile:  D:/A-SiWu-IoT/uploadPath
   # 获取ip地址开关
   addressEnabled: true
   # 验证码类型 math 数字计算 char 字符验证
@@ -23,6 +23,7 @@ gc:
 #      basePath: /www/wwwroot/JavaProject/A-SiWu-IoT/uploadPath
       # 静态资源访问接口前缀
       urlPrefix: http://127.0.0.1:${server.port}${server.servlet.context-path}static/
+#      urlPrefix: http://bs.jinhuwl.top/prod-api/static/
 #      urlPrefix: https://sv.jinhuwl.top:5743/prod-api/static/
 
 # 开发环境配置
@@ -64,7 +65,7 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
   profiles:
-    active: dev
+    active: ali
   # 文件上传
   servlet:
     multipart:

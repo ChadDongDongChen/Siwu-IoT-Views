@@ -119,6 +119,7 @@ export default {
      */
     chartInit() {
       let config = this.config
+      console.log('this.config: ', this.config);
       // key和code相等，说明是一进来刷新，调用list接口
       if (this.isPreview) {
         // 改变样式
@@ -162,48 +163,47 @@ export default {
           //--------------------MQTT数据集执行前置条件------------------------------------------------------------
           // 如果是http数据集的前端代理，则需要调封装的axios请求
           if (res.executionByFrontend) {
-            // if (res.data.datasetType === 'mqtt') {
-            //   //   _res = this.httpDataFormatting(res, [{"data":new Date().toLocaleString()}])
-            //   let clientId = "SW-VIEWS" + new Date().getTime();
-            //   let client = mqtt.connect('ws://119.4.52.122:28720/mqtt', {
-            //     clientId: clientId,
-            //     username: 'admin',
-            //     password: '123456'
-            //   })
-            //   let produceTopic = "Time";
-            //   client.on('connect', () => {
-            //     console.log('mqtt 已经连接成功');
+            if (res.data.datasetType === 'mqtt') {
+              //   _res = this.httpDataFormatting(res, [{"data":new Date().toLocaleString()}])
+              let clientId = "SW-VIEWS" + new Date().getTime();
+              let client = mqtt.connect('ws://broker.emqx.io:8083/mqtt', {
+                clientId: clientId,
+                username: 'admin',
+                password: '123456'
+              })
+              let produceTopic = "STime";
+              client.on('connect', () => {
+                console.log('mqtt 已经连接成功');
 
-            //     client.subscribe(produceTopic, (data) => {
-            //       console.log("mqtt " + produceTopic + " 订阅成功");
-            //     })
+                client.subscribe(produceTopic, (data) => {
+                  console.log("mqtt " + produceTopic + " 订阅成功");
+                })
 
-            //   });
-            //   client.on('message', (topic, data) => {
-            //     console.log("mqtt 收到" + topic + "的消息");
-            //     // console.log(data.toString());
-            //     if (topic === produceTopic) {
-            //       // 处理指定主题下的消息
-            //       let JsonData = JSON.parse(data.toString());
-            //       // console.log(JsonData);
-            //       _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
-            //       console.log('mqtt_res: ', _res);
-            //     }
-            //   })
-            //   client.on('reconnect', () => {
-            //     console.log("mqtt reconnect");
-            //   })
-            //   client.on('offline', () => {
-            //     console.log("mqtt offline");
-            //   })
-            //   client.on('error', (error) => {
-            //     console.log("mqtt error");
-            //     console.log(error);
-            //   })
-            //   client.on('close', () => {
-            //     console.log("mqtt close");
-            //   })
-            // }
+              });
+              client.on('message', (topic, data) => {
+                console.log("mqtt 收到" + topic + "的消息");
+                // console.log(data.toString());
+                if (topic === produceTopic) {
+                  // 处理指定主题下的消息
+                  let JsonData = JSON.parse(data.toString());
+                  // console.log(JsonData);
+                  _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
+                  console.log('mqtt_res: ', _res);
+                  config = this.dataFormatting(config, _res)
+                }
+              })
+              client.on('reconnect', () => {
+                console.log("mqtt reconnect");
+              })
+              client.on('offline', () => {
+                console.log("mqtt offline");
+              })
+              client.on('error', (error) => {
+                console.log("mqtt error");
+                console.log(error);
+              })
+         
+            }
             if (res.data.datasetType === 'http') {
               _res = await axiosFormatting(res.data)
               _res = this.httpDataFormatting(res, _res)
@@ -271,6 +271,7 @@ export default {
       return new Promise((resolve, reject) => {
         config.loading = true
         getUpdateChartInfo(params).then(async (res) => {
+          console.log('getUpdateChartInfo-res: ', res);
 
           config.loading = false
           let _res = cloneDeep(res)
@@ -284,21 +285,21 @@ export default {
             if (res.data.datasetType === 'mqtt') {
                 // _res = this.httpDataFormatting(res, [{"data":new Date().toLocaleString()}])
               let clientId = "SW-VIEWS" + new Date().getTime();
-              let client = mqtt.connect('ws://119.4.52.122:28720/mqtt', {
+              this.client = mqtt.connect('ws://broker.emqx.io:8083/mqtt', {
                 clientId: clientId,
                 username: 'admin',
                 password: '123456'
               })
-              let produceTopic = "Time";
-              client.on('connect', () => {
+              let produceTopic = "STime";
+              this.client.on('connect', () => {
                 console.log('mqtt 已经连接成功');
 
-                client.subscribe(produceTopic, (data) => {
+                this.client.subscribe(produceTopic, (data) => {
                   console.log("mqtt " + produceTopic + " 订阅成功");
                 })
 
               });
-              client.on('message', (topic, data) => {
+              this.client.on('message', (topic, data) => {
                 console.log("mqtt 收到" + topic + "的消息");
                 // console.log(data.toString());
                 if (topic === produceTopic) {
@@ -307,24 +308,18 @@ export default {
                   // console.log(JsonData);
                   _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
                   console.log('mqtt_res: ', _res);
-                  if (config) {
-                    config.loading = false
-                  }
-                  resolve(config)
+                  config = this.dataFormatting(config, _res)
                 }
               })
-              client.on('reconnect', () => {
+              this.client.on('reconnect', () => {
                 console.log("mqtt reconnect");
               })
-              client.on('offline', () => {
+              this.client.on('offline', () => {
                 console.log("mqtt offline");
               })
-              client.on('error', (error) => {
+              this.client.on('error', (error) => {
                 console.log("mqtt error");
                 console.log(error);
-              })
-              client.on('close', () => {
-                console.log("mqtt close");
               })
 
               // console.log('this.httpDataFormatting(res, _res): ', _res);
@@ -333,6 +328,7 @@ export default {
 
             if (res.data.datasetType === 'http') {
               _res = await axiosFormatting(res.data)
+              console.log('await axiosFormatting_res: ', _res);
               _res = this.httpDataFormatting(res, _res)
              
             }
@@ -361,6 +357,8 @@ export default {
           }
           // 将后端返回的数据保存
           if (_res.success) {
+            console.log('_res.success: ', _res.success);
+
             this.updateDataset({ code: config.code, title: config.title, data: _res?.data })
           }
           config = this.dataFormatting(config, _res)
@@ -373,7 +371,6 @@ export default {
             }
           } if (this.config.type === 'candlestick' && this.charts) {
             this.updateChartData(config, _res)
-            console.log('config, _res: ', config, _res);
           } else if (this.charts) {
             // 地图组件的被联动更新
             this.changeMapData(config.option.data)
@@ -384,6 +381,8 @@ export default {
           if (config) {
             config.loading = false
           }
+          console.log('last-config: ', config);
+
           resolve(config)
         })
       })
@@ -438,5 +437,11 @@ export default {
         }
       })
     }
-  }
+  },
+  beforeDestroy() {
+    this.client.on('close', () => {
+      console.log("mqtt close");
+    })
+    this.client.end()
+  },
 }

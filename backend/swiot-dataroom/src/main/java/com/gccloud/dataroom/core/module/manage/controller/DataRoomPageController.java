@@ -73,6 +73,7 @@ public class DataRoomPageController {
     @ApiOperation(value = "大屏/组件分页列表", position = 10, produces = MediaType.APPLICATION_JSON_VALUE)
     public MixinsResp<PageVO<PageEntity>> page(DataRoomSearchDTO searchDTO) {
         PageVO<PageEntity> page = bigScreenPageService.getByCategory(searchDTO);
+        System.out.println("page:"+page);
         MixinsResp<PageVO<PageEntity>> resp = new MixinsResp<PageVO<PageEntity>>().setData(page);
         resp.setCode(DataRoomConst.Response.Code.SUCCESS);
         return resp;
