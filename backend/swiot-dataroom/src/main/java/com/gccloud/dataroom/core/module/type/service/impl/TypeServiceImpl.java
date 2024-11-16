@@ -62,7 +62,6 @@ public class TypeServiceImpl extends ServiceImpl<DataRoomTypeDao, TypeEntity> im
         }
         this.removeById(id);
     }
-@An
     @Override
     public List<TypeEntity> listByType(String type) {
         if (StringUtils.isBlank(type)) {
