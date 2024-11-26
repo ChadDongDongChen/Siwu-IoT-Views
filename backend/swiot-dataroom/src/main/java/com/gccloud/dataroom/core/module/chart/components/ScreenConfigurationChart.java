@@ -33,8 +33,13 @@ public class ScreenConfigurationChart extends Chart {
 
         @ApiModelProperty(notes = "线条类型")
         private String lineType;
+
         @ApiModelProperty(notes = "流向")
         private String flowDirection;
+
+        @ApiModelProperty(notes = "线条动画")
+        private String animation;
+
 
         @ApiModelProperty(notes = "透明度")
         private String opacity;
