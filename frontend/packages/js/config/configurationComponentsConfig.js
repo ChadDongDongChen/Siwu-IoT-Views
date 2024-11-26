@@ -1,31 +1,23 @@
 // import _ from 'lodash'
 import cloneDeep from "lodash/cloneDeep";
-import getComponentConfig from "data-room-ui/js/utils/getDecorationComponentsConfig";
+import getComponentConfig from "data-room-ui/js/utils/getConfigurationComponentsConfig";
 // 批量引入配置文件
 import { setModules, dataModules } from "data-room-ui/js/utils/configImport";
+
 const typeLIst = [
   "decoration1",
-  "decoration3",
-  "decoration2",
-  "decoration2Reverse",
-  "decoration4",
-  "decoration4Reverse",
-  "decoration5",
-  "decoration6",
-  "decoration8",
-  "decoration8Reverse",
-  "decoration9",
-  "decoration10",
-  "decoration11",
+  "configuration1",
+  "configuration2",
+  "horizontalLine2",
 ];
 let basicConfigList = [];
 basicConfigList = typeLIst.map((type) => {
-  // 装饰组件的className保持一致
-  return getComponentConfig(type, "ScreenDecoration");
+  return getComponentConfig(type, "ScreenConfiguration"); // 组态组件的className保持一致
 });
 basicConfigList = basicConfigList.map((item) => {
   return basicComponentsConfig(item);
 });
+
 // 生成基本配置
 export function basicComponentsConfig(item) {
   // let type = `lcdp${upperFirst(item.type)}`
@@ -35,4 +27,6 @@ export function basicComponentsConfig(item) {
     ...cloneDeep(dataModules[item.type]),
   };
 }
+console.log("basicConfigList: ", basicConfigList);
+
 export default basicConfigList;

@@ -11,7 +11,7 @@ import lombok.Data;
  * @date 2023/3/16 9:53
  */
 @Data
-public class ScreenDecorationChart extends Chart {
+public class ScreenConfigurationChart extends Chart {
 
     @ApiModelProperty(notes = "个性化配置")
     private Customize customize = new Customize();
@@ -25,8 +25,19 @@ public class ScreenDecorationChart extends Chart {
         @ApiModelProperty(notes = "装饰颜色2")
         private String decorationColor2;
 
+        @ApiModelProperty(notes = "线条宽度")
+        private Integer lineWidth;
+
         @ApiModelProperty(notes = "是否反转")
         private Boolean reverse;
+
+        @ApiModelProperty(notes = "线条类型")
+        private String lineType;
+        @ApiModelProperty(notes = "流向")
+        private String flowDirection;
+
+        @ApiModelProperty(notes = "透明度")
+        private String opacity;
 
         @ApiModelProperty(notes = "动画时长")
         private Integer dur;
