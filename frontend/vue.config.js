@@ -192,7 +192,7 @@ const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
 
 function resolve(dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
 
 const publicPath = process.env.VUE_APP_HISTORY === 'y' ? process.env.VUE_APP_BASE + '/' : ''
@@ -218,7 +218,7 @@ module.exports = {
   productionSourceMap: false,
   transpileDependencies: ['quill', '@antv/*'],
   devServer: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: port,
     open: true,
     proxy: {
@@ -226,18 +226,18 @@ module.exports = {
         target: `http://localhost:9712`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      }
+          ["^" + process.env.VUE_APP_BASE_API]: "",
+        },
+      },
     },
-    disableHostCheck: true
+    disableHostCheck: true,
   },
   css: {
     loaderOptions: {
       sass: {
-        sassOptions: { outputStyle: "expanded" }
-      }
-    }
+        sassOptions: { outputStyle: "expanded" },
+      },
+    },
   },
   configureWebpack: {
     name: name,
@@ -305,23 +305,23 @@ module.exports = {
       .end()
 
     config.module
-      .rule('icons')
+      .rule("icons")
       .test(/\.svg$/)
-      .include.add(resolve('src/assets/icons'))
-      .add(resolve('packages/assets/images/dataSourceIcon/svg'))
-      .add(resolve('packages/assets/images/pageIcon/svg'))
-      .add(resolve('packages/assets/images/bigScreenIcon/svg'))
-      .add(resolve('packages/Svgs/svg'))
-      .add(resolve('packages/assets/images/alignIcon/svg'))
+      .include.add(resolve("src/assets/icons"))
+      .add(resolve("packages/assets/images/dataSourceIcon/svg"))
+      .add(resolve("packages/assets/images/pageIcon/svg"))
+      .add(resolve("packages/assets/images/bigScreenIcon/svg"))
+      .add(resolve("packages/Svgs/svg"))
+      .add(resolve("packages/assets/images/alignIcon/svg"))
       .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
       .options({
-        symbolId: 'icon-[name]'
+        symbolId: "icon-[name]",
       })
-      .end()
+      .end();
 
-    config.when(process.env.NODE_ENV !== 'development', config => {
+    config.when(process.env.NODE_ENV !== "development", (config) => {
       config
         .plugin('ScriptExtHtmlWebpackPlugin')
         .after('html')
@@ -331,10 +331,10 @@ module.exports = {
         .end()
 
       config.optimization.splitChunks({
-        chunks: 'all',
+        chunks: "all",
         cacheGroups: {
           libs: {
-            name: 'chunk-libs',
+            name: "chunk-libs",
             test: /[\\/]node_modules[\\/]/,
             priority: 10,
             chunks: 'initial'

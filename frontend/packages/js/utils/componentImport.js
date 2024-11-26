@@ -7,27 +7,36 @@
  * @LastEditTime: 2023-05-17 12:40:25
  */
 
-const modules = {}
+const modules = {};
 // 组件名称替换
-const replaceName = {}
+const replaceName = {};
 // 排除的组件
-const excludeCommponents = []
-function importComponents (files) {
-  files.keys().forEach(key => {
+const excludeCommponents = [];
+function importComponents(files) {
+  files.keys().forEach((key) => {
     // 正则，取到./和/之间的字符串
-    const reg = new RegExp('(.\\/)(.*)(\\/)')
-    let moduleName = key.match(reg)[0].replace(/(\.\/)|(\/)|(src)/g, '')
+    const reg = new RegExp("(.\\/)(.*)(\\/)");
+    let moduleName = key.match(reg)[0].replace(/(\.\/)|(\/)|(src)/g, "");
     // 替换组件名称
     if (replaceName[moduleName]) {
-      moduleName = replaceName[moduleName]
+      moduleName = replaceName[moduleName];
     }
     if (!excludeCommponents.includes(moduleName)) {
-      modules[moduleName] = files(key).default
+      modules[moduleName] = files(key).default;
     }
-  })
+  });
 }
-importComponents(require.context('data-room-ui/BasicComponents', true, /\index.vue$/))
-importComponents(require.context('data-room-ui/Borders', true, /\index.vue$/))
-importComponents(require.context('data-room-ui/Decorations', true, /\index.vue$/))
-importComponents(require.context('data-room-ui/BorderComponents', true, /\index.vue$/))
-export default modules
+importComponents(
+  require.context("data-room-ui/BasicComponents", true, /\index.vue$/)
+);
+importComponents(require.context("data-room-ui/Borders", true, /\index.vue$/));
+importComponents(
+  require.context("data-room-ui/Decorations", true, /\index.vue$/)
+);
+importComponents(
+  require.context("data-room-ui/BorderComponents", true, /\index.vue$/)
+);
+importComponents(
+  require.context("data-room-ui/Configuration", true, /\index.vue$/)
+);
+export default modules;

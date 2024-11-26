@@ -5,49 +5,19 @@
 -->
 <template>
   <transition name="slide-fade">
-    <div
-      class="bs-left-panel"
-      @click.stop
-    >
-      <div
-        :class="fold ? 'page-left page-left-fold' : 'page-left'"
-        :style="{ height }"
-      >
-        <el-tabs
-          v-model="activeName"
-          tab-position="left"
-          style="height: 200px"
-          class="left-tabs-box"
-          @tab-click="tabClick"
-        >
-          <el-tab-pane
-            name="default"
-            @click.native="changeActiveCode('')"
-          >
-            <span
-              slot="label"
-              class="menu-slot"
-              name="default"
-              @click="toggleSidebar"
-            >
-              <i
-                class="iconfont-bigscreen menu-icon"
-                :class="fold ? 'icon-zhankaicaidan' : 'icon-shouqicaidan'"
-              />
+    <div class="bs-left-panel" @click.stop>
+      <div :class="fold ? 'page-left page-left-fold' : 'page-left'" :style="{ height }">
+        <el-tabs v-model="activeName" tab-position="left" style="height: 200px" class="left-tabs-box"
+          @tab-click="tabClick">
+          <el-tab-pane name="default" @click.native="changeActiveCode('')">
+            <span slot="label" class="menu-slot" name="default" @click="toggleSidebar">
+              <i class="iconfont-bigscreen menu-icon" :class="fold ? 'icon-zhankaicaidan' : 'icon-shouqicaidan'" />
               <span class="menu-title-span">{{ foldText }}</span>
             </span>
           </el-tab-pane>
           <el-tab-pane name="layer">
-            <div
-              slot="label"
-              class="menu-slot"
-              name="layer"
-              @dbclick="toggleSidebar"
-            >
-              <i
-                :class="['iconfont-bigscreen', 'icon-layer']"
-                class="menu-icon"
-              />
+            <div slot="label" class="menu-slot" name="layer" @dbclick="toggleSidebar">
+              <i :class="['iconfont-bigscreen', 'icon-layer']" class="menu-icon" />
               <span class="menu-title-span">图层</span>
             </div>
             <div class="page-left-content">
@@ -63,24 +33,12 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane
-            v-for="menu in menuList"
-            :key="menu.id"
-            :name="menu.name"
-            @click.stop.native="
-              fold = false
-              changeActiveCode('')
-            "
-          >
-            <div
-              slot="label"
-              class="menu-slot"
-              @dbclick="toggleSidebar"
-            >
-              <i
-                :class="['iconfont-bigscreen', menu.icon]"
-                class="menu-icon"
-              />
+          <el-tab-pane v-for="menu in menuList" :key="menu.id" :name="menu.name" @click.stop.native="
+            fold = false
+          changeActiveCode('')
+            ">
+            <div slot="label" class="menu-slot" @dbclick="toggleSidebar">
+              <i :class="['iconfont-bigscreen', menu.icon]" class="menu-icon" />
               <span class="menu-title-span">{{ menu.title }}</span>
             </div>
             <div class="page-left-content">
@@ -92,24 +50,14 @@
               <el-scrollbar>
                 <div class="page-left-content-components">
                   <div class="draggable chat-list">
-                    <div
-                      v-for="element in menu.components"
-                      :key="element.type + element.name"
-                      :class="element.component
-                        ? 'item menu-component drag-node'
-                        : 'item drag-node'
-                      "
-                      draggable="true"
-                      :data-type="element.type"
-                      :data-name="element.name"
-                    >
+                    <div v-for="element in menu.components" :key="element.type + element.name" :class="element.component
+                      ? 'item menu-component drag-node'
+                      : 'item drag-node'
+                      " draggable="true" :data-type="element.type" :data-name="element.name">
                       <div class="component-name">
                         {{ element.title || element.name }}
                       </div>
-                      <div
-                        class="img_dispaly chooseDragNode"
-                        @click.stop="addComponent(element)"
-                      >
+                      <div class="img_dispaly chooseDragNode" @click.stop="addComponent(element)">
                         <!-- <svg
                           v-if="element.icon"
                           class="icon-svg"
@@ -117,22 +65,10 @@
                         >
                           <use :xlink:href="`#icon-a-${element.icon}`" />
                         </svg> -->
-                        <icon-svg
-                          v-if="element.icon"
-                          :name="element.icon"
-                          class="page-opt-list-icon"
-                        />
-                        <img
-                          v-else-if="element.img"
-                          :src="element.img"
-                          class="page-opt-list-img"
-                          alt=""
-                        >
-                        <component
-                          :is="element.component"
-                          :key="new Date().getTime() + 1"
-                          class="page-opt-list-component"
-                        />
+                        <icon-svg v-if="element.icon" :name="element.icon" class="page-opt-list-icon" />
+                        <img v-else-if="element.img" :src="element.img" class="page-opt-list-img" alt="">
+                        <component :is="element.component" :key="new Date().getTime() + 1"
+                          class="page-opt-list-component" />
                       </div>
                     </div>
                   </div>
@@ -152,7 +88,7 @@ import g2PlotComponents, { getCustomPlots } from '../G2Plots/plotList'
 import echartsComponents from '../Echarts/echartList'
 import borderComponents from 'data-room-ui/js/config/borderComponentsConfig'
 import decorationComponents from 'data-room-ui/js/config/decorationComponentsConfig'
-import zutaiComponents from 'data-room-ui/js/config/zutaiComponentsConfig'
+import configurationComponents from 'data-room-ui/js/config/configurationComponentsConfig'
 import LayerList from './LayerList/index.vue'
 import { mapMutations } from 'vuex'
 import IconSvg from 'data-room-ui/SvgIcon'
@@ -173,7 +109,7 @@ export default {
       default: '100vh'
     }
   },
-  data () {
+  data() {
     return {
       echartsComponents,
       g2PlotComponents,
@@ -229,12 +165,12 @@ export default {
           title: '组件',
           icon: 'icon-zujian1',
           components: ''
-        }      ,  {
+        }, {
           id: 8,
-          name: 'zutaiComponents',
+          name: 'configuration',
           title: '组态',
           icon: 'icon-zujian',
-          components: ''
+          components: configurationComponents
         }
       ],
       currentActive: 'chart'
@@ -242,32 +178,32 @@ export default {
   },
   computed: {
     // 获取当前类型的组件
-    currentComponentList () {
+    currentComponentList() {
       return this.componentList.filter((item) => item.type === this.currentTab)
     },
-    foldText () {
+    foldText() {
       return this.fold ? '展开' : '收起'
     }
   },
   watch: {
-    fold (isExpand) {
+    fold(isExpand) {
       if (isExpand && this.activeName === 'default') {
         this.activeName = 'chart'
       }
     }
   },
-  created () {
+  created() {
     this.initList()
     this.g2PlotComponents = [...this.g2PlotComponents, ...getCustomPlots()]
     this.menuList[1].components = this.g2PlotComponents
     this.menuList[2].components = this.echartsComponents
   },
-  mounted () {
+  mounted() {
     this.nodeDrag()
   },
   methods: {
     ...mapMutations('bigScreen', ['changeActiveCode']),
-    nodeDrag () {
+    nodeDrag() {
       this.$nextTick(() => {
         const nodes = document.querySelectorAll('.drag-node')
         nodes.forEach((node) => {
@@ -301,23 +237,23 @@ export default {
         )
       })
     },
-    onClone (e) {
+    onClone(e) {
       return cloneDeep(e)
     },
-    onStart (e) {
+    onStart(e) {
       // this.$emit('onStart', e)
     },
     // 拖拽组件时触发
-    onEnd (e) { },
+    onEnd(e) { },
     // 点击左侧组件时触发
-    addComponent (element) {
+    addComponent(element) {
       this.$store.commit('bigScreen/changeActiveItem', element)
       this.$emit('addComponent', element)
     },
     // 初始化
-    initList () { },
+    initList() { },
     // 点击tab标签
-    tabClick (tab) {
+    tabClick(tab) {
       this.nodeDrag()
       if (tab.index !== '0') {
         this.fold = false
@@ -335,14 +271,14 @@ export default {
         this.$emit('openComponent')
       }
     },
-    toggleSidebar () {
+    toggleSidebar() {
       this.fold = !this.fold
       this.$emit('toggleLeftSidebar')
       setTimeout(() => {
         this.activeName = this.currentActive
       })
     },
-    openRightPanel (config) {
+    openRightPanel(config) {
       this.$emit('openRightPanel', config)
     }
   }

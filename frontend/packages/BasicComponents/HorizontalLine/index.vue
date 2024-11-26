@@ -1,19 +1,11 @@
 <template>
-  <div
-    style="width: 100%; height: 100%"
-    class="bs-design-wrap"
-  >
-    <div
-      :key="updateKey"
-      class="custom-border-box"
-      :style="{
-        height: lineHeight + 'px',
-        opacity: opacity,
-        'background-image': `linear-gradient(to right, ${
-          gradientColor0 ? gradientColor0 : gradientColor1
+  <div style="width: 100%; height: 100%" class="bs-design-wrap">
+    <div :key="updateKey" class="custom-border-box" :style="{
+      height: lineHeight + 'px',
+      opacity: opacity,
+      'background-image': `linear-gradient(to right, ${gradientColor0 ? gradientColor0 : gradientColor1
         } , ${gradientColor1 ? gradientColor1 : gradientColor0})`
-      }"
-    />
+    }" />
   </div>
 </template>
 <script>
@@ -29,25 +21,25 @@ export default {
       default: () => ({})
     }
   },
-  data () {
+  data() {
     return {}
   },
   computed: {
-    lineHeight () {
+    lineHeight() {
       return this.config.customize.height || 40
     },
-    gradientColor0 () {
+    gradientColor0() {
       return this.config.customize.gradientColor0 || ''
     },
-    gradientColor1 () {
+    gradientColor1() {
       return this.config.customize.gradientColor1 || ''
     },
-    opacity () {
+    opacity() {
       return this.config.customize.opacity || 100
     }
   },
   watch: {},
-  mounted () {},
+  mounted() { },
   methods: {
   }
 }
