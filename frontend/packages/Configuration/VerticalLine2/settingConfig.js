@@ -14,10 +14,9 @@ export const settingConfig = {
   },
 };
 const customConfig = {
-  type: "horizontalLine2",
+  type: "verticalLine2",
   root: {
     version: "2023071001",
-    contribution: false,
     // 绕x轴旋转角度
     rotateX: 0,
     // 绕y轴旋转角度

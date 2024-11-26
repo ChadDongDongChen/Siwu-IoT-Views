@@ -18,7 +18,7 @@
         <div class="lc-field-body">
           <el-form-item label="线条类型">
             <el-select v-model="config.customize.lineType" placeholder="请选择">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              <el-option v-for="item in lineTypeOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -55,7 +55,7 @@ import RotateSetting from 'data-room-ui/BigScreenDesign/RightSetting/RotateSetti
 import SettingTitle from 'data-room-ui/SettingTitle/index.vue'
 import { predefineColors } from "data-room-ui/js/utils/colorList";
 export default {
-  name: 'HorizontalLine2Setting',
+  name: 'VerticalLine2Setting',
   components: {
     ColorPicker,
     PosWhSetting,

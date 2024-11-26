@@ -9,6 +9,7 @@ const typeLIst = [
   "configuration1",
   "configuration2",
   "horizontalLine2",
+  "verticalLine2",
 ];
 let basicConfigList = [];
 basicConfigList = typeLIst.map((type) => {
@@ -27,6 +28,5 @@ export function basicComponentsConfig(item) {
     ...cloneDeep(dataModules[item.type]),
   };
 }
-console.log("basicConfigList: ", basicConfigList);
 
 export default basicConfigList;

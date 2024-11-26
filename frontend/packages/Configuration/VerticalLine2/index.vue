@@ -4,7 +4,8 @@
       <!-- 使用 Vue 变量动态设置属性 -->
       <g fill="none" :stroke="config.customize.decorationColor1" :stroke-width="config.customize.lineWidth"
         :opacity="config.customize.opacity">
-        <path :class="[lineTypeClass, lineAnimationClass]" class="reverse-water-run" :d="'M0 21 l' + config.w + ' 0'" />
+        <path :class="[lineTypeClass, lineAnimationClass]" class="reverse-water-run" :d="'M20 0 l0 ' + config.h">
+        </path>
       </g>
     </svg>
   </div>
@@ -13,7 +14,7 @@
 <script>
 import { refreshComponentMixin } from 'data-room-ui/js/mixins/refreshComponent'
 export default {
-  name: 'HorizontalLine2',
+  name: 'VerticalLine2',
   mixins: [refreshComponentMixin],
   props: {
     config: {

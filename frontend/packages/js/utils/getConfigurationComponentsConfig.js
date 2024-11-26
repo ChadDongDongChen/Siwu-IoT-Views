@@ -61,6 +61,20 @@ export default function getComponentConfig(type, classNameType) {
         y: 0,
         type,
       };
+    case "verticalLine2":
+      return {
+        name: "垂直线2",
+        title: "垂直线2",
+        // icon: Icon.getNameList()[36],
+        img: require("data-room-ui/Configuration/images/垂直线.png"),
+        component: null,
+        className,
+        w: 40,
+        h: 300,
+        x: 0,
+        y: 0,
+        type,
+      };
     default:
       return {};
   }
