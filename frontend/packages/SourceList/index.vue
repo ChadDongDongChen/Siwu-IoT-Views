@@ -102,7 +102,7 @@ export default {
       type: String,
       default: 'bigScreen' // bigScreen | template
     },
-    catalogInfo: {
+    catalogInfo: { 
       type: Object,
       default: () => {
       }
@@ -111,7 +111,8 @@ export default {
   components: { EditForm },
   data() {
     return {
-      upLoadUrl: window.BS_CONFIG?.httpConfigs?.baseURL + '/bigScreen/file/upload',
+      // upLoadUrl: window.BS_CONFIG?.httpConfigs?.baseURL + '/bigScreen/file/upload',
+      upLoadUrl: process.env.VUE_APP_BASE_API + '/bigScreen/file/upload',
       searchKey: '',
       extend: '',
       sourceExtends: window.BS_CONFIG?.sourceExtends || ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'ico', 'xls', 'xlsx', 'csv'],
@@ -211,7 +212,6 @@ export default {
       this.sourceExtends.forEach((ext) => this.options.push({ label: ext, value: ext }))
     },
     getDataList() {
-      console.log('getDataList: ');
       this.loading = true
       this.$dataRoomAxios.get('/bigScreen/file', {
         module: this.catalogInfo.page.code,
@@ -278,7 +278,6 @@ export default {
      * @returns {*}
      */
     getCoverPicture(url) {
-      console.log('url: ', url);
       return getFileUrl(url)
     },
   }

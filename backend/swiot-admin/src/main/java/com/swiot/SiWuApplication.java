@@ -33,7 +33,7 @@ public class SiWuApplication
     {
         // System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(SiWuApplication.class, args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  application is running in http://localhost:8080   ლ(´ڡ`ლ)ﾞ");
+        System.out.println("(♥◠‿◠)ﾉﾞ  application is running in http://localhost:9712   ლ(´ڡ`ლ)ﾞ");
         TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""), PageEntity.class) ;
     }
 }

@@ -274,11 +274,18 @@ public class SysUserServiceImpl implements ISysUserService
      * 
      * @param user 用户信息
      * @return 结果
+     * @author SuGuichuan
      */
     @Override
     public boolean registerUser(SysUser user)
     {
-        return userMapper.insertUser(user) > 0;
+        //这个地方进行了优化，给新注册用户默认加入一个普通权限
+        int res = userMapper.insertUser(user);
+        // 默认user.getUserId()就可以获取到userId， mybatis: <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
+        insertUserRole(user.getUserId(),new Long[]{2L});
+        // 若是你的user.getUserId() = null,就用下面这个
+        // insertUserRole(selectUserByUserName(user.getUserName()).getUserId(),new Long[]{2L});
+        return res > 0;
     }
 
     /**

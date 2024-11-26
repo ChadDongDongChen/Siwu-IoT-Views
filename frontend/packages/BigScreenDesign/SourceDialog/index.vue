@@ -238,6 +238,7 @@ export default {
      * @returns {*}
      */
     getCoverPicture (url) {
+      console.log('url: ', getFileUrl(url));
       return getFileUrl(url)
     },
   }

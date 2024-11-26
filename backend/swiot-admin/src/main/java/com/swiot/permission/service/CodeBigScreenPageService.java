@@ -29,4 +29,15 @@ public class CodeBigScreenPageService {
                 .map(BigScreenPage::getCode)
                 .collect(Collectors.toList());
     }
+    public List<String> getAllDataRoomCodeListByCreateBy(String createBy) {
+        // 使用 MyBatis-Plus 的 QueryWrapper 创建查询条件
+        QueryWrapper<BigScreenPage> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("del_flag", 0);  // 只查询未删除的记录
+        // 查询所有符合条件的记录并提取 code 列
+        List<BigScreenPage> resultList = bigScreenPageMapper.selectList(queryWrapper);
+        // 提取 `code` 列表
+        return resultList.stream()
+                .map(BigScreenPage::getCode)
+                .collect(Collectors.toList());
+    }
 }

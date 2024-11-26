@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 图表组件数据获取
@@ -89,6 +90,12 @@ public class ChartDataController {
         }
         try {
             ChartDataVO chartDataVO = baseChartDataService.dataQuery(chart, chartDataSearchDTO);
+            //暂时未找到解决办法，故在此拦截mqtt的前后端方式
+//            Object apiConfig=chartDataVO.getData();
+//            if ("frontend".equals(apiConfig.get("requestType"))) {
+//                chartDataVO.setExecutionByFrontend(true);
+//            }
+            //暂时未找到解决办法，故在此拦截mqtt的前后端方式
             if (chartDataVO == null) {
                 String type = chartDataSearchDTO.getType();
                 if (chart instanceof ScreenFlyMapChart) {

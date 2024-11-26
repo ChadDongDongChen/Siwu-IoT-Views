@@ -262,7 +262,8 @@ public class DataRoomPageServiceImpl extends ServiceImpl<DataRoomPageDao, PageEn
             if (coverPicture.startsWith("/")) {
                 coverPicture = coverPicture.substring(1);
             }
-            pageEntity.setCoverPicture(urlPrefix + PathUtils.normalizePath(coverPicture));
+//            pageEntity.setCoverPicture(urlPrefix + PathUtils.normalizePath(coverPicture));
+            pageEntity.setCoverPicture(PathUtils.normalizePath(coverPicture));
         }
         return page;
     }

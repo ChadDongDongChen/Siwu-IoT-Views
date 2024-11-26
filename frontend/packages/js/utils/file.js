@@ -12,7 +12,7 @@ function getFileUrl(url){
     url = `/${url}`
   }
   // return `${window.BS_CONFIG?.httpConfigs?.fileUrlPrefix}${url}`
-  return `${process.env.VUE_APP_BASE_API}${url}`
+  return `${process.env.VUE_APP_BASE_API}/static${url}`
 }
 
 

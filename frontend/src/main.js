@@ -107,27 +107,18 @@ registerConfig(
       }
     }, 
     customTheme: {
-      // '--ws-background-1': '#f0f2f5', // 整体背景色
-      // '--ws-background-2': '#ffffff', // 布局背景色
-      // '--ws-el-background-1': '#ececec', // 组件背景色，输入框...
-      // '--ws-el-background-2': '#ececec', // 组件背景色，按钮、分页、加载...
-      // '--ws-el-background-3': '#ffffff', // 组件背景色，表格头部、下拉框hover...
-      // '--ws-el-title': '#333', // 标题字体颜色
-      // '--ws-el-text': '#333', // 一般字体颜色
-      // '--ws-el-color-primary': '#409EFF', // 样式主题色
-      // '--ws-el-color-primary-active': '64, 158, 255', // 主要激活 => rgba(64, 158, 255, 1) = #409EFF
-      // '--ws-el-border': 'transparent', // 边框颜色
-
-      // '--bs-background-1': '#f0f2f5', // 整体背景色
-      // '--bs-background-2': '#ffffff', // 布局背景色
-      // '--bs-el-background-1': '#ececec', // 组件背景色，输入框...
-      // '--bs-el-background-2': '#ececec', // 组件背景色，按钮、分页、加载...
-      // '--bs-el-background-3': '#ffffff', // 组件背景色，表格头部、下拉框hover...
-      // '--bs-el-title': '#333', // 标题字体颜色
-      // '--bs-el-text': '#333', // 一般字体颜色
-      // '--bs-el-color-primary': '#409EFF', // 样式主题色
-      // '--bs-el-color-primary-active': '64, 158, 255', // 主要激活 => rgba(64, 158, 255, 1) = #409EFF
-      // '--bs-el-border': 'transparent', // 边框颜色
+      '--db-background-header': '#007aff', // 头部颜色
+      '--db-background-leftPanel': '#eef2f7', // 左侧组件栏背景色
+      '--db-background-1': '#fff', // 整体背景色
+      '--db-background-2': '#fff', // 布局背景色
+      '--db-background-3': '#f6f7fb', // 列表背景色
+      '--db-el-background-1': '#fff', // 组件背景色，输入框...
+      '--db-el-background-2': '#F5F7FA', // 组件背景色，按钮、分页、加载...
+      '--db-el-background-3': '#F5F7FA', // 组件背景色，表格头部、下拉框hover...
+      '--db-el-title': '#76838f', // 标题字体颜色
+      '--db-el-text': '#36474f', // 一般字体颜色
+      '--db-el-color-primary': '#409EFF', // elment-ui主题色，激活
+      '--db-el-border': 'transparent' // 边框颜色
       
     },
     // 允许上传的资源库文件类型

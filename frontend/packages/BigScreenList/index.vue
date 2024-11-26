@@ -153,7 +153,7 @@
       @refreshData="reSearch"
     />
   </div>
-</template>
+</template> 
 <script>
 import { pageMixins } from 'data-room-ui/js/mixins/page'
 import { getFileUrl } from 'data-room-ui/js/utils/file'

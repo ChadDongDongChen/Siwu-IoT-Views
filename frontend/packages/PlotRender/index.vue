@@ -115,7 +115,7 @@ export default {
      */
     newChart (config) {
       this.chart = new g2Plot[config.chartType](this.chatId, {
-        renderer: 'svg',
+        renderer: 'canvas',
         // 仪表盘缩放状态下，点击准确
         supportCSSTransform: true,
         ...config.option

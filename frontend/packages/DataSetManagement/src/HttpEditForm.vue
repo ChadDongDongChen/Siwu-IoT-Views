@@ -1139,6 +1139,7 @@ export default {
     },
     // 调接口
     getData () {
+
       // 如果是前端代理，则自行组装接口及参数并调接口
       if (this.dataForm.config.requestType === 'frontend') {
         // this.replaceParams(this.dataForm.config.paramsList)

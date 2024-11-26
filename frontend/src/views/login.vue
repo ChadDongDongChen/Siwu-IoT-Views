@@ -37,7 +37,7 @@
           <img :src="codeUrl" @click="getCode" class="login-code-img"/>
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 45px 0px;">记住密码</el-checkbox>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
@@ -49,14 +49,14 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-        <div style="float: right;" v-if="register">
+        <div style="float: right;margin-top: 20px;" v-if="register">
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
       </el-form-item>
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2024 sv.jinhuwl.top:5743 All Rights Reserved.</span>
+      <span>Copyright © 2018-2024 ruoyi.vip All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -89,7 +89,7 @@ export default {
       },
       loading: false,
       // 验证码开关
-      captchaEnabled: false,
+      captchaEnabled: true,
       // 注册开关
       register: true,
       redirect: undefined
@@ -153,7 +153,7 @@ export default {
     }
   }
 };
-</script> 
+</script>
 
 <style rel="stylesheet/scss" lang="scss">
 .login {
@@ -165,27 +165,23 @@ export default {
   background-size: cover;
 }
 .title {
-  margin: 0px auto 50px auto;
+  margin: 0px auto 30px auto;
   text-align: center;
   color: #707070;
-  font-size: 2vw;
-  font-weight: bold;
+  font-size: large;
 }
 
 .login-form {
-  background: rgba(255, 255, 255, 0.582); /* 半透明白色背景 */
-  backdrop-filter: blur(10px); /* 模糊背景 */
-  // border-radius: 6px;
-  // background: #ffffff;
-  width: 25vw;
-  height: 100%;
-  padding: 30vh 4vw 5px 4vw;
-  position: absolute;
-  right: 0%;
-
+  border-radius: 6px;
+  background: #ffffff;
+  // background: rgba(255, 255, 255, 0.2);  /* 背景透明度 */
+  // backdrop-filter: blur(10px);  /* 设置模糊效果 */
+  // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* 加点阴影 */
+  width: 400px;
+  padding: 25px 25px 5px 25px;
   .el-input {
     height: 38px;
-    input { 
+    input {
       height: 38px;
     }
   }
