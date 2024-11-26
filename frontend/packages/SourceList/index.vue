@@ -7,20 +7,10 @@
         <el-select v-model="extend" class="bs-el-select" clearable placeholder="请选择图片格式" popper-class="bs-el-select"
           @change="reSearch">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        <el-input v-model="searchKey" class="bs-el-input" clearable placeholder="请输入图片名称" prefix-icon="el-icon-search"
-          @clear="reSearch" @keyup.enter.native="reSearch" />
-        <el-select v-model="extend" class="bs-el-select" clearable placeholder="请选择图片格式" popper-class="bs-el-select"
-          @change="reSearch">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <el-button style="margin-right: 10px" type="primary" @click="reSearch">
         <el-button style="margin-right: 10px" type="primary" @click="reSearch">
           搜索
         </el-button>
-        <el-upload :action="upLoadUrl" :before-upload="beforeUpload" :data="{ module: code }" :file-list="fileList"
-          :headers="headers" :on-error="uploadError" :on-success="uploadSuccess" :show-file-list="false"
-          class="upload-demo" multiple>
-          <el-button type="primary">
         <el-upload :action="upLoadUrl" :before-upload="beforeUpload" :data="{ module: code }" :file-list="fileList"
           :headers="headers" :on-error="uploadError" :on-success="uploadSuccess" :show-file-list="false"
           class="upload-demo" multiple>
@@ -33,14 +23,7 @@
         display: gridComputed ? 'grid' : 'flex',
         justifyContent: gridComputed ? 'space-around' : 'flex-start'
       }" class="list-wrap bs-scrollbar" element-loading-text="加载中">
-      <div v-if="list.length !== 0" v-loading="loading" :style="{
-        display: gridComputed ? 'grid' : 'flex',
-        justifyContent: gridComputed ? 'space-around' : 'flex-start'
-      }" class="list-wrap bs-scrollbar" element-loading-text="加载中">
         <!-- <div v-if="list.length !== 0"> -->
-        <div v-for="screen in list" :key="screen.id" :style="{
-          width: gridComputed ? 'auto' : '290px'
-        }" class="big-screen-card-wrap">
         <div v-for="screen in list" :key="screen.id" :style="{
           width: gridComputed ? 'auto' : '290px'
         }" class="big-screen-card-wrap">
@@ -49,18 +32,14 @@
               <div class="screen-card__hover-box">
                 <div class="preview">
                   <div class="screen-card__oper-label circle" @click="preview(screen)">
-                  <div class="screen-card__oper-label circle" @click="preview(screen)">
                     <span>预览</span>
                   </div>
-                  <div class="circle" @click="downLoad(screen)">
                   <div class="circle" @click="downLoad(screen)">
                     <span>下载</span>
                   </div>
                   <div class="circle" @click="del(screen)">
-                  <div class="circle" @click="del(screen)">
                     <span>删除</span>
                   </div>
-                  <div class="circle" @click="copy(screen)">
                   <div class="circle" @click="copy(screen)">
                     <span>链接</span>
                   </div>
@@ -70,15 +49,11 @@
             <div v-if="imgExtends.includes(screen.extension)" class="big-screen-card-img">
               <el-image :src="getCoverPicture(screen.url)" fit="contain" style="width: 100%; height: 100%">
                 <div slot="placeholder" class="image-slot">
-              <el-image :src="getCoverPicture(screen.url)" fit="contain" style="width: 100%; height: 100%">
-                <div slot="placeholder" class="image-slot">
                   加载中···
                 </div>
               </el-image>
             </div>
             <div v-else class="big-screen-card-img">
-              <el-image :src="getUrl(screen)" fit="contain" style="width: 100%; height: 100%">
-                <div slot="placeholder" class="image-slot">
               <el-image :src="getUrl(screen)" fit="contain" style="width: 100%; height: 100%">
                 <div slot="placeholder" class="image-slot">
                   加载中···
@@ -87,14 +62,12 @@
             </div>
             <div class="big-screen-bottom">
               <div :title="screen.originalName" class="left-bigscreen-title">
-              <div :title="screen.originalName" class="left-bigscreen-title">
                 {{ screen.originalName }}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-else class="empty">
       <div v-else class="empty">
         暂无数据
       </div>
@@ -108,21 +81,15 @@
             background class="bs-el-pagination" layout="total, prev, pager, next, sizes" next-text="下一页"
             popper-class="bs-el-pagination" prev-text="上一页" @current-change="currentChangeHandle"
             @size-change="sizeChangeHandle" />
-          <el-pagination :current-page="current" :page-size="size" :page-sizes="[10, 20, 50, 100]" :total="totalCount"
-            background class="bs-el-pagination" layout="total, prev, pager, next, sizes" next-text="下一页"
-            popper-class="bs-el-pagination" prev-text="上一页" @current-change="currentChangeHandle"
-            @size-change="sizeChangeHandle" />
         </div>
       </div>
     </div>
 
     <!-- 新增或编辑弹窗 -->
     <EditForm ref="EditForm" @refreshData="reSearch" />
-    <EditForm ref="EditForm" @refreshData="reSearch" />
   </div>
 </template>
 <script>
-import { pageMixins } from 'data-room-ui/js/mixins/page'
 import { pageMixins } from 'data-room-ui/js/mixins/page'
 import EditForm from './EditForm.vue'
 import { getFileUrl } from 'data-room-ui/js/utils/file'
@@ -141,7 +108,6 @@ export default {
       }
     }
   },
-  components: { EditForm },
   components: { EditForm },
   data() {
     return {
@@ -244,11 +210,8 @@ export default {
       this.options = []
       this.options.push({ label: '全部', value: '' })
       this.sourceExtends.forEach((ext) => this.options.push({ label: ext, value: ext }))
-      this.options.push({ label: '全部', value: '' })
-      this.sourceExtends.forEach((ext) => this.options.push({ label: ext, value: ext }))
     },
     getDataList() {
-      console.log('getDataList: ');
       this.loading = true
       this.$dataRoomAxios.get('/bigScreen/file', {
         module: this.catalogInfo.page.code,
