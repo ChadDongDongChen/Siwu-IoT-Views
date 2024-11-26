@@ -142,6 +142,7 @@ function registerRouters (config, router) {
 // 注册配置
 function registerTheme (config) {
   const defaultTheme = {
+    '--db-background-appmain': '#151a26',
     '--bs-el-color-primary': '#409EFF', // elment-ui主题色，激活
     '--bs-background-1': '#151a26', // 整体背景色
     '--bs-background-2': '#232832', // 布局背景色
@@ -152,6 +153,22 @@ function registerTheme (config) {
     '--bs-el-text': '#ffffff', // 一般字体颜色
     '--bs-el-border': 'transparent', // 边框颜色
     '--bs-el-color-primary-active': '64, 158, 255'
+  }
+  const customTheme= {
+    '--db-background-appmain': '#151a26',
+    '--db-background-header': '#007aff', // 头部颜色
+    '--db-background-leftPanel': '#eef2f7', // 左侧组件栏背景色
+    '--db-background-1': '#fff', // 整体背景色
+    '--db-background-2': '#fff', // 布局背景色
+    '--db-background-3': '#f6f7fb', // 列表背景色
+    '--db-el-background-1': '#fff', // 组件背景色，输入框...
+    '--db-el-background-2': '#F5F7FA', // 组件背景色，按钮、分页、加载...
+    '--db-el-background-3': '#F5F7FA', // 组件背景色，表格头部、下拉框hover...
+    '--db-el-title': '#76838f', // 标题字体颜色
+    '--db-el-text': '#36474f', // 一般字体颜色
+    '--db-el-color-primary': '#409EFF', // elment-ui主题色，激活
+    '--db-el-border': 'transparent' // 边框颜色
+    
   }
   const mergedTheme = { ...defaultTheme, ...config?.customTheme }
   const style = document.createElement('style')

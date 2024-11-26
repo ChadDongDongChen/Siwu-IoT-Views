@@ -11,7 +11,7 @@ import axiosFormatting from '../../js/utils/httpParamsFormatting'
 import { settingToTheme } from 'data-room-ui/js/utils/themeFormatting'
 import cloneDeep from 'lodash/cloneDeep'
 import mqtt from 'mqtt'
-
+import MqttClient from 'data-room-ui/js/utils/mqttClient'
 
 export default {
   data() {
@@ -156,53 +156,35 @@ export default {
         }).then(async (res) => {
           config.loading = false
           let _res = cloneDeep(res)
-           //--------------------MQTT数据集执行前置条件------------------------------------------------------------
-           if (res.data && res.data.datasetType && res.data.datasetType === 'mqtt') {
+          //--------------------MQTT数据集执行前置条件------------------------------------------------------------
+          if (res.data && res.data.datasetType && res.data.datasetType === 'mqtt') {
             res.executionByFrontend = true
           }
           //--------------------MQTT数据集执行前置条件------------------------------------------------------------
           // 如果是http数据集的前端代理，则需要调封装的axios请求
           if (res.executionByFrontend) {
             if (res.data.datasetType === 'mqtt') {
-              //   _res = this.httpDataFormatting(res, [{"data":new Date().toLocaleString()}])
-              let clientId = "SW-VIEWS" + new Date().getTime();
-              let client = mqtt.connect('ws://broker.emqx.io:8083/mqtt', {
-                clientId: clientId,
-                username: 'admin',
-                password: '123456'
-              })
-              let produceTopic = "STime";
-              client.on('connect', () => {
-                console.log('mqtt 已经连接成功');
-
-                client.subscribe(produceTopic, (data) => {
-                  console.log("mqtt " + produceTopic + " 订阅成功");
-                })
-
+              // 创建 MQTT 客户端实例
+              this.mqttClient = new MqttClient(res.data.url, {
+                clientId: "SW-VIEWS" + new Date().getTime(),
+                username: res.data.username,
+                password: res.data.password
               });
-              client.on('message', (topic, data) => {
-                console.log("mqtt 收到" + topic + "的消息");
-                // console.log(data.toString());
+              // 连接到 MQTT broker
+              this.mqttClient.connect();
+              // 订阅指定主题
+              let produceTopic = "STime";
+              this.mqttClient.subscribe(produceTopic, (topic, data) => {
+                console.log(`收到主题 ${topic} 的消息`);
                 if (topic === produceTopic) {
-                  // 处理指定主题下的消息
+                  // 处理收到的消息
                   let JsonData = JSON.parse(data.toString());
-                  // console.log(JsonData);
-                  _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
-                  console.log('mqtt_res: ', _res);
-                  config = this.dataFormatting(config, _res)
+                  _res = this.httpDataFormatting(res, JsonData.data);
+                  config = this.dataFormatting(config, _res);
+                  // 每次数据更新后，重新渲染图表
+                  this.chart.changeData(config.option.data);
                 }
-              })
-              client.on('reconnect', () => {
-                console.log("mqtt reconnect");
-              })
-              client.on('offline', () => {
-                console.log("mqtt offline");
-              })
-              client.on('error', (error) => {
-                console.log("mqtt error");
-                console.log(error);
-              })
-         
+              });
             }
             if (res.data.datasetType === 'http') {
               _res = await axiosFormatting(res.data)
@@ -242,6 +224,8 @@ export default {
         })
       })
     },
+
+
     /**
      * @description: 更新chart
      * @param {Object} config
@@ -271,8 +255,6 @@ export default {
       return new Promise((resolve, reject) => {
         config.loading = true
         getUpdateChartInfo(params).then(async (res) => {
-          console.log('getUpdateChartInfo-res: ', res);
-
           config.loading = false
           let _res = cloneDeep(res)
           //--------------------MQTT数据集执行前置条件------------------------------------------------------------
@@ -283,46 +265,28 @@ export default {
           // 如果是http数据集的前端代理，则需要调封装的axios请求
           if (res.executionByFrontend) {
             if (res.data.datasetType === 'mqtt') {
-                // _res = this.httpDataFormatting(res, [{"data":new Date().toLocaleString()}])
-              let clientId = "SW-VIEWS" + new Date().getTime();
-              this.client = mqtt.connect('ws://broker.emqx.io:8083/mqtt', {
-                clientId: clientId,
-                username: 'admin',
-                password: '123456'
-              })
-              let produceTopic = "STime";
-              this.client.on('connect', () => {
-                console.log('mqtt 已经连接成功');
-
-                this.client.subscribe(produceTopic, (data) => {
-                  console.log("mqtt " + produceTopic + " 订阅成功");
-                })
-
+             
+              // 创建 MQTT 客户端实例
+              this.mqttClient = new MqttClient(res.data.url, {
+                clientId: "SW-VIEWS" + new Date().getTime(),
+                username: res.data.username,
+                password: res.data.password
               });
-              this.client.on('message', (topic, data) => {
-                console.log("mqtt 收到" + topic + "的消息");
-                // console.log(data.toString());
+              // 连接到 MQTT broker
+              this.mqttClient.connect();
+              // 订阅指定主题
+              let produceTopic = "STime";
+              this.mqttClient.subscribe(produceTopic, (topic, data) => {
+                console.log(`收到主题 ${topic} 的消息`);
                 if (topic === produceTopic) {
-                  // 处理指定主题下的消息
+                  // 处理收到的消息
                   let JsonData = JSON.parse(data.toString());
-                  // console.log(JsonData);
-                  _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
-                  console.log('mqtt_res: ', _res);
-                  config = this.dataFormatting(config, _res)
+                  _res = this.httpDataFormatting(res, JsonData.data);
+                  config = this.dataFormatting(config, _res);
+                  // 每次数据更新后，重新渲染图表
+                  this.chart.changeData(config.option.data);
                 }
-              })
-              this.client.on('reconnect', () => {
-                console.log("mqtt reconnect");
-              })
-              this.client.on('offline', () => {
-                console.log("mqtt offline");
-              })
-              this.client.on('error', (error) => {
-                console.log("mqtt error");
-                console.log(error);
-              })
-
-              // console.log('this.httpDataFormatting(res, _res): ', _res);
+              });
             }
 
 
@@ -330,7 +294,7 @@ export default {
               _res = await axiosFormatting(res.data)
               console.log('await axiosFormatting_res: ', _res);
               _res = this.httpDataFormatting(res, _res)
-             
+
             }
             if (res.data.datasetType === 'js') {
               try {
@@ -357,8 +321,6 @@ export default {
           }
           // 将后端返回的数据保存
           if (_res.success) {
-            console.log('_res.success: ', _res.success);
-
             this.updateDataset({ code: config.code, title: config.title, data: _res?.data })
           }
           config = this.dataFormatting(config, _res)
@@ -381,8 +343,6 @@ export default {
           if (config) {
             config.loading = false
           }
-          console.log('last-config: ', config);
-
           resolve(config)
         })
       })
@@ -439,9 +399,6 @@ export default {
     }
   },
   beforeDestroy() {
-    this.client.on('close', () => {
-      console.log("mqtt close");
-    })
-    this.client.end()
+    this.mqttClient.disconnect();
   },
 }

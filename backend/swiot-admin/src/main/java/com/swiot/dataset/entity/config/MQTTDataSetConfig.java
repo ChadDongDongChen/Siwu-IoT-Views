@@ -19,6 +19,9 @@ public class MQTTDataSetConfig extends BaseDataSetConfig {
     @ApiModelProperty(value = "密码")
     private String password;
 
+    @ApiModelProperty(value = "主题")
+    private String topic;
+
     @ApiModelProperty(value = "请求类型")
     private String datasetType;
 
@@ -27,5 +30,6 @@ public class MQTTDataSetConfig extends BaseDataSetConfig {
 
     @ApiModelProperty(value = "结果")
     private String data;
+
 
 }
