@@ -40,7 +40,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="流向" v-if="isActive">
-            <el-radio v-model="config.customize.flowDirection" label="L">正向</el-radio>
+            <el-radio v-model="config.customize.flowDirection" label="L">正向1112121</el-radio>
             <el-radio v-model="config.customize.flowDirection" label="R">反向</el-radio>
           </el-form-item>
         </div>
