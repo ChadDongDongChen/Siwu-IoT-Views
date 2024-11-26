@@ -18,7 +18,7 @@
         <div class="lc-field-body">
           <el-form-item label="线条类型">
             <el-select v-model="config.customize.lineType" placeholder="请选择">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+              <el-option v-for="item in lineTypeOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
