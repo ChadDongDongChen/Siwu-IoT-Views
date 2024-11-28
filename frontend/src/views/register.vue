@@ -54,10 +54,12 @@
           <span v-if="!loading">注 册</span>
           <span v-else>注 册 中...</span>
         </el-button>
-        <div style="float: right;">
+        <div style="float: right;margin-top: 25px;">
           <router-link class="link-type" :to="'/login'">使用已有账户登录</router-link>
         </div>
       </el-form-item>
+      <el-divider content-position="center">SiWU-IoT-VIEWS</el-divider>
+
     </el-form>
     <!--  底部  -->
     <div class="el-register-footer">
@@ -149,31 +151,23 @@ export default {
 <style rel="stylesheet/scss" lang="scss">
 .register {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.png");
-  background-size: cover;
+  background-image: url("../assets/images/loginbk.jpg");
+  background-size: 100% 100%;
 }
 .title {
-  margin: 0px auto 30px auto;
+  margin: 30vh auto 30px auto;
   text-align: center;
   color: #707070;
 }
 
 .register-form {
-  // border-radius: 6px;
-  // background: #ffffff;
-  // width: 400px;
-  // padding: 25px 25px 5px 25px;
-
-  background: rgba(255, 255, 255, 0.582); /* 半透明白色背景 */
-  backdrop-filter: blur(10px); /* 模糊背景 */
-  width: 25vw;
+  background: #ffffff;
+  width: 480px;
   height: 100%;
-  padding: 30vh 4vw 5px 4vw;
-  position: absolute;
-  right: 0%;
+  padding: 25px 50px 5px 50px;
   .el-input {
     height: 38px;
     input {
@@ -184,6 +178,12 @@ export default {
     height: 39px;
     width: 14px;
     margin-left: 2px;
+  }
+}
+@media (max-width: 768px) {
+ .register-form {
+    width: 100vw;
+    padding: 25px 10px 5px 10px;
   }
 }
 .register-tip {

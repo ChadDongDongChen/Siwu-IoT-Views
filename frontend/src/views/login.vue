@@ -53,10 +53,11 @@
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
       </el-form-item>
+      <el-divider content-position="center">SiWU-IoT-VIEWS</el-divider>
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2024 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2018-2024  All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -159,27 +160,25 @@ export default {
 <style rel="stylesheet/scss" lang="scss">
 .login {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   height: 100%;
-  background-image: url("../assets/images/login-background.png");
-  background-size: cover;
+  background-image: url("../assets/images/loginbk.jpg");
+  background-size: 100% 100%;
 }
 .title {
-  margin: 0px auto 30px auto;
+  margin: 30vh auto 30px auto;
   text-align: center;
   color: #707070;
-  font-size: large;
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .login-form {
-  border-radius: 6px;
   background: #ffffff;
-  // background: rgba(255, 255, 255, 0.2);  /* 背景透明度 */
-  // backdrop-filter: blur(10px);  /* 设置模糊效果 */
-  // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* 加点阴影 */
-  width: 400px;
-  padding: 25px 25px 5px 25px;
+  width: 480px;
+  height: 100%;
+  padding: 25px 50px 5px 50px;
   .el-input {
     height: 38px;
     input {
@@ -190,6 +189,13 @@ export default {
     height: 39px;
     width: 14px;
     margin-left: 2px;
+  }
+}
+@media (max-width: 768px) {
+ .login-form {
+    width: 100VW;
+    background-color: RED;
+    padding: 20px 10px;
   }
 }
 .login-tip {
