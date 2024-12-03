@@ -1,51 +1,31 @@
 <template>
-  <div class="login">
+  <div class="login" v-if="showStatus">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
       <h3 class="title">SiWU-IoT-VIEWS</h3>
       <el-form-item prop="username">
-        <el-input
-          v-model="loginForm.username"
-          type="text"
-          auto-complete="off"
-          placeholder="账号"
-        >
+        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
-          v-model="loginForm.password"
-          type="password"
-          auto-complete="off"
-          placeholder="密码"
-          @keyup.enter.native="handleLogin"
-        >
+        <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="密码"
+          @keyup.enter.native="handleLogin">
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input
-          v-model="loginForm.code"
-          auto-complete="off"
-          placeholder="验证码"
-          style="width: 63%"
-          @keyup.enter.native="handleLogin"
-        >
+        <el-input v-model="loginForm.code" auto-complete="off" placeholder="验证码" style="width: 63%"
+          @keyup.enter.native="handleLogin">
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </el-input>
         <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
+          <img :src="codeUrl" @click="getCode" class="login-code-img" />
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
-        <el-button
-          :loading="loading"
-          size="medium"
-          type="primary"
-          style="width:100%;"
-          @click.native.prevent="handleLogin"
-        >
+        <el-button :loading="loading" size="medium" type="primary" style="width:100%;"
+          @click.native.prevent="handleLogin">
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
@@ -57,7 +37,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2024  All Rights Reserved.</span>
+      <span>Copyright © 2018-2024 All Rights Reserved.</span>
     </div>
   </div>
 </template>
@@ -71,6 +51,7 @@ export default {
   name: "Login",
   data() {
     return {
+      showStatus: true,
       codeUrl: "",
       loginForm: {
         username: "Test",
@@ -98,7 +79,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect;
       },
       immediate: true
@@ -107,8 +88,55 @@ export default {
   created() {
     this.getCode();
     this.getCookie();
+    this.autoAuth();
   },
   methods: {
+    autoAuth() {
+      console.log('this.redirect: ', this.redirect);
+      const inputString = this.redirect
+      const regex = /[?&](clientId|clientSecret)=([^&]*)/g;
+
+      let match;
+      const params = {};
+
+      // 使用正则表达式查找匹配的部分
+      while ((match = regex.exec(inputString)) !== null) {
+        params[match[1]] = match[2];
+      }
+
+      // 输出提取的参数
+      console.log(params);
+
+      // 如果包含 clientId 和 clientSecret，显示它们的值
+      if (params.clientId && params.clientSecret) {
+        console.log("clientId:", params.clientId);
+        console.log("clientSecret:", params.clientSecret);
+        this.showStatus = false;
+        this.loginForm.username = params.clientId;
+        this.loginForm.password = encrypt(params.clientSecret);
+        this.loading = true;
+        this.$store.dispatch("Login", this.loginForm).then(() => {
+          this.$router.push({ path: this.redirect || "/" }).catch(() => { });
+        }).catch(() => {
+          this.loading = false;
+        });
+      } else {
+        console.log("clientId 或 clientSecret 不存在");
+      }
+      // const clientId = this.$route.query.clientId;
+      // const clientSecret = this.$route.query.clientSecret;
+      // if (clientId && clientSecret) {
+      //   this.showStatus = false;
+      //   this.loginForm.username = clientId;
+      //   this.loginForm.password = encrypt(clientSecret);
+      //   this.loading = true;
+      //   this.$store.dispatch("Login", this.loginForm).then(() => {
+      //     this.$router.push({ path: this.redirect || "/" }).catch(() => { });
+      //   }).catch(() => {
+      //     this.loading = false;
+      //   });
+      // }
+    },
     getCode() {
       getCodeImg().then(res => {
         this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
@@ -143,7 +171,7 @@ export default {
           }
           this.loginForm.password = encrypt(this.loginForm.password);
           this.$store.dispatch("Login", this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || "/" }).catch(()=>{});
+            this.$router.push({ path: this.redirect || "/" }).catch(() => { });
           }).catch(() => {
             this.loading = false;
             if (this.captchaEnabled) {
@@ -166,6 +194,7 @@ export default {
   background-image: url("../assets/images/loginbk.jpg");
   background-size: 100% 100%;
 }
+
 .title {
   margin: 30vh auto 30px auto;
   text-align: center;
@@ -179,39 +208,47 @@ export default {
   width: 480px;
   height: 100%;
   padding: 25px 50px 5px 50px;
+
   .el-input {
     height: 38px;
+
     input {
       height: 38px;
     }
   }
+
   .input-icon {
     height: 39px;
     width: 14px;
     margin-left: 2px;
   }
 }
+
 @media (max-width: 768px) {
- .login-form {
+  .login-form {
     width: 100VW;
     background-color: RED;
     padding: 20px 10px;
   }
 }
+
 .login-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
+
 .login-code {
   width: 33%;
   height: 38px;
   float: right;
+
   img {
     cursor: pointer;
     vertical-align: middle;
   }
 }
+
 .el-login-footer {
   height: 40px;
   line-height: 40px;
@@ -224,6 +261,7 @@ export default {
   font-size: 12px;
   letter-spacing: 1px;
 }
+
 .login-code-img {
   height: 38px;
 }

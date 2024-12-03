@@ -21,18 +21,13 @@ public class PermissionServiceImpl implements IApiPermissionService {
     public boolean verifyApiPermission(HttpServletRequest request, String... permission) {
         // 获取当前用户的权限
         LoginUser loginUser = SecurityUtils.getLoginUser();
+        System.out.println("loginUser:"+loginUser);
+        System.out.println("request:"+request);
         Set<String> permissions = loginUser.getPermissions();
-        System.out.println("loginUser"+loginUser.toString());
-        System.out.println("permission"+permission.toString());
-        System.out.println("permissions"+permissions);
         if (permissions.contains("*:*:*")) {
             // 若依的全部权限标识
             return true;
         }
-//        if (permissions.contains("common")) {
-//            // 若依的全部权限标识
-//            return true;
-//        }
         // 判断当前用户是否拥有对应的权限
         for (String s : permission) {
             if (!permissions.contains(s)) {

@@ -1,6 +1,6 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
+import { Message } from 'element-ui' 
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth' 
@@ -17,15 +17,18 @@ const whiteList = ['/login', '/register'
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
-    window.BS_CONFIG.httpConfigs.headers.Authorization = 'Bearer ' + getToken()
+    window.BS_CONFIG.httpConfigs.headers.AuthToken = 'Bearer ' + getToken()
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
     if (to.path === '/login') {
+      console.log('to.path === 2');
       next({ path: '/' })
       NProgress.done()
     } else if (whiteList.indexOf(to.path) !== -1) {
+      console.log('to.path ===2 ');
       next()
     } else {
+      console.log('to.path ===3 ');
       if (store.getters.roles.length === 0) {
         isRelogin.show = true
         // 判断当前用户是否已拉取完user_info信息

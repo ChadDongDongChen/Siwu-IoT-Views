@@ -114,8 +114,8 @@ public class SecurityConfig
                 requests.antMatchers(
                         "/login",
                                 "/register",
-                                "/captchaImage"
-//                                "/bigScreen/permission/check/**",
+                                "/captchaImage",
+                                "/bigScreen/permission/check/**"
 //                                "/bigScreen/design/info/code/**",
 //                                "/bigScreen/chart/data/list"
                         )

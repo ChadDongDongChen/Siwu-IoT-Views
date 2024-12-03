@@ -44,9 +44,7 @@ public class CodePermissionServiceImpl implements IDataRoomPermissionService {
         // 获取当前登录用户可访问的大屏页面编码列表
         //目前有个设想，这里不拦截用访问受限
         List<String> res = bigScreenPageService.getAllDataRoomCodeListByCreateBy(getUsername());
-
         Set<String> pageCodes = new HashSet<>(res);
-        System.out.println("==========>>pageCodes:"+pageCodes);
         return pageCodes.contains(pageCode);
     }
 

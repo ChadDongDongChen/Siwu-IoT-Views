@@ -103,7 +103,7 @@ registerConfig(
       fileUrlPrefix: process.env.NODE_ENV === 'production' ? '/prod-api/static' : '/dev-api/static',
       //添加若依的token
       headers: { 
-        Authorization: 'Bearer ' + getToken()
+        AuthToken: 'Bearer ' + getToken()
       }
     }, 
     customTheme: {
