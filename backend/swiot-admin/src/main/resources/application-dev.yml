@@ -1,3 +1,6 @@
+# 文件路径 示例（ Windows配置 D:/A-SiWu-IoT/uploadPath，Linux配置  /www/wwwroot/JavaProject/A-SiWu-IoT/uploadPath）
+SiWu:
+    profile:  D:/A-SiWu-IoT/uploadPath
 # 数据源配置
 spring:
     datasource:
