@@ -1,6 +1,13 @@
 <template>
   <div class="login" v-if="showStatus">
+
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
+      <div style='
+     width: 100%;display: flex;
+     justify-content: center;
+     align-items: center;'>
+        <img src="../../src/assets/logo/logo1.png" height="200px" width="200px" alt="">
+      </div>
       <h3 class="title">SiWU-IoT-VIEWS</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
@@ -196,14 +203,16 @@ export default {
 }
 
 .title {
-  margin: 30vh auto 30px auto;
+  margin: 10vh auto 30px auto;
   text-align: center;
   color: #707070;
   font-size: 30px;
   font-weight: bold;
 }
 
+
 .login-form {
+
   background: #ffffff;
   width: 480px;
   height: 100%;
@@ -227,7 +236,6 @@ export default {
 @media (max-width: 768px) {
   .login-form {
     width: 100VW;
-    background-color: RED;
     padding: 20px 10px;
   }
 }

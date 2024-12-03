@@ -1,6 +1,12 @@
 <template>
   <div class="register">
     <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="register-form">
+      <div style='
+     width: 100%;display: flex;
+     justify-content: center;
+     align-items: center;'>
+        <img src="../../src/assets/logo/logo1.png" height="200px" width="200px" alt="">
+      </div>
       <h3 class="title">SiWU-IoT-VIEWS</h3>
       <el-form-item prop="username">
         <el-input v-model="registerForm.username" type="text" auto-complete="off" placeholder="账号">
@@ -158,7 +164,7 @@ export default {
   background-size: 100% 100%;
 }
 .title {
-  margin: 30vh auto 30px auto;
+  margin: 10vh auto 30px auto;
   text-align: center;
   color: #707070;
 }
