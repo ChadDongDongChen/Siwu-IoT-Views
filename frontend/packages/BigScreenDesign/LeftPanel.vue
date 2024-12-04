@@ -132,13 +132,6 @@ export default {
           components: this.g2PlotComponents
         },
         {
-          id: 7,
-          name: 'echart',
-          title: '3D',
-          icon: 'icon-jichushuju',
-          components: this.echartsComponents
-        },
-        {
           id: 3,
           name: 'dataV',
           title: '边框',
@@ -161,16 +154,24 @@ export default {
         },
         {
           id: 6,
-          name: 'component',
-          title: '组件',
-          icon: 'icon-zujian1',
-          components: ''
-        }, {
-          id: 8,
           name: 'configuration',
           title: '组态',
           icon: 'icon-zujian',
           components: configurationComponents
+        }, 
+        {
+          id: 7,
+          name: 'echart',
+          title: '3D',
+          icon: 'icon-jichushuju',
+          components: this.echartsComponents
+        },
+        {
+          id: 8,
+          name: 'component',
+          title: '组件',
+          icon: 'icon-zujian1',
+          components: ''
         }
       ],
       currentActive: 'chart'
@@ -196,7 +197,7 @@ export default {
     this.initList()
     this.g2PlotComponents = [...this.g2PlotComponents, ...getCustomPlots()]
     this.menuList[1].components = this.g2PlotComponents
-    this.menuList[2].components = this.echartsComponents
+    this.menuList[6].components = this.echartsComponents
   },
   mounted() {
     this.nodeDrag()

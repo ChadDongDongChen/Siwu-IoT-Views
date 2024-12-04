@@ -21,14 +21,11 @@ router.beforeEach((to, from, next) => {
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
     if (to.path === '/login') {
-      console.log('to.path === 2');
       next({ path: '/' })
       NProgress.done()
     } else if (whiteList.indexOf(to.path) !== -1) {
-      console.log('to.path ===2 ');
       next()
     } else {
-      console.log('to.path ===3 ');
       if (store.getters.roles.length === 0) {
         isRelogin.show = true
         // 判断当前用户是否已拉取完user_info信息

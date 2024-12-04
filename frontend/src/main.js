@@ -43,6 +43,7 @@ import * as $dataRoomAxios from '../packages/js/utils/http.js'
 import { registerConfig } from '@gcpaas/data-room-ui'
 import customPlots from '@/customPlots/exports.js'
 import customDatasetComponents from '@/customDatasetComponents/exports.js'
+import remoteComponents from '@/remoteComponents/exports'
 import { Column } from '@antv/g2plot'
 
 // 全局方法挂载
@@ -133,7 +134,8 @@ registerConfig(
     // customPlots: [],
     // 远程组件列表
     customPlots,
-    customDatasetComponents
+    customDatasetComponents,
+    remoteComponents
   },
   router
 )
