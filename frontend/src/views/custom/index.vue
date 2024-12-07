@@ -32,21 +32,19 @@ export default {
     mounted() { },
     methods: {
         autoAuth() {
+            const host = this.$route.query.host;
+            const protocol = window.location.protocol;
+            console.log('protocol: ', protocol);
             const code = this.$route.query.code;
-            console.log('code: ', code);
             const clientId = this.$route.query.clientId;
-            console.log('clientId: ', clientId);
             const clientSecret = this.$route.query.clientSecret;
-            console.log('clientSecret: ', clientSecret);
             if (clientId && clientSecret) {
                 this.showStatus = false;
                 this.loginForm.username = clientId;
                 this.loginForm.password = encrypt(clientSecret);
                 this.loading = true;
                 this.$store.dispatch("Login", this.loginForm).then(() => {
-                    console.log('this.$store.dispatch("Login", : ');
-
-                   this.src = `http://localhost/bigscreen/preview?code=bigScreen_hUL2lAglop`
+                   this.src = `${protocol}//${host}/bigscreen/preview?code=${code}`
                    this.loading = false;
                 }).catch(() => {
                     this.loading = false;
