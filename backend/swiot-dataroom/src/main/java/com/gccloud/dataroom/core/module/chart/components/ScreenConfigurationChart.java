@@ -25,6 +25,9 @@ public class ScreenConfigurationChart extends Chart {
         @ApiModelProperty(notes = "装饰颜色2")
         private String decorationColor2;
 
+        @ApiModelProperty(notes = "状态颜色")
+        private String statusColor;
+
         @ApiModelProperty(notes = "线条宽度")
         private Integer lineWidth;
 

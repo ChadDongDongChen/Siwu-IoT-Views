@@ -16,32 +16,11 @@
         </div>
         <SettingTitle>基础</SettingTitle>
         <div class="lc-field-body">
-          <el-form-item label="线条类型">
-            <el-select v-model="config.customize.lineType" placeholder="请选择">
-              <el-option v-for="item in lineTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
+          <el-form-item label="状态颜色">
+            <el-select v-model="config.customize.statusColor" placeholder="请选择状态颜色">
+              <el-option v-for="option in statusColorOptions" :key="option.value" :label="option.label"
+                :value="option.value"></el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="线条颜色">
-            <ColorPicker v-model="config.customize.decorationColor1" :predefine="predefineThemeColors" />
-          </el-form-item>
-          <el-form-item label="线条粗细">
-            <el-input-number v-model="config.customize.lineWidth" class="bs-el-input-number" :min="1" :max="20"
-              :step="1" />
-          </el-form-item>
-          <el-form-item label="透明度">
-            <el-input-number v-model="config.customize.opacity" class="bs-el-input-number" :min="0.01" :max="1"
-              :precision="2" :step="0.01" />
-          </el-form-item>
-          <el-form-item label="线条动画">
-            <el-select v-model="config.customize.animation" placeholder="请选择" clearable @change="updateState">
-              <el-option v-for="item in animationOptions" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="流向" v-if="isActive">
-            <el-radio v-model="config.customize.flowDirection" label="L">正向</el-radio>
-            <el-radio v-model="config.customize.flowDirection" label="R">反向</el-radio>
           </el-form-item>
         </div>
       </el-form>
@@ -55,7 +34,7 @@ import RotateSetting from 'data-room-ui/BigScreenDesign/RightSetting/RotateSetti
 import SettingTitle from 'data-room-ui/SettingTitle/index.vue'
 import { predefineColors } from "data-room-ui/js/utils/colorList";
 export default {
-  name: 'VerticalLine2Setting',
+  name: 'LightSetting',
   components: {
     ColorPicker,
     PosWhSetting,
@@ -64,27 +43,14 @@ export default {
   },
   data() {
     return {
-      //是否显示动画流向
-      isActive: true,
-      //动画类型
-      animationOptions: [{
-        value: 'waterRun',
-        label: '水流'
-      }],
-      //线条类型
-      lineTypeOptions: [{
-        value: '',
-        label: '实线'
-      }, {
-        value: 'dotted',
-        label: '点线'
-      }, {
-        value: 'dashed',
-        label: '虚线'
-      }, {
-        value: 'blend',
-        label: '混合线'
-      }],
+      //状态颜色
+      statusColorOptions: [
+        { label: '绿色', value: 'green' },
+        { label: '红色', value: 'red' },
+        { label: '黄色', value: 'yellow' },
+        { label: '蓝色', value: 'blue' },
+        { label: '灰色', value: 'gray' },
+      ],
       // 预设主题色
       predefineThemeColors: predefineColors
     }

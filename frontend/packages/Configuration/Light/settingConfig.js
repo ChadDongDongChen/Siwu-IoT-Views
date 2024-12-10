@@ -14,7 +14,7 @@ export const settingConfig = {
   },
 };
 const customConfig = {
-  type: "verticalLine2",
+  type: "light",
   root: {
     version: "2023071001",
     // 绕x轴旋转角度
@@ -30,6 +30,7 @@ const customConfig = {
   },
   customize: {
     decorationColor1: "rgba(18, 150, 219, 1)", //线条颜色
+    statusColor: "green",
     lineWidth: 5, //线条宽度
     opacity: 1, //透明度
     lineType: "dashed",

@@ -1,12 +1,21 @@
 <template>
   <div style="width: 100%; height: 100%" class="bs-design-wrap">
-    <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none meet" version="1.1" width="100%" height="100%">
-      <!-- 使用 Vue 变量动态设置属性 -->
-      <g fill="none" :stroke="config.customize.decorationColor1" :stroke-width="config.customize.lineWidth"
-        :opacity="config.customize.opacity">
-        <path :class="[lineTypeClass, lineAnimationClass]" class="reverse-water-run" :d="'M0 21 l' + config.w + ' 0'" />
-      </g>
-    </svg>
+    <!-- 添加背景色 -->
+    <div class="svg-box" :style="{
+      backgroundColor: colorWithOpacity,
+      paddingLeft: paddingValue,
+      paddingRight: paddingValue,
+      borderRadius: borderRadiusValue
+    }">
+      <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none meet" version="1.1" width="100%" height="100%">
+        <!-- 使用 Vue 变量动态设置属性 -->
+        <g fill="none" :stroke="config.customize.decorationColor1" :stroke-width="config.customize.lineWidth"
+          :opacity="config.customize.opacity">
+          <path :class="[lineTypeClass, lineAnimationClass]" class="reverse-water-run"
+            :d="'M0 ' + (config.h / 2) + ' l' + config.w + ' 0'" />
+        </g>
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -28,6 +37,23 @@ export default {
     }
   },
   computed: {
+    // 动态设置内边距
+    paddingValue() {
+      return `${this.config.h / 2}px`;
+    },
+    // 动态设置倒圆角
+    borderRadiusValue() {
+      return `${this.config.h / 2}px`;
+    },
+    // 提取原始 rgba 颜色中的 rgba 值（格式：rgba(r, g, b, a)）
+    colorWithOpacity() {
+      const { decorationColor1 } = this.config.customize;
+      const rgbaMatch = decorationColor1.match(/rgba?\((\d+), (\d+), (\d+), (\d*(?:\.\d+)?)\)/);
+      if (rgbaMatch) {
+        return `rgba(${rgbaMatch[1]}, ${rgbaMatch[2]}, ${rgbaMatch[3]}, 0.2)`;
+      }
+      return decorationColor1;
+    },
     color() {
       return this.config.customize.decorationColor1 ? this.config.customize.decorationColor1 : null
     },
@@ -71,11 +97,17 @@ export default {
   width: 100%;
   height: 100%;
   background-color: transparent;
+  border-radius: 100px;
   border-radius: 4px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   display: flex;
   align-items: center;
+}
+
+.svg-box {
+  height: 100%;
+  width: 100%;
 }
 
 svg {

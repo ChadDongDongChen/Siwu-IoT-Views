@@ -30,10 +30,10 @@ const customConfig = {
     skewY: 0,
   },
   customize: {
-    decorationColor1: "#1296DB", //线条颜色
-    lineWidth: 2, //线条宽度
+    decorationColor1: "rgba(18, 150, 219, 1)", //线条颜色
+    lineWidth: 5, //线条宽度
     opacity: 1, //透明度
-    lineType: "dotted",
+    lineType: "dashed",
     flowDirection: "L",
     animation: "waterRun",
     reverse: false,

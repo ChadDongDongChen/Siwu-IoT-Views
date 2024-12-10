@@ -1,82 +1,36 @@
 <template>
-  <div
-    v-if="hasPermission"
-    class="bs-page-design-wrap"
-  >
-    <PageTopSetting
-      v-show="headerShow"
-      ref="PageTopSetting"
-      :right-fold="rightVisiable"
-      @updateRightVisiable="updateRightVisiable"
-      @showPageInfo="showPageInfo"
-      @changeZoom="changeScreenZoom"
-      @empty="empty"
-    />
+  <div v-if="hasPermission" class="bs-page-design-wrap">
+    <PageTopSetting v-show="headerShow" ref="PageTopSetting" :right-fold="rightVisiable"
+      @updateRightVisiable="updateRightVisiable" @showPageInfo="showPageInfo" @changeZoom="changeScreenZoom"
+      @empty="empty" />
     <div class="drag-wrap">
       <!-- 左侧面板 -->
-      <LeftPanel
-        :header-show="headerShow"
-        :height="height"
-        @openRightPanel="openRightPanel"
-        @openResource="initDialog"
-        @openComponent="openComponent"
-        @toggleLeftSidebar="toggleLeftSidebar"
-      />
+      <LeftPanel :header-show="headerShow" :height="height" @openRightPanel="openRightPanel" @openResource="initDialog"
+        @openComponent="openComponent" @toggleLeftSidebar="toggleLeftSidebar" />
       <!-- 中间组件展示面板 -->
-      <div
-        v-loading="pageLoading"
-        class="grid-wrap-box"
-        :style="{
-          height: 'calc(100vh - 48px)'
-        }"
-        tabindex="1000"
-        @keydown="designKeydown"
-      >
-        <div
-          id="minimap"
-          class="minimap"
-        >
+      <div v-loading="pageLoading" class="grid-wrap-box" :style="{
+        height: 'calc(100vh - 48px)'
+      }" tabindex="1000" @keydown="designKeydown">
+        <div id="minimap" class="minimap">
           <div class="mapHeader" id="mapHeader">
             <div>
               <span>小地图</span>
             </div>
             <div class="showMap" @click="showMinimap">
-              <i class="el-icon-arrow-down" style="width:20px;height:20px;color:#fff;" v-if="!mapShow"/>
-              <i class="el-icon-arrow-up" style="width:20px;height:20px;color:#fff;" v-if="mapShow"/>
+              <i class="el-icon-arrow-down" style="width:20px;height:20px;color:#fff;" v-if="!mapShow" />
+              <i class="el-icon-arrow-up" style="width:20px;height:20px;color:#fff;" v-if="mapShow" />
             </div>
           </div>
-          <div
-            id="selectWin"
-            class="selectWin"
-            v-show="mapShow"
-          >
-            <div
-              id="selectionWin"
-              class="selectionWin"
-            />
+          <div id="selectWin" class="selectWin" v-show="mapShow">
+            <div id="selectionWin" class="selectionWin" />
           </div>
         </div>
-        <SketchDesignRuler
-          ref="Rules"
-          :width="3000"
-          :height="3000"
-          :page-width="pageConfig.w"
-          :page-height="pageConfig.h"
-          @changeStart="changeStart"
-        >
-          <MouseSelect
-            :offset-x="offset.x"
-            :offset-y="offset.y"
-            @selectArea="onSelectArea"
-          >
-            <Render
-              ref="Render"
-              :class="{
-                'grid-bg': hasGrid
-              }"
-              @openRightPanel="openRightPanel"
-              @openDataViewDialog="openDataViewDialog"
-            />
+        <SketchDesignRuler ref="Rules" :width="3000" :height="3000" :page-width="pageConfig.w"
+          :page-height="pageConfig.h" @changeStart="changeStart">
+          <MouseSelect :offset-x="offset.x" :offset-y="offset.y" @selectArea="onSelectArea">
+            <Render ref="Render" :class="{
+              'grid-bg': hasGrid
+            }" @openRightPanel="openRightPanel" @openDataViewDialog="openDataViewDialog" />
           </MouseSelect>
         </SketchDesignRuler>
         <!-- <div class="footer-tools-bar">
@@ -104,41 +58,19 @@
         </div> -->
       </div>
       <!-- 右侧折叠设置面板   -->
-      <SettingPanel
-        :header-show="headerShow"
-        :height="height"
-        :right-visiable.sync="rightVisiable"
-        :page-info-visiable="pageInfoVisiable"
-        @updateSetting="updateSetting"
-        @updateDataSetting="updateDataSetting"
-        @updatePage="updatePage"
-        @styleHandler="styleHandler"
-      >
+      <SettingPanel :header-show="headerShow" :height="height" :right-visiable.sync="rightVisiable"
+        :page-info-visiable="pageInfoVisiable" @updateSetting="updateSetting" @updateDataSetting="updateDataSetting"
+        @updatePage="updatePage" @styleHandler="styleHandler">
         <template #dataSetSelect="{ value }">
-          <slot
-            name="dataSetSelect"
-            :value="value"
-          />
+          <slot name="dataSetSelect" :value="value" />
         </template>
       </SettingPanel>
       <!-- 添加资源面板 -->
-      <SourceDialog
-        ref="SourceDialog"
-        @getImg="setImg"
-      />
-      <ComponentDialog
-        ref="componentDialog"
-        @setComponent="setComponent"
-        @setRemoteComponent="setRemoteComponent"
-      />
-      <iframe-dialog
-        v-if="iframeDialog"
-        ref="iframeDialog"
-      />
+      <SourceDialog ref="SourceDialog" @getImg="setImg" />
+      <ComponentDialog ref="componentDialog" @setComponent="setComponent" @setRemoteComponent="setRemoteComponent" />
+      <iframe-dialog v-if="iframeDialog" ref="iframeDialog" />
     </div>
-    <data-view-dialog
-      ref="dataViewDialog"
-    />
+    <data-view-dialog ref="dataViewDialog" />
   </div>
   <NotPermission v-else-if="!hasPermission" />
 </template>
@@ -197,7 +129,7 @@ export default {
       default: 'calc(100vh - 40px)'
     }
   },
-  data () {
+  data() {
     return {
       mapShow: true, // 小地图显示与否
       hasPermission: true,
@@ -230,7 +162,7 @@ export default {
     }
   },
   watch: {
-    chartList (val) {
+    chartList(val) {
       // if(val.findIndex(item=>item.code==this.activeCode)==-1){
       //   this.updateRightVisiable(false)
       // }
@@ -238,7 +170,7 @@ export default {
       //   this.updateRightVisiable(false)
       // }
     },
-    mapShow (value) {
+    mapShow(value) {
       const mapElement = document.getElementById('minimap')
       // const selectElement = document.getElementById('selectWin')
       if (!value) {
@@ -248,7 +180,7 @@ export default {
         mapElement.style.bottom = parseFloat(window.getComputedStyle(mapElement).bottom) - 150 + 'px'
       }
     },
-    fitZoom (zoom) {
+    fitZoom(zoom) {
       this.zoomList[0] = {
         label: `自适应(${zoom}%)`,
         value: zoom
@@ -270,17 +202,17 @@ export default {
       iframeDialog: (state) => state.bigScreen.iframeDialog,
       activeCode: state => state.bigScreen.activeCode
     }),
-    pageCode () {
+    pageCode() {
       return this.code || this.$route.query.code
     },
-    offset () {
+    offset() {
       return {
         x: 220 + 50 - this.ruleStartX,
         y: 55 + 50 - this.ruleStartY
       }
     }
   },
-  created () {
+  created() {
     this.changePageLoading(true)
     this.permission()
     /**
@@ -294,12 +226,12 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     EventBus.$on('closeRightPanel', () => {
       this.updateRightVisiable(false)
     })
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.clearTimeline()
     EventBus.$off('closeRightPanel')
   },
@@ -324,11 +256,11 @@ export default {
       'emptyComputedDatas'
     ]),
     // 控制小地图显示与隐藏
-    showMinimap () {
+    showMinimap() {
       this.mapShow = !this.mapShow
     },
     // 判断页面权限
-    permission () {
+    permission() {
       this.$dataRoomAxios.get(`/bigScreen/permission/check/${this.pageCode}`).then(res => {
         this.hasPermission = res
         if (res) {
@@ -337,14 +269,14 @@ export default {
       })
     },
     // 添加资源弹窗初始化
-    initDialog () {
+    initDialog() {
       this.$refs.SourceDialog.init()
     },
-    openComponent () {
+    openComponent() {
       this.$refs.componentDialog.init()
     },
     // 从组件库添加组件模板到当前画布
-    setComponent (component) {
+    setComponent(component) {
       // 根据component获取页面详情
       getScreenInfo(component.code).then(res => {
         res.chartList.forEach((item) => {
@@ -355,7 +287,7 @@ export default {
             item.border.padding = [0, 0, 0, 0]
           }
           if (item.type == 'customComponent') {
-            plotSettings[Symbol.iterator] = function * () {
+            plotSettings[Symbol.iterator] = function* () {
               const keys = Object.keys(plotSettings)
               for (const k of keys) {
                 yield [k, plotSettings[k]]
@@ -397,7 +329,7 @@ export default {
       })
     },
     // 添加远程组件
-    setRemoteComponent (component) {
+    setRemoteComponent(component) {
       const newChart = {
         ...component,
         offsetX: 0,
@@ -406,14 +338,14 @@ export default {
       }
       this.$refs.Render.addChart(newChart, { x: 0, y: 0 })
     },
-    setImg (val) {
+    setImg(val) {
       this.$refs.Render.addSourceChart(
         JSON.stringify({
           title: val.originalName,
           name: val.originalName,
           icon: null,
           className:
-              'com.gccloud.dataroom.core.module.chart.components.ScreenPictureChart',
+            'com.gccloud.dataroom.core.module.chart.components.ScreenPictureChart',
           w: 300,
           h: 300,
           x: 0,
@@ -434,7 +366,7 @@ export default {
         { x: 150, y: 100 }
       )
     },
-    init () {
+    init() {
       this.changePageLoading(true)
       this.initLayout(this.pageCode)
         .then(() => {
@@ -447,18 +379,18 @@ export default {
         })
     },
     // 点击当前组件时打开右侧面板
-    openRightPanel (card) {
+    openRightPanel(card) {
       this.rightVisiable = true
       this.pageInfoVisiable = false
       this.$refs.Rules.initRuleHeight()
     },
-    openDataViewDialog (config) {
+    openDataViewDialog(config) {
       this.$refs.dataViewDialog.init(config)
     },
     /**
        * @description: 清空页面
        */
-    empty () {
+    empty() {
       this.$confirm('确定清空页面吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -473,10 +405,10 @@ export default {
           this.resetPresetLine()
           this.saveTimeLine('清空画布')
         })
-        .catch(() => {})
+        .catch(() => { })
     },
     // 切换主题时针对远程组件触发样式修改的方法
-    styleHandler (config) {
+    styleHandler(config) {
       this.$nextTick(() => {
         this.$refs.Render?.$refs['RenderCard' + config.code][0]?.$refs[
           config.code
@@ -484,7 +416,7 @@ export default {
       })
     },
     // 自定义属性更新
-    updateSetting (config) {
+    updateSetting(config) {
       if (config.type === 'map' || config.type === 'screenScrollBoard' || config.type === 'remoteComponent' || config.type === 'video' || config.type === 'flyMap') {
         config.key = new Date().getTime()
       }
@@ -504,11 +436,11 @@ export default {
       }
     },
     // 动态属性更新
-    updateDataSetting (config) {
+    updateDataSetting(config) {
       config.key = new Date().getTime()
       this.changeChartConfig(config)
     },
-    onSelectArea (area) {
+    onSelectArea(area) {
       const { startX, startY, endX, endY } = area
       // 计算所有在此区域中的组件，如果在此区域中，将其code添加到activeCodes数组中
       const activeCodes = this.chartList
@@ -519,19 +451,19 @@ export default {
         ?.map((chart) => chart.code)
       this.changeActiveCodes(activeCodes)
     },
-    changeStart ({ x, y }) {
+    changeStart({ x, y }) {
       this.ruleStartX = x
       this.ruleStartY = y
     },
     // 保存并预览
-    saveAndPreview () {
+    saveAndPreview() {
       this.$refs.PageTopSetting.execRun()
     },
     // 保存
-    save () {
+    save() {
       this.$refs.PageTopSetting.save('saveLoading')
     },
-    changeScreenZoom (zoom) {
+    changeScreenZoom(zoom) {
       // 自适应
       if (zoom === 'auto') {
         this.$refs.Rules.initZoom()
@@ -539,81 +471,83 @@ export default {
         this.changeZoom(zoom)
       }
     },
-    updateRightVisiable (visiable) {
+    updateRightVisiable(visiable) {
       this.rightVisiable = visiable
       this.$refs.Rules.initRuleHeight()
     },
-    toggleLeftSidebar () {
+    toggleLeftSidebar() {
       this.$refs.Rules.initRuleHeight()
     },
-    showPageInfo () {
+    showPageInfo() {
       this.pageInfoVisiable = true
       this.rightVisiable = true
       this.changeActiveCode('')
     },
     // 页面信息更改
-    updatePage () {
+    updatePage() {
       this.$refs.Rules.initZoom()
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-  .bs-page-design-wrap {
-    overflow: hidden;
+.bs-page-design-wrap {
+  overflow: hidden;
 
-    .drag-wrap {
-      display: flex;
-      background-color: #1d1e20;
-      height: calc(100vh - 40px);
+  .drag-wrap {
+    display: flex;
+    background-color: #1d1e20;
+    height: calc(100vh - 40px);
+    // overflow: hidden;
+
+    .grid-wrap-box {
+      flex: 1;
       // overflow: hidden;
+      position: relative;
+      margin: 8px 0 0 8px;
 
-      .grid-wrap-box {
-        flex: 1;
-        // overflow: hidden;
-        position: relative;
-        margin: 8px 0 0 8px;
+      .footer-tools-bar {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 30px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        z-index: 1000;
+        background-color: var(--bs-background-2);
 
-        .footer-tools-bar {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 30px;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          z-index: 1000;
-          background-color: var(--bs-background-2);
+        .bs-select-wrap {
+          margin-right: 16px;
+        }
 
-          .bs-select-wrap {
-            margin-right: 16px;
-          }
+        .select-zoom-text {
+          color: var(--bs-el-title);
+          margin-right: 16px;
+        }
 
-          .select-zoom-text {
-            color: var(--bs-el-title);
-            margin-right: 16px;
-          }
-
-          ::v-deep .el-select {
-            width: 150px !important;
-          }
+        ::v-deep .el-select {
+          width: 150px !important;
         }
       }
+    }
 
-      ::v-deep .el-loading-mask {
-        background-color: transparent !important;
-      }
+    ::v-deep .el-loading-mask {
+      background-color: transparent !important;
     }
   }
-.minimap{
-  position: absolute ;
+}
+
+.minimap {
+  position: absolute;
   bottom: 20px;
   right: 20px;
-  z-index:1000;
+  z-index: 1000;
 }
-.minimap .mapHeader{
-  background-color:#303640;
-  box-sizing:border-box;
+
+.minimap .mapHeader {
+  background-color: #303640;
+  box-sizing: border-box;
   padding: 0 10px;
   display: flex;
   justify-content: space-between;
@@ -623,19 +557,20 @@ export default {
   font-size: 12px;
   color: var(--bs-el-title);
   cursor: pointer;
+
   span {
     user-select: none;
   }
 }
 
-.minimap .selectWin{
+.minimap .selectWin {
   background-color: #232832;
   height: 150px;
   width: 150px;
   position: relative;
 }
 
-.minimap .selectionWin{
+.minimap .selectionWin {
   position: absolute;
   left: 0px;
   top: 0px;

@@ -7,9 +7,6 @@
 import { refreshComponentMixin } from 'data-room-ui/js/mixins/refreshComponent'
 export default {
   name: 'Configuration1',
-  // components: {
-  //   DvDecoration1
-  // },
   mixins: [refreshComponentMixin],
   props: {
     // 卡片的属性

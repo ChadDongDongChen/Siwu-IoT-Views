@@ -10,6 +10,7 @@ const typeLIst = [
   "configuration2",
   "horizontalLine2",
   "verticalLine2",
+  "light",
 ];
 let basicConfigList = [];
 basicConfigList = typeLIst.map((type) => {
