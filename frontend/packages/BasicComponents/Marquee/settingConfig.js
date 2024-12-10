@@ -43,7 +43,7 @@ const customConfig = {
     skewY: 0
   },
   customize: {
-    title: 'DataRoom由GCPAAS开源社区开源',
+    title: '花有重开日，人无再少年',
     fontSize: 14,
     fontWeight: 700,
     icon: {

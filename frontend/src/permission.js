@@ -1,6 +1,6 @@
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
+import { Message } from 'element-ui' 
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth' 
@@ -8,6 +8,7 @@ import { isRelogin } from '@/utils/request'
 NProgress.configure({ showSpinner: false })
 
 const whiteList = ['/login', '/register'
+  ,'/public/page'
   // ,"/bigscreen/preview"
   // ,"/bigScreen/chart/data/list"
   // ,"/bigScreen/design/info/code/**"
@@ -17,7 +18,7 @@ const whiteList = ['/login', '/register'
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
-    window.BS_CONFIG.httpConfigs.headers.Authorization = 'Bearer ' + getToken()
+    window.BS_CONFIG.httpConfigs.headers.AuthToken = 'Bearer ' + getToken()
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
     if (to.path === '/login') {

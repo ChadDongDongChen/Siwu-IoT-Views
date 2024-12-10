@@ -14,7 +14,7 @@ const httpConfig = {
   baseURL: process.env.VUE_APP_BASE_API,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
-    "Authorization" : 'Bearer ' + getToken()
+    "AuthToken" : 'Bearer ' + getToken()
   }
 }
 

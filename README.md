@@ -80,6 +80,6 @@ Siwu-IoT-Views是一套基于SpringBoot、MyBatisPlus、ElementUI、G2Plot、Ech
 </table>
 
 
-## 交流群
+## 联系方式（微信：Jonehoo）
 
-<img src="https://oss.jinhuwl.top/swiot/群二维码.png"/>
+<img width="200px" src="https://oss.jinhuwl.top/swiot/图片_20241207164717.jpg"/>
