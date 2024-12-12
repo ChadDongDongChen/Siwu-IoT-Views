@@ -77,10 +77,10 @@ export default function getComponentConfig(type) {
         icon: Icon.getNameList()[1],
         className:
           "com.gccloud.dataroom.core.module.chart.components.ScreenPictureChart",
-        w: 280,
-        h: 200,
-        x: 0,
-        y: 0,
+        // w: 280,
+        // h: 200,
+        // x: 0,
+        // y: 0,
         type,
       };
     case "screenScrollBoard":

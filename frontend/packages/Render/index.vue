@@ -1,83 +1,33 @@
 <template>
-  <div
-    ref="bs-render-wrap"
-    :key="`${pageInfo.pageConfig.w}${pageInfo.pageConfig.h}`"
-    class="bs-render-wrap design-drag-wrap render-theme-wrap"
-    :style="{
+  <div ref="bs-render-wrap" :key="`${pageInfo.pageConfig.w}${pageInfo.pageConfig.h}`"
+    class="bs-render-wrap design-drag-wrap render-theme-wrap" :style="{
       width: pageInfo.pageConfig.w + 'px',
       height: pageInfo.pageConfig.h + 'px',
-      backgroundColor:pageInfo.pageConfig.customTheme ==='light' ? pageInfo.pageConfig.lightBgColor:pageInfo.pageConfig.bgColor ,
-      backgroundImage:pageInfo.pageConfig.customTheme ==='light' ? `url(${getCoverPicture(pageInfo.pageConfig.lightBg)})`:`url(${getCoverPicture(pageInfo.pageConfig.bg)})`
-    }"
-    @drop="drop($event)"
-    @dragover.prevent
-    @click="handleClickOutside($event)"
-  >
-    <vdr
-      v-for="chart in chartList"
-      :id="chart.code"
-      :key="chart.updateKey || chart.code"
-      class="drag-item"
-      :class="{
-        'multiple-selected': activeCodes.includes(chart.code),
-      }"
-      :scale-ratio="scale"
-      :x="chart.x"
-      :y="chart.y"
-      :w="chart.w"
-      :h="chart.h"
-      :min-width="10"
-      :min-height="10"
-      :draggable="!chart.locked"
-      :resizable="!chart.locked"
-      :parent="true"
-      :debug="false"
-      :is-conflict-check="false"
-      :snap="true"
-      :snap-tolerance="snapTolerance"
-      :style="{
+      backgroundColor: pageInfo.pageConfig.customTheme === 'light' ? pageInfo.pageConfig.lightBgColor : pageInfo.pageConfig.bgColor,
+      backgroundImage: pageInfo.pageConfig.customTheme === 'light' ? `url(${getCoverPicture(pageInfo.pageConfig.lightBg)})` : `url(${getCoverPicture(pageInfo.pageConfig.bg)})`
+    }" @drop="drop($event)" @dragover.prevent @click="handleClickOutside($event)">
+    <vdr v-for="chart in chartList" :id="chart.code" :key="chart.updateKey || chart.code" class="drag-item" :class="{
+      'multiple-selected': activeCodes.includes(chart.code),
+    }" :scale-ratio="scale" :x="chart.x" :y="chart.y" :w="chart.w" :h="chart.h" :min-width="10" :min-height="10"
+      :draggable="!chart.locked" :resizable="!chart.locked" :parent="true" :debug="false" :is-conflict-check="false"
+      :snap="true" :snap-tolerance="snapTolerance" :style="{
         zIndex: chart.z || 0,
-      }"
-      :perspective="parseInt(`${chart.perspective == undefined ? 0 : chart.perspective}`)"
-      :transform="`skew(${chart.skewX == undefined ? 0 : chart.skewX}deg, ${chart.skewY == undefined? 0 : chart.skewY}deg) rotateX(${chart.rotateX == undefined ? 0 : chart.rotateX}deg) rotateY(${chart.rotateY == undefined ? 0 : chart.rotateY}deg)  rotateZ(${chart.rotateZ == undefined ? 0 : chart.rotateZ}deg)`"
-      :grid="[1,1]"
-      :handles="handlesList"
-      class-name-handle="bs-handle-class"
-      @activated="activated(...arguments, chart)"
-      @dragging="onDrag(...arguments, chart)"
-      @resizing="onResize(...arguments, chart)"
-      @resizestop="resizestop(...arguments, chart)"
-      @dragstop="dragstop(...arguments, chart)"
-      @refLineParams="getRefLineParams"
-      @mouseleave.native="resetPresetLineDelay"
-    >
-      <Configuration
-        v-if="isInit"
-        :config="chart"
-        @openRightPanel="openRightPanel"
-        @openDataViewDialog="openDataViewDialog"
-      >
-        <RenderCard
-          :ref="'RenderCard' + chart.code"
-          :config="chart"
-          @styleHandler="styleHandler"
-        />
+      }" :perspective="parseInt(`${chart.perspective == undefined ? 0 : chart.perspective}`)"
+      :transform="`skew(${chart.skewX == undefined ? 0 : chart.skewX}deg, ${chart.skewY == undefined ? 0 : chart.skewY}deg) rotateX(${chart.rotateX == undefined ? 0 : chart.rotateX}deg) rotateY(${chart.rotateY == undefined ? 0 : chart.rotateY}deg)  rotateZ(${chart.rotateZ == undefined ? 0 : chart.rotateZ}deg)`"
+      :grid="[1, 1]" :handles="handlesList" class-name-handle="bs-handle-class"
+      @activated="activated(...arguments, chart)" @dragging="onDrag(...arguments, chart)"
+      @resizing="onResize(...arguments, chart)" @resizestop="resizestop(...arguments, chart)"
+      @dragstop="dragstop(...arguments, chart)" @refLineParams="getRefLineParams"
+      @mouseleave.native="resetPresetLineDelay">
+      <Configuration v-if="isInit" :config="chart" @openRightPanel="openRightPanel"
+        @openDataViewDialog="openDataViewDialog">
+        <RenderCard :ref="'RenderCard' + chart.code" :config="chart" @styleHandler="styleHandler" />
       </Configuration>
     </vdr>
-    <span
-      v-for="(vl, index) in vLine"
-      v-show="vl.display"
-      :key="index + 'vLine'"
-      class="ref-line v-line"
-      :style="{ left: vl.position, top: vl.origin, height: vl.lineLength }"
-    />
-    <span
-      v-for="(hl, index) in hLine"
-      v-show="hl.display"
-      :key="index + 'hLine'"
-      class="ref-line h-line"
-      :style="{ top: hl.position, left: hl.origin, width: hl.lineLength }"
-    />
+    <span v-for="(vl, index) in vLine" v-show="vl.display" :key="index + 'vLine'" class="ref-line v-line"
+      :style="{ left: vl.position, top: vl.origin, height: vl.lineLength }" />
+    <span v-for="(hl, index) in hLine" v-show="hl.display" :key="index + 'hLine'" class="ref-line h-line"
+      :style="{ top: hl.position, left: hl.origin, width: hl.lineLength }" />
   </div>
 </template>
 <script>
@@ -108,7 +58,7 @@ export default {
       default: 0
     }
   },
-  data () {
+  data() {
     return {
       handlesList: ['tl', 'tm', 'tr', 'mr', 'br', 'bm', 'bl', 'ml'], // 缩放手柄的数组
       vLine: [],
@@ -136,7 +86,7 @@ export default {
   },
   watch: {
     pageConfig: {
-      handler (pageConfig) {
+      handler(pageConfig) {
         this.$nextTick(() => {
           const style = document.createElement('style')
           if (
@@ -158,7 +108,7 @@ export default {
       immediate: true
     }
   },
-  mounted () {
+  mounted() {
     this.styleSet()
     this.plotList = [...this.plotList, ...getCustomPlots()]
   },
@@ -179,7 +129,7 @@ export default {
     ]),
     // 判断鼠标点击的是画布中的高亮元素（被框选的）还是非高亮元素或者空白区域
     // 如果是高亮元素则不会取消高亮状态，如果不是则取消高亮状态
-    handleClickOutside (event) {
+    handleClickOutside(event) {
       // 获取被点击的元素
       const clickedElement = event.target
       const elementToHighlights = []
@@ -198,7 +148,7 @@ export default {
       }
     },
     // 切换主题时针对远程组件触发样式修改的方法
-    styleHandler (config) {
+    styleHandler(config) {
       this.$nextTick(() => {
         this.$refs['RenderCard' + config.code][0]?.$refs[
           config.code
@@ -206,7 +156,7 @@ export default {
       })
     },
     // 获取到后端传来的主题样式并进行修改
-    styleSet () {
+    styleSet() {
       const style = document.createElement('style')
       if (this.themeJson && this.themeJson.themeCss) {
         const styleStr = this.themeJson.themeCss
@@ -218,20 +168,20 @@ export default {
         style.remove()
       }
     },
-    resetPresetLineDelay () {
+    resetPresetLineDelay() {
       setTimeout(() => {
         this.resetPresetLine()
       }, 500)
     },
     // 点击当前组件时打开右侧面板
-    openRightPanel (config) {
+    openRightPanel(config) {
       this.$emit('openRightPanel', config)
     },
     // 查看数据
-    openDataViewDialog (config) {
+    openDataViewDialog(config) {
       this.$emit('openDataViewDialog', config)
     },
-    drop (e) {
+    drop(e) {
       e.preventDefault()
       // 解决：火狐拖放后，总会默认打开百度搜索，如果是图片，则会打开图片的问题。
       e.stopPropagation()
@@ -248,7 +198,7 @@ export default {
      * @param height
      * @param chart
      */
-    onResize (x, y, width, height, chart) {
+    onResize(x, y, width, height, chart) {
       chart.x = x
       chart.y = y
       chart.w = width
@@ -264,7 +214,7 @@ export default {
      * @param y
      * @param chart
      */
-    onDrag (x, y, chart) {
+    onDrag(x, y, chart) {
       // 防止事件冒泡
       event.stopPropagation()
       if (chart.group) {
@@ -279,7 +229,7 @@ export default {
         ...chart
       })
     },
-    resizestop (left, top, width, height, chart) {
+    resizestop(left, top, width, height, chart) {
       this.changeChartConfig({
         ...chart,
         w: width,
@@ -304,10 +254,10 @@ export default {
       this.saveTimeLine(`改变${chart?.title}大小`)
       this.changeGridShow(false)
     },
-    activated (chart) {
+    activated(chart) {
       this.rawChart = cloneDeep(chart)
     },
-    dragstop (left, top, chart) {
+    dragstop(left, top, chart) {
       if (!this.freeze) {
         if (this.rawChart.x !== left || this.rawChart.y !== top) {
           this.changeChartConfig({
@@ -344,13 +294,13 @@ export default {
       this.saveTimeLine(`拖拽${chart?.title}`)
     },
     // 辅助线
-    getRefLineParams (params) {
+    getRefLineParams(params) {
       const { vLine, hLine } = params
       this.vLine = vLine
       this.hLine = hLine
     },
     // 新增元素
-    addChart (chart, position, isComponent) {
+    addChart(chart, position, isComponent) {
       const { left, top } = this.$el.getBoundingClientRect()
       const _chart = !chart.code ? customDeserialize(chart) : chart
       let option = _chart.option
@@ -382,7 +332,7 @@ export default {
       }
       this.addItem(config)
     },
-    addSourceChart (chart, position) {
+    addSourceChart(chart, position) {
       const { left, top } = this.$el.getBoundingClientRect()
       const _chart = JSON.parse(chart)
       let option = _chart.option
@@ -410,7 +360,7 @@ export default {
      * @param y 组合元素当前y
      * @param chart
      */
-    dragGroupChart (x, y, chart) {
+    dragGroupChart(x, y, chart) {
       if (chart.group) {
         const diffX = x - chart.x
         const diffY = y - chart.y
@@ -463,7 +413,7 @@ export default {
      * @param url
      * @returns {*}
      */
-    getCoverPicture (url) {
+    getCoverPicture(url) {
       return getFileUrl(url)
     }
   }
@@ -473,6 +423,7 @@ export default {
 .bs-render-wrap {
   position: relative;
   background-size: cover;
+
   .drag-item {
     cursor: move;
   }
@@ -480,95 +431,109 @@ export default {
   ::v-deep .vdr {
     border: none;
   }
+
   .h-line {
     border-bottom: 1px dashed #0089d0;
   }
+
   .v-line {
     border-left: 1px dashed #0089d0;
   }
+
   .ref-line {
     background-color: transparent;
   }
 }
+
 .design-drag-wrap {
   box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.5);
 }
+
 .multiple-selected {
   border: 1px solid #fff !important;
 }
+
 //调整拖拽插件的句柄样式
 //句柄公共样式
-::v-deep .bs-handle-class{
-  width: 16px!important;
-  height: 16px!important;
+::v-deep .bs-handle-class {
+  width: 16px !important;
+  height: 16px !important;
   position: absolute;
   box-sizing: border-box;
   //background: #fff;
   border: 3px solid #c8ff00;
 }
+
 // 每个句柄不同样式
-::v-deep .bs-handle-class-tl{
-  top: -2px!important;
-  left: -2px!important;
+::v-deep .bs-handle-class-tl {
+  top: -2px !important;
+  left: -2px !important;
   display: block;
   cursor: nw-resize;
   border-right: none;
   border-bottom: none;
 }
-::v-deep .bs-handle-class-tm{
-  top: -2px!important;
-  left: calc(50% - 8px)!important;
+
+::v-deep .bs-handle-class-tm {
+  top: -2px !important;
+  left: calc(50% - 8px) !important;
   display: block;
   cursor: n-resize;
   border-left: none;
   border-right: none;
   border-bottom: none;
 }
-::v-deep .bs-handle-class-tr{
-  top: -2px!important;
-  right: -2px!important;
+
+::v-deep .bs-handle-class-tr {
+  top: -2px !important;
+  right: -2px !important;
   display: block;
   cursor: ne-resize;
   border-left: none;
   border-bottom: none;
 }
-::v-deep .bs-handle-class-mr{
-  top: calc(50% - 8px)!important;
-  right: -2px!important;
+
+::v-deep .bs-handle-class-mr {
+  top: calc(50% - 8px) !important;
+  right: -2px !important;
   display: block;
   cursor: e-resize;
   border-left: none;
   border-top: none;
   border-bottom: none;
 }
-::v-deep .bs-handle-class-br{
-  right: -2px!important;
-  bottom: -2px!important;
+
+::v-deep .bs-handle-class-br {
+  right: -2px !important;
+  bottom: -2px !important;
   display: block;
   cursor: se-resize;
   border-left: none;
   border-top: none;
 }
-::v-deep .bs-handle-class-bm{
-  right: calc(50% - 8px)!important;
-  bottom: -2px!important;
+
+::v-deep .bs-handle-class-bm {
+  right: calc(50% - 8px) !important;
+  bottom: -2px !important;
   display: block;
   cursor: s-resize;
   border-left: none;
   border-right: none;
   border-top: none;
 }
-::v-deep .bs-handle-class-bl{
-  left: -2px!important;
-  bottom: -2px!important;
+
+::v-deep .bs-handle-class-bl {
+  left: -2px !important;
+  bottom: -2px !important;
   display: block;
   cursor: sw-resize;
   border-right: none;
   border-top: none;
 }
-::v-deep .bs-handle-class-ml{
-  top: calc(50% - 8px)!important;
-  left: -2px!important;
+
+::v-deep .bs-handle-class-ml {
+  top: calc(50% - 8px) !important;
+  left: -2px !important;
   display: block;
   cursor: w-resize;
   border-top: none;
