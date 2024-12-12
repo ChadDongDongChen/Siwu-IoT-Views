@@ -33,7 +33,6 @@
               </div>
             </div>
           </el-tab-pane>
-
           <el-tab-pane v-for="menu in menuList" :key="menu.id" :name="menu.name" @click.stop.native="
             fold = false
           changeActiveCode('')
@@ -49,9 +48,6 @@
                 </div>
               </div>
               <el-scrollbar>
-                <!-- 组态图片 -->
-                <ConfigurationImages v-if="menu.name === 'configuration'" />
-
                 <div class="page-left-content-components">
                   <div class="draggable chat-list">
                     <div v-for="element in menu.components" :key="element.type + element.name" :class="element.component
@@ -62,6 +58,14 @@
                         {{ element.title || element.name }}
                       </div>
                       <div class="img_dispaly chooseDragNode" @click.stop="addComponent(element)">
+
+                        <!-- <svg
+                          v-if="element.icon"
+                          class="icon-svg"
+                          aria-hidden="true"
+                        >
+                          <use :xlink:href="`#icon-a-${element.icon}`" />
+                        </svg> -->
                         <icon-svg v-if="element.icon" :name="element.icon" class="page-opt-list-icon" />
                         <img v-else-if="element.img" :src="element.img" class="page-opt-list-img" alt="">
                         <component :is="element.component" :key="new Date().getTime() + 1"
@@ -79,7 +83,6 @@
   </transition>
 </template>
 <script>
-import ConfigurationImages from "./ConfigurationImages/index.vue";
 import cloneDeep from 'lodash/cloneDeep'
 import basicComponents from 'data-room-ui/js/config/basicComponentsConfig'
 import g2PlotComponents, { getCustomPlots } from '../G2Plots/plotList'
@@ -95,8 +98,7 @@ export default {
   name: 'PageLeftPanel',
   components: {
     LayerList,
-    IconSvg,
-    ConfigurationImages
+    IconSvg
   },
   props: {
     headerShow: {
@@ -271,6 +273,11 @@ export default {
         this.$emit('toggleLeftSidebar')
         this.$emit('openComponent')
       }
+      // if (tab.name === 'configuration') {
+      //   console.log('。。。。。。。。。。。。。。。。。。。configuration调用了。。。。。。。。。 ');
+      //   this.$emit('toggleLeftSidebar')
+      //   this.$emit('openResource')
+      // }
     },
     toggleSidebar() {
       this.fold = !this.fold
@@ -281,7 +288,7 @@ export default {
     },
     openRightPanel(config) {
       this.$emit('openRightPanel', config)
-    },
+    }
   }
 }
 </script>

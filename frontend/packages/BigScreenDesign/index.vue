@@ -346,8 +346,8 @@ export default {
           icon: null,
           className:
             'com.gccloud.dataroom.core.module.chart.components.ScreenPictureChart',
-          w: 300,
-          h: 300,
+          w: 200,
+          h: 200,
           x: 0,
           y: 0,
           type: 'picture',
@@ -363,7 +363,7 @@ export default {
             opacity: 100
           }
         }),
-        { x: 150, y: 100 }
+        { x: 250, y: 100 }
       )
     },
     init() {
