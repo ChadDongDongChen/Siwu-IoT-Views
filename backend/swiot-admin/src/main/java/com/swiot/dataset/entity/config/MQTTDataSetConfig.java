@@ -31,5 +31,6 @@ public class MQTTDataSetConfig extends BaseDataSetConfig {
     @ApiModelProperty(value = "结果")
     private String data;
 
-
+    @ApiModelProperty(value = "响应脚本")
+    private String responseScript;
 }

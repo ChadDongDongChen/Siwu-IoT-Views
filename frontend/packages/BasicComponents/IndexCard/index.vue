@@ -40,7 +40,7 @@
             'margin-bottom':customize.lineDistance +'px'
           }"
         >
-          {{ optionData }}
+          {{ indicatorData || 0 }}
           <span
             :style="{
               'margin-left':'10px',
@@ -84,7 +84,8 @@ export default {
   data () {
     return {
       imgUrl: require('data-room-ui/assets/images/cardImg/cardicon.png'),
-      customClass: {}
+      customClass: {},
+      indicatorData: 80
     }
   },
   watch: {},
@@ -128,6 +129,8 @@ export default {
         ...config.option,
         data: dataList
       }
+      this.indicatorData= config.option.data
+
       return config
     }
   }

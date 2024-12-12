@@ -659,9 +659,9 @@ export default {
         ]
       }
       if (window.BS_CONFIG?.customDatasetComponents && window.BS_CONFIG?.customDatasetComponents.length > 0) {
-        // 将获得到的远程数据集进行组装
+        // 将获得到的远程数据集进行组装 
         window.BS_CONFIG?.customDatasetComponents.forEach((item) => {
-          this.datasetTypeList.push({ name: item.config.name, datasetType: item.config.datasetType, componentName: item.config.componentName })
+          this.datasetTypeList.push({ name: item.config.name, datasetType: item.config.datasetType, componentName: item.config.componentName, description: item.config.description })
         })
       }
       this.getDataList()

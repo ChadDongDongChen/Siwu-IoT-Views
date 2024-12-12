@@ -6,7 +6,7 @@ const config = {
     className: 'com.swiot.dataset.entity.config.MQTTDataSetConfig',
     componentName: 'MQTTDataset',
     showOperate: true,
-    description:"编写JS代码进行MQTT数据创建"
+    description:"接入MQTT协议的设备数据集配置"
   }
   
   export default {

@@ -19,6 +19,9 @@ public class ScreenTextChart extends Chart {
     @ApiModelProperty(notes = "个性化")
     private Customize customize = new Customize();
 
+    @ApiModelProperty(notes = "自定义处理数据源脚本")
+    private String dataHandler;
+
     @Data
     public static class Customize {
 
@@ -42,6 +45,5 @@ public class ScreenTextChart extends Chart {
 
         @ApiModelProperty(notes = "文字间距")
         private Integer letterSpacing;
-
     }
 }

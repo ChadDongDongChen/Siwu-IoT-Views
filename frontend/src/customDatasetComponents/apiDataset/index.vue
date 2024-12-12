@@ -137,8 +137,8 @@
                 </el-form-item>
               </el-col>
             </el-row> -->
-            <!-- <el-tabs v-model="activeName" class="bs-el-tabs tabs-box">
-              <el-tab-pane label="请求头" name="head">
+            <el-tabs v-model="activeName" class="bs-el-tabs tabs-box">
+              <!-- <el-tab-pane label="请求头" name="head">
                 <el-form-item prop="config.headers" label-width="0px">
                   <el-row v-for="(item, index) in dataForm.config.headers" :key="index" :gutter="10" :span="24">
                     <el-col :span="11">
@@ -169,8 +169,8 @@
                     </el-col>
                   </el-row>
                 </el-form-item>
-              </el-tab-pane>
-              <el-tab-pane label="请求参数" name="param">
+              </el-tab-pane> -->
+              <!-- <el-tab-pane label="请求参数" name="param">
                 <el-form-item prop="config.params" label-width="0px"
                   :rules="dataForm.config.method === 'get' ? rules.params : [{ required: false }]">
                   <el-row v-for="(item, index) in dataForm.config.params" :key="index" :gutter="10" :span="24">
@@ -202,8 +202,8 @@
                     </el-col>
                   </el-row>
                 </el-form-item>
-              </el-tab-pane>
-              <el-tab-pane v-if="dataForm.config.method === 'post'" label="请求体" name="second">
+              </el-tab-pane> -->
+              <!-- <el-tab-pane v-if="dataForm.config.method === 'post'" label="请求体" name="second">
                 <el-form-item prop="requestScript" label-width="0px">
                   <el-input v-model="dataForm.config.body" class="bs-el-input" type="textarea"
                     :autosize="{ minRows: 10, maxRows: 10 }" clearable />
@@ -213,8 +213,8 @@
                     </strong>
                   </div>
                 </el-form-item>
-              </el-tab-pane>
-              <el-tab-pane label="请求脚本" name="reqScript">
+              </el-tab-pane> -->
+              <!-- <el-tab-pane label="请求脚本" name="reqScript">
                 <el-form-item prop="requestScript" label-width="0px">
                   <codemirror v-if="activeName === 'reqScript'" v-model.trim="dataForm.config.requestScript"
                     :options="codemirrorOption" class="code" />
@@ -231,7 +231,7 @@
                     </strong>
                   </div>
                 </el-form-item>
-              </el-tab-pane>
+              </el-tab-pane> -->
               <el-tab-pane label="响应脚本" name="respScript">
                 <el-form-item prop="responseScript" label-width="0px">
                   <codemirror v-if="activeName === 'respScript'" v-model.trim="dataForm.config.responseScript"
@@ -254,7 +254,7 @@
                   </div>
                 </el-form-item>
               </el-tab-pane>
-            </el-tabs> -->
+            </el-tabs>
           </el-form>
           <div v-if="isEdit" class="sql-config">
             <div style="text-align: center; padding: 16px 0;">
@@ -445,7 +445,7 @@ export default {
     }
     return {
       newParamsList: [], // 存放临时的动态参数值
-      activeName: 'head',
+      activeName: 'respScript',
       options: [{
         value: 'string',
         label: '字符串'
@@ -480,7 +480,7 @@ export default {
           body: '',
           paramsList: [],
           requestScript: '',
-          responseScript: ''
+          responseScript: 'return resp'
         }
       },
       rules: {
@@ -562,7 +562,7 @@ export default {
           this.newParamsList = cloneDeep(paramsList)
           this.codemirrorOption.mode = this.dataForm.config.requestType === 'frontend' ? 'text/javascript' : 'text/x-groovy'
           // this.replaceParams(paramsList)
-          // this.scriptExecute(true)
+          this.scriptExecute(true)
         })
       }
     },
@@ -794,35 +794,35 @@ export default {
     },
     // 点击解析按钮
     scriptExecute(isInit = false) {
-      // if (isInit) {
-      //   this.getPramsList()
-      //   // 每次执行时只要有动态参数就会打开参数配置的弹窗进行设置
-      //   if (this.dataForm.config.paramsList && this.dataForm.config.paramsList.length && !isInit) {
-      //     this.openParamsSetDialog(true)
-      //   } else {
-      //     this.getData()
-      //   }
-      // } else {
-      //   // 点击解析时校验是否填写请求地址
-      //   if (this.dataForm.config.url) {
-      //     this.getPramsList()
-      //     // 每次执行时只要有动态参数就会打开参数配置的弹窗进行设置
-      //     if (this.dataForm.config.paramsList && this.dataForm.config.paramsList.length && !isInit) {
-      //       this.openParamsSetDialog(true)
-      //     } else {
-      //       this.getData()
-      //     }
-      //   } else {
-      //     this.$message.error('请输入请求地址')
-      //   }
-      // }
+      if (isInit) {
+        this.getPramsList()
+        // 每次执行时只要有动态参数就会打开参数配置的弹窗进行设置
+        if (this.dataForm.config.paramsList && this.dataForm.config.paramsList.length && !isInit) {
+          this.openParamsSetDialog(true)
+        } else {
+          this.getData()
+        }
+      } else {
+        // 点击解析时校验是否填写请求地址
+        if (this.dataForm.config.url) {
+          // this.getPramsList()
+          // 每次执行时只要有动态参数就会打开参数配置的弹窗进行设置
+          if (this.dataForm.config.paramsList && this.dataForm.config.paramsList.length && !isInit) {
+            this.openParamsSetDialog(true)
+          } else {
+            this.getData()
+          }
+        } else {
+          this.$message.error('请输入请求地址')
+        }
+      }
       // 点击解析时校验是否填写请求地址
       this.getData()
     },
     // 调接口
     getData() {
 
-      // // 如果是前端代理，则自行组装接口及参数并调接口
+      // 如果是前端代理，则自行组装接口及参数并调接口
       // if (this.dataForm.config.requestType === 'frontend') {
       //   // this.replaceParams(this.dataForm.config.paramsList)
       //   axiosFormatting({ ...this.dataForm.config, paramsList: this.newParamsList }).then((res) => {
@@ -878,12 +878,26 @@ export default {
         if (topic === produceTopic) {
           // 处理指定主题下的消息
           let JsonData = JSON.parse(data.toString());
-          console.log(JsonData);
-          this.dataPreviewList = JsonData.data && Array.isArray(JsonData.data) ? JsonData.data : [{ ...JsonData.data }]
+          this.dataPreviewList = JsonData 
+          if (this.dataForm.config.responseScript) {
+            // eslint-disable-next-line no-new-func
+            const getResp = new Function('resp', this.dataForm.config.responseScript)
+            let res=getResp(this.dataPreviewList)
+            this.dataPreviewList = res && Array.isArray(res) ? res : [{ ...res }]
+            // 获取数据后更新输出字段
+            // return Promise.resolve(this.dataPreviewList)
+            this.updateOoutputFieldList(this.dataPreviewList)
+            this.$message.success('脚本执行通过');
+            this.closeMqtt();
+          }else{
+            this.updateOoutputFieldList(this.dataPreviewList)
+            this.$message.success('脚本执行通过');
+            this.closeMqtt();
+          } 
           // 获取数据后更新输出字段
-          this.updateOoutputFieldList(this.dataPreviewList)
-          this.$message.success('脚本执行通过');
-          this.closeMqtt();
+          // this.updateOoutputFieldList(this.dataPreviewList)
+          // this.$message.success('脚本执行通过');
+          // this.closeMqtt();
           // _res = this.httpDataFormatting(res, [{ "data": JsonData.time }])
           // console.log('mqtt_res: ', _res);
           // config = this.dataFormatting(config, _res)
@@ -900,7 +914,7 @@ export default {
         console.log(error);
         // 未成功获取数据时，清空数据预览和输出字段
         this.dataPreviewList = []
-        this.updateOoutputFieldList(this.dataPreviewList)
+        // this.updateOoutputFieldList(this.dataPreviewList)
       })
     },
     updateOoutputFieldList(dataList) {

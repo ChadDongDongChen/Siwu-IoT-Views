@@ -21,7 +21,7 @@ const typeList = [
   "timeCountDown",
   "currentTime",
   "customHtml",
-  "iframeChart",
+  "iframeChart", 
   "digitalFlop",
   "tables",
   "screenScrollRanking",
@@ -43,6 +43,8 @@ const typeList = [
 ];
 let basicConfigList = [];
 basicConfigList = typeList.map((type) => {
+  console.log('getComponentConfig(type): ', getComponentConfig(type));
+
   return getComponentConfig(type);
 });
 basicConfigList = basicConfigList.map((item) => {

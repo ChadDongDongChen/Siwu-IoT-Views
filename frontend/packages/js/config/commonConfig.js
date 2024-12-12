@@ -55,6 +55,8 @@ export const displayOption = {
   }
 }
 export default function (customConfig) {
+
+ 
   return {
     ...getComponentConfig(customConfig.type),
     z: 0, // z轴图层支持
@@ -82,7 +84,7 @@ export default function (customConfig) {
       formCode: '',
       ...customConfig.dataSource // 非通用数据配置
     },
-    customize: {
+    customize: { 
       ...customConfig.customize
     }, // 自定义设置
     ...linkageConfig, // 数据联动配置

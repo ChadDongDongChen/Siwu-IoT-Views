@@ -4,7 +4,6 @@ import axios from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 export default function axiosFormatting (customConfig) {
   const newCustomConfig = replaceParams(customConfig)
-  console.log('customConfig: ', customConfig);
   // 将请求头和请求参数的值转化为对象形式
   const httpConfig = {
     timeout: 1000 * 30,
@@ -36,7 +35,7 @@ export default function axiosFormatting (customConfig) {
   /** 添加响应拦截器  **/
   instance.interceptors.response.use(response => {
     const resp = response.data
-    console.log('resp: ', resp);
+    // console.log('resp: ', resp);
     // 执行响应脚本
     if (newCustomConfig.responseScript) {
       // eslint-disable-next-line no-new-func
@@ -139,7 +138,6 @@ function evalArrFunc (paramsList, arr) {
   // 将字符串中的${}替换为变量, 使用eval执行
   eval('transformStr = `' + str + '`')
   const obj = JSON.parse(transformStr)
-  console.log('obj: ', obj);
 
   return obj
 }

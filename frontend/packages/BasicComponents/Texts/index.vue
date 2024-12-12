@@ -1,12 +1,7 @@
 <template>
-  <div
-    class="bs-design-wrap"
-    :class="`bs-text-${customTheme}`"
-  >
-    <div
-      class="content-box"
-      :style="{'text-align': config.customize.align,'letter-spacing': config.customize.letterSpacing +'px','font-family': config.customize.fontFamily,'font-size': config.customize.fontSize +'px','font-weight': +config.customize.fontWeight,'background-image': `-webkit-linear-gradient(${config.customize.color})`}"
-    >
+  <div class="bs-design-wrap" :class="`bs-text-${customTheme}`">
+    <div class="content-box" :key="domkey"
+      :style="{ 'text-align': config.customize.align, 'letter-spacing': config.customize.letterSpacing + 'px', 'font-family': config.customize.fontFamily, 'font-size': config.customize.fontSize + 'px', 'font-weight': +config.customize.fontWeight, 'background-image': `-webkit-linear-gradient(${config.customize.color})` }">
       {{ config.customize.title }}
     </div>
   </div>
@@ -26,20 +21,21 @@ export default {
       default: () => ({})
     }
   },
-  data () {
+  data() {
     return {
+      domkey: 0,
       customClass: {}
     }
   },
 
   computed: {
   },
-  mounted () {
+  mounted() {
     this.chartInit()
   },
   methods: {
     // 通过表达式计算得来的值
-    getDataByExpression (config) {
+    getDataByExpression(config) {
       // 如果表达式是由其他组件的值构成的
       // eslint-disable-next-line no-new-func
       try {
@@ -53,34 +49,67 @@ export default {
       // this.changeChartConfig(config)
       // }
     },
-    dataFormatting (config, data) { 
+    // dataFormatting(config, data) {
+    //   // 文本数据配置原则：选择数据集则以后端返回的数据为主，否则以设置面板中标题设置为准
+    //   if (config.dataSource.businessKey && config.dataSource.source === 'dataset') {
+    //     config.customize.title = data && data.data && data.data.length ? data.data[0][config.dataSource.metricField] : '暂无数据'
+    //     config.option.data = data && data.data && data.data.length ? data.data : []
+    //   }
+    //   this.domkey += 1;
+    //   return config
+    // }
+    dataFormatting(config, data) {
       // 文本数据配置原则：选择数据集则以后端返回的数据为主，否则以设置面板中标题设置为准
       if (config.dataSource.businessKey && config.dataSource.source === 'dataset') {
-        config.customize.title = data && data.data && data.data.length ? data.data[0][config.dataSource.metricField] : '暂无数据'
-        config.option.data = data && data.data && data.data.length ? data.data : []
+        if (data && data.data && data.data.length) {
+          let resp = data.data[0][config.dataSource.metricField];
+          config.option.data = data.data;
+          if (config.dataHandler) {
+            try {
+              // 此处函数处理data
+              eval(config.dataHandler)
+            } catch (e) {
+              console.info(e)
+            }
+          }
+         
+          // config.customize.title = resp;
+          config.customize.title = (typeof resp === 'string') ? resp : JSON.stringify(resp);
+        } else {
+          config.customize.title = '暂无数据';
+          config.option.data = [];
+        }
+      } else {
+        // 如果不是选择数据集的情况
+        config.customize.title = '暂无数据';
+        config.option.data = [];
       }
-      return config
+      this.domkey += 1;
+      return config;
     }
+
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../assets/fonts/numberFont/stylesheet.css";
-  .bs-design-wrap{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .content-box{
-    width: 100%;
-    text-align: center;
-    /* 将背景设为渐变 */
-    /*background-image: -webkit-linear-gradient(left, #6294F7, #C85D14);*/
-    /* 规定背景绘制区域 */
-    -webkit-background-clip: text;
-    /* 将文字隐藏 */
-    -webkit-text-fill-color: transparent;
-  }
+
+.bs-design-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-box {
+  width: 100%;
+  text-align: center;
+  /* 将背景设为渐变 */
+  /*background-image: -webkit-linear-gradient(left, #6294F7, #C85D14);*/
+  /* 规定背景绘制区域 */
+  -webkit-background-clip: text;
+  /* 将文字隐藏 */
+  -webkit-text-fill-color: transparent;
+}
 </style>

@@ -49,7 +49,7 @@
           }"
           class="content-right-second"
         >
-          {{ optionData }}
+          {{ indicatorData || 60 }}
           <span
             :style="{
               'margin-left':'10px',
@@ -82,7 +82,8 @@ export default {
   data () {
     return {
       imgUrl: require('data-room-ui/assets/images/cardImg/cardicon.png'),
-      customClass: {}
+      customClass: {},
+      indicatorData: 60
     }
   },
   watch: {},
@@ -126,6 +127,7 @@ export default {
         ...config.option,
         data: dataList
       }
+      this.indicatorData= config.option.data
       return config
     }
   }

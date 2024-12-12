@@ -175,14 +175,37 @@ export default {
               // 订阅指定主题
               let produceTopic = "STime";
               this.mqttClient.subscribe(produceTopic, (topic, data) => {
-                console.log(`收到主题 ${topic} 的消息`);
+                // console.log(`收到主题 ${topic} 的消息`);
+                // if (topic === produceTopic) {
+                //   // 处理收到的消息
+                //   let JsonData = JSON.parse(data.toString());
+                //   _res = this.httpDataFormatting(res, JsonData.data);
+                //   config = this.dataFormatting(config, _res);
+                //   // 每次数据更新后，重新渲染图表
+                //   this.chart.changeData(config.option.data);
+                // }
                 if (topic === produceTopic) {
                   // 处理收到的消息
                   let JsonData = JSON.parse(data.toString());
-                  _res = this.httpDataFormatting(res, JsonData.data);
+                  if (res.data.responseScript) {
+                    // eslint-disable-next-line no-new-func
+                    const getResp = new Function('resp', res.data.responseScript)
+                    let resData=getResp(JsonData)
+                    let lastRes = res && Array.isArray(resData) ? resData : [{ ...resData }]
+                    _res = this.httpDataFormatting(res, lastRes);
+                  }else{
+                    _res = this.httpDataFormatting(res, JsonData);
+                  } 
                   config = this.dataFormatting(config, _res);
                   // 每次数据更新后，重新渲染图表
-                  this.chart.changeData(config.option.data);
+                  // this.chart.changeData(config.option.data);
+                  if (this.chart && this.chart.changeData) {
+                    try {
+                      this.chart.changeData(config.option.data);
+                    } catch (error) {
+                      console.log("Error changing data:", error);
+                    }
+                  }
                 }
               });
             }
@@ -277,14 +300,28 @@ export default {
               // 订阅指定主题
               let produceTopic = "STime";
               this.mqttClient.subscribe(produceTopic, (topic, data) => {
-                console.log(`收到主题 ${topic} 的消息`);
                 if (topic === produceTopic) {
                   // 处理收到的消息
                   let JsonData = JSON.parse(data.toString());
-                  _res = this.httpDataFormatting(res, JsonData.data);
+                  if (res.data.responseScript) {
+                    // eslint-disable-next-line no-new-func
+                    const getResp = new Function('resp', res.data.responseScript)
+                    let resData=getResp(JsonData)
+                    let lastRes = res && Array.isArray(resData) ? resData : [{ ...resData }]
+                    _res = this.httpDataFormatting(res, lastRes);
+                  }else{
+                    _res = this.httpDataFormatting(res, JsonData);
+                  } 
                   config = this.dataFormatting(config, _res);
                   // 每次数据更新后，重新渲染图表
-                  this.chart.changeData(config.option.data);
+                  // this.chart.changeData(config.option.data);
+                  if (this.chart && this.chart.changeData) {
+                    try {
+                      this.chart.changeData(config.option.data);
+                    } catch (error) {
+                      console.log("Error changing data:", error);
+                    }
+                  }
                 }
               });
             }
@@ -292,7 +329,6 @@ export default {
 
             if (res.data.datasetType === 'http') {
               _res = await axiosFormatting(res.data)
-              console.log('await axiosFormatting_res: ', _res);
               _res = this.httpDataFormatting(res, _res)
 
             }

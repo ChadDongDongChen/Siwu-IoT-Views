@@ -30,7 +30,7 @@ function getEchartsList (files) {
       w: config?.option?.width || 450,
       h: config?.option?.height || 320,
       x: 0,
-      y: 0,
+      y: 0, 
       rotateX: config.rotateX || 0,
       rotateY: config.rotateY || 0,
       rotateZ: config.rotateZ || 0,

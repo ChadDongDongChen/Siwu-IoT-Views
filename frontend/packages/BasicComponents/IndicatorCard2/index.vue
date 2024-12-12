@@ -39,7 +39,7 @@
             'font-weight':customize.secondWeight,
           }"
         >
-          {{ optionData }}
+          {{ indicatorData || 70}}
         </span>
         <span
           :style="{
@@ -73,6 +73,7 @@ export default {
   },
   data () {
     return {
+      indicatorData: 0,
       customClass: {}
     }
   },
@@ -129,6 +130,8 @@ export default {
         ...config.option,
         data: dataList
       }
+
+      this.indicatorData= config.option.data
       return config
     }
   }

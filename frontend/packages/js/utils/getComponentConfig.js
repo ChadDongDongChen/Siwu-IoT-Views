@@ -11,9 +11,10 @@ export default function getComponentConfig(type) {
           "com.gccloud.dataroom.core.module.chart.components.ScreenTextChart",
         w: 200,
         h: 60,
-        x: 0,
+        x: 0, 
         y: 0,
         type,
+        dataHandler: {}, // 数据自定义处理js脚本
       };
     case "numbers":
       return {

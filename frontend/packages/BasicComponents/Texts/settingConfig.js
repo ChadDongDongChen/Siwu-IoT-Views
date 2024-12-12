@@ -11,7 +11,7 @@ export const settingConfig = {
   data: [],
   text: '文本标签占位符', // text内容
   // 设置面板属性的显隐
-  displayOption: {
+  displayOption: { 
     ...displayOption,
     metricField: {
       // 指标
@@ -60,10 +60,14 @@ const customConfig = {
     fontFamily: '', // 字体类型
     color: 'left,#ffffff,#ffffff',
     align: 'center', // 文字对齐方式
-    letterSpacing: 1// 文字间距
-  }
+    letterSpacing: 1,// 文字间距
 
+  },
+  
 }
+const dataHandler = 'data = data[0]'
+
 export const dataConfig = {
-  ...commonConfig(customConfig)
+  ...commonConfig(customConfig),
+   dataHandler,
 }

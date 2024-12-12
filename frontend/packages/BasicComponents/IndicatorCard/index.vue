@@ -1,54 +1,37 @@
 <template>
-  <div
-    :class="`bs-indexCard`"
-    style="width: 100%;height: 100%;position: relative;"
-  >
-    <div
-      :style="{
-        'background-image': `linear-gradient(${customize.gradientDirection}, ${
-          gradientColor0 ? gradientColor0 : gradientColor1
+  <div :class="`bs-indexCard`" style="width: 100%;height: 100%;position: relative;">
+    <div :style="{
+      'background-image': `linear-gradient(${customize.gradientDirection}, ${gradientColor0 ? gradientColor0 : gradientColor1
         } , ${gradientColor1 ? gradientColor1 : gradientColor0})`,
-        'border-radius':customize.borderRadius + 'px',
-        border:`${customize.borderWidth}px solid ${customize.borderColor}`,
-      }"
-      class="content"
-    >
-      <div
-        class="content-right-first"
-        :style="{
-          'height': customize.firstSize + 'px',
-        }"
-      >
-        <span
-          :style="{
-            'font-family': config.customize.fontFamily,
-            'font-size': customize.firstSize + 'px',
-            color:customize.firstColor,
-            'font-weight':customize.firstWeight,
-            'margin-bottom':customize.lineDistance +'px'
-          }"
-        >{{ optionData }}</span>
-        <span
-          :style="{
-            'margin-left':'10px',
-            'font-size': customize.unitSize + 'px',
-            'line-height':customize.unitSize + 'px',
-            color:customize.unitColor,
-            'margin-bottom':customize.lineDistance +'px'
-          }"
-        >
+      'border-radius': customize.borderRadius + 'px',
+      border: `${customize.borderWidth}px solid ${customize.borderColor}`,
+    }" class="content">
+      <div class="content-right-first" :style="{
+        'height': customize.firstSize + 'px',
+      }">
+        <span  :style="{
+          'font-family': config.customize.fontFamily,
+          'font-size': customize.firstSize + 'px',
+          color: customize.firstColor,
+          'font-weight': customize.firstWeight,
+          'margin-bottom': customize.lineDistance + 'px'
+        }">{{ indicatorData || 90 }}</span>
+        <span :style="{
+          'margin-left': '10px',
+          'font-size': customize.unitSize + 'px',
+          'line-height': customize.unitSize + 'px',
+          color: customize.unitColor,
+          'margin-bottom': customize.lineDistance + 'px'
+        }">
           {{ unit }}
         </span>
       </div>
-      <div
-        :style="{
-          'font-size': customize.secondSize + 'px',
-          'height':customize.secondSize + 'px',
-          color:customize.secondColor,
-          'font-weight':customize.secondWeight,
-        }"
-        class="content-right-second"
-      >
+      <div :style="{
+        'font-size': customize.secondSize + 'px',
+        'height': customize.secondSize + 'px',
+        color: customize.secondColor,
+        'font-weight': customize.secondWeight,
+      }" class="content-right-second">
         {{ customize.secondLine }}
       </div>
     </div>
@@ -70,32 +53,33 @@ export default {
       default: () => ({})
     }
   },
-  data () {
+  data() {
     return {
+      indicatorData: 90,
       customClass: {}
     }
   },
   watch: {},
-  mounted () {
+  mounted() {
     // this.chartInit()
   },
   computed: {
-    gradientColor0 () {
+    gradientColor0() {
       return this.config.customize.gradientColor0 || this.config.customize.gradientColor1 || 'transparent'
     },
-    gradientColor1 () {
+    gradientColor1() {
       return this.config.customize.gradientColor1 || this.config.customize.gradientColor0 || 'transparent'
     },
-    unit () {
+    unit() {
       return this.config?.customize.unit || ''
     },
-    option () {
+    option() {
       return this.config?.option
     },
-    optionData () {
-      return this.option?.data ?? 80
+    optionData() {
+      return this.option?.data ?? 90
     },
-    customize () {
+    customize() {
       return this.config?.customize
     }
     // tableData () {
@@ -111,7 +95,7 @@ export default {
     // }
   },
   methods: {
-    dataFormatting (config, data) {
+    dataFormatting(config, data) {
       let dataList = ''
       if (data.success) {
         if (data.data instanceof Array) {
@@ -122,12 +106,13 @@ export default {
           dataList = data.data[config.dataSource.dimensionField]
         }
       } else {
-        dataList = 80
+        dataList = 90
       }
       config.option = {
         ...config.option,
         data: dataList
       }
+      this.indicatorData= config.option.data
       return config
     }
   }
@@ -136,21 +121,24 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/fonts/numberFont/stylesheet.css";
-.content{
+
+.content {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
   text-align: center;
   justify-content: center;
-  .content-right-first{
+
+  .content-right-first {
     display: flex;
     justify-content: center;
     align-items: center;
     // width: 100%;
     // text-align: center;
   }
-  .content-right-second{
+
+  .content-right-second {
     width: 100%;
     text-align: center;
   }

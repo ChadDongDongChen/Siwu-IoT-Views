@@ -36,7 +36,7 @@
             </el-form-item>
           </div>
         </div>
-        <div v-if="['customComponent', 'marquee', 'echartsComponent'].includes(config.type)"
+        <div v-if="['texts','customComponent', 'marquee', 'echartsComponent'].includes(config.type)"
           class="data-setting-data-box">
           <div class="lc-field-head">
             <div class="lc-field-title">
@@ -57,7 +57,7 @@
             <div class="lc-field-title">
               数据配置
             </div>
-          </div>
+          </div> 
           <!--  基础组件数据配置  -->
           <template
             v-if="!['customComponent', 'remoteComponent', 'echartsComponent', 'candlestick'].includes(config.type)">
@@ -151,7 +151,7 @@
                     </div>
                     <div class="option-txt">
                       {{ field.name }}
-                    </div>
+                    </div> 
                   </div>
                 </el-option>
               </el-select>
