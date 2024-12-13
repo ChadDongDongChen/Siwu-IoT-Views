@@ -5,9 +5,9 @@ import getComponentConfig from "data-room-ui/js/utils/getConfigurationComponents
 import { setModules, dataModules } from "data-room-ui/js/utils/configImport";
 
 const typeLIst = [
-  "decoration1",
-  "configuration1",
-  "configuration2",
+  // "decoration1",
+  // "configuration1",
+  // "configuration2",
   "horizontalLine2",
   "verticalLine2",
   "light",
