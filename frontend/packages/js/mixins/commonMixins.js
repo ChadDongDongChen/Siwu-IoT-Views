@@ -173,7 +173,7 @@ export default {
               // 连接到 MQTT broker
               this.mqttClient.connect();
               // 订阅指定主题
-              let produceTopic = "STime";
+               let produceTopic = res.data.topic;
               this.mqttClient.subscribe(produceTopic, (topic, data) => {
                 // console.log(`收到主题 ${topic} 的消息`);
                 // if (topic === produceTopic) {
@@ -298,7 +298,7 @@ export default {
               // 连接到 MQTT broker
               this.mqttClient.connect();
               // 订阅指定主题
-              let produceTopic = "STime";
+               let produceTopic = res.data.topic;
               this.mqttClient.subscribe(produceTopic, (topic, data) => {
                 if (topic === produceTopic) {
                   // 处理收到的消息

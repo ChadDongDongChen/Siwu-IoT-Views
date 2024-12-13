@@ -62,6 +62,8 @@ export default {
       // 文本数据配置原则：选择数据集则以后端返回的数据为主，否则以设置面板中标题设置为准
       if (config.dataSource.businessKey && config.dataSource.source === 'dataset') {
         if (data && data.data && data.data.length) {
+          console.log('data.data : ', data.data );
+         
           let resp = data.data[0][config.dataSource.metricField];
           config.option.data = data.data;
           if (config.dataHandler) {

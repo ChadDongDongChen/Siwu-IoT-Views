@@ -8,45 +8,7 @@ export default function getComponentConfig(type, classNameType) {
   const className =
     "com.gccloud.dataroom.core.module.chart.components.ScreenConfigurationChart";
   switch (type) {
-    case "decoration1":
-      return {
-        name: "发行对象",
-        title: "发行对象",
-        img: require("data-room-ui/Decorations/images/01.png"),
-        component: null,
-        className,
-        w: 350,
-        h: 50,
-        x: 0,
-        y: 0,
-        type,
-      };
-    case "configuration1":
-      return {
-        name: "过滤器",
-        title: "过滤器",
-        img: require("data-room-ui/Configuration/images/11.png"),
-        component: null,
-        className,
-        w: 150,
-        h: 250,
-        x: 0,
-        y: 0,
-        type,
-      };
-    case "configuration2":
-      return {
-        name: "电机",
-        title: "电机",
-        img: require("data-room-ui/Configuration/images/12.png"),
-        component: null,
-        className,
-        w: 300,
-        h: 125,
-        x: 0,
-        y: 0,
-        type,
-      };
+   
     case "horizontalLine2":
       return {
         name: "水平线2",
@@ -75,18 +37,19 @@ export default function getComponentConfig(type, classNameType) {
         y: 0,
         type,
       };
-    case "light":
+    case "warning":
       return {
-        name: "状态灯",
-        title: "状态灯",
+        name: "告警灯",
+        title: "告警灯",
         icon: Icon.getNameList()[37],
-        component: null,
-        className,
-        w: 200,
-        h: 200,
-        x: 0,
-        y: 0,
+        className:
+          "com.gccloud.dataroom.core.module.chart.components.ScreenTextChart",
+          w: 200,
+          h: 200,
+          x: 0,
+          y: 0,
         type,
+        dataHandler: {}, // 数据自定义处理js脚本
       };
     default:
       return {};
