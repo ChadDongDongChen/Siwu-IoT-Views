@@ -14,7 +14,7 @@
 
 ## 🎉 特别鸣谢：
 > 感谢开源项目 RuoYi-Vue 3.8.8 和 Dataroom 2.0.0 的作者们，他们为本项目提供了如此优秀的技术支持。
-> RuoYi-Vue 3.8.8 项目地址：https://gitee.com/y_project/RuoYi-Vue
+> RuoYi-Vue 3.8.8 项目地址：https://gitee.com/y_project/RuoYi-Vue  
 > Dataroom 2.0.0  项目地址：https://gitee.com/gcpaas/DataRoom
 
 
