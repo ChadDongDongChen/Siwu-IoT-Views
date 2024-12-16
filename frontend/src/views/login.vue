@@ -1,6 +1,13 @@
 <template>
   <div class="login" v-if="showStatus">
+    <!-- <div class='logo-img'>
 
+      
+      <img 
+        style=" width: 200px; height: 200px;" 
+        src="@/assets/images/肆物联云.svg" 
+        class=" el-image__inner">
+    </div> -->
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
       <div style='
      width: 100%;display: flex;
@@ -40,7 +47,15 @@
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
       </el-form-item>
-      <el-divider content-position="center">SiWU-IoT-VIEWS</el-divider>
+      <el-divider content-position="center">获取演示账号</el-divider>
+      <div 
+      style=" width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px; " 
+      class="el-image">
+        <img 
+        style=" width: 200px; height: 200px;" 
+        :src="gzh" 
+        class=" el-image__inner">
+      </div>
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
@@ -58,11 +73,13 @@ export default {
   name: "Login",
   data() {
     return {
+      gzh: require('../assets/images/gzh.jpg'),
+      log: require('../assets/images/肆物联云.svg'),
       showStatus: true,
       codeUrl: "",
       loginForm: {
-        username: "Test",
-        password: "test123",
+        username: "",
+        password: "",
         rememberMe: false,
         code: "",
         uuid: ""
@@ -193,6 +210,11 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
+.logo-img{
+position: absolute;
+top: 1%;
+left: 1%;
+}
 .login {
   display: flex;
   justify-content: flex-end;

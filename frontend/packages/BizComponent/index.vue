@@ -374,10 +374,12 @@ export default {
         } else {
           this.form.coverPicture = dataUrl
         }
+
       } else {
         this.$message.warning('保存封面失败，将使用上次保存的封面')
         this.form.coverPicture = this.initialCoverPicture
       }
+
       updateBizComponent(this.form).then(() => {
         this.$message({
           message: '保存成功',

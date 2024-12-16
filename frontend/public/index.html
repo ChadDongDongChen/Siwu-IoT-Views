@@ -7,13 +7,22 @@
   <meta name="renderer" content="webkit">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title>
+  <title> 
     <%= webpackConfig.name %>
   </title>
+  <!-- 引入 Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <!-- 引入 GLTFLoader -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- 引入 RGBELoader 用于加载 HDR -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/RGBELoader.js"></script>
+  <!-- 引入 OrbitControls -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+</head>
   <!-- 使用CDN的JS文件 -->
-  <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
+  <!-- <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
     <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
-    <% } %>
+    <% } %> -->
       <!--[if lt IE 11]><script>window.location.href='/html/ie.html';</script><![endif]-->
       <style>
         html,
@@ -373,13 +382,6 @@
 
 <body>
   <div id="app">
-    <!-- <div id="loader-wrapper">
-		    <div id="loader"></div>
-		    <div class="loader-section section-left"></div>
-		    <div class="loader-section section-right"></div>
-		    <div class="load_title">正在加载系统资源，请耐心等待</div>
-        </div> -->
-
     <div class="Loading_box">
       <div class='Loading_title_cn'>正在加载系统资源，请耐心等待</div>
       <div class='Loading_title_en'>Loading system resources, please be patient</div>

@@ -56,7 +56,9 @@ public class BizComponentServiceImpl extends ServiceImpl<DataRoomBizComponentDao
             if (StringUtils.isBlank(entity.getCoverPicture())) {
                 continue;
             }
-            entity.setCoverPicture(urlPrefix + entity.getCoverPicture().replace("\\", "/"));
+
+//            entity.setCoverPicture(urlPrefix + entity.getCoverPicture().replace("\\", "/"));
+            entity.setCoverPicture(PathUtils.normalizePath(entity.getCoverPicture()));
         }
         return page;
     }
