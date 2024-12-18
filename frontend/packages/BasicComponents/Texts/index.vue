@@ -75,7 +75,7 @@ export default {
           }
           config.customize.title = (typeof resp === 'string') ? resp : JSON.stringify(resp);
         } else {
-          config.customize.title = '暂无数3据';
+          config.customize.title = '暂无数据';
           config.option.data = [];
         }
       }
