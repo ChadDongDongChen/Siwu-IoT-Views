@@ -52,13 +52,13 @@ module.exports = {
         '@gcpaas/data-room-ui': resolve('packages/index.js')
       }
     },
-    externals: {
-      'three': 'THREE',
-      'GLTFLoader': 'GLTFLoader',
-      'OrbitControls': 'OrbitControls',
-      'RGBELoader': 'RGBELoader',
-      'Sky': 'Sky'
-    },
+    // externals: {
+    //   'three': 'THREE',
+    //   'GLTFLoader': 'GLTFLoader',
+    //   'OrbitControls': 'OrbitControls',
+    //   'RGBELoader': 'RGBELoader',
+    //   'Sky': 'Sky'
+    // },
     module: {
       rules: [
         {
