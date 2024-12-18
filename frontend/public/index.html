@@ -10,20 +10,12 @@
   <title> 
     <%= webpackConfig.name %>
   </title>
-  <!-- 引入 Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-  <!-- 引入 GLTFLoader -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
-  <!-- 引入 RGBELoader 用于加载 HDR -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/RGBELoader.js"></script>
-  <!-- 引入 OrbitControls -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://vip.123pan.cn/1842051082/JS-CDN/three/build/three.min.js"></script>
+  <script src="https://vip.123pan.cn/1842051082/JS-CDN/three/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://vip.123pan.cn/1842051082/JS-CDN/three/examples/js/loaders/RGBELoader.js"></script>
+  <script src="https://vip.123pan.cn/1842051082/JS-CDN/three/examples/js/controls/OrbitControls.js"></script>
+  
 </head>
-  <!-- 使用CDN的JS文件 -->
-  <!-- <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
-    <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
-    <% } %> -->
-      <!--[if lt IE 11]><script>window.location.href='/html/ie.html';</script><![endif]-->
       <style>
         html,
         body,
