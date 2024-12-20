@@ -196,7 +196,7 @@ export default {
     this.initList()
     this.g2PlotComponents = [...this.g2PlotComponents, ...getCustomPlots()]
     this.menuList[1].components = this.g2PlotComponents
-    this.menuList[6].components = this.echartsComponents
+    this.menuList[6].components = [...this.echartsComponents,...getCustomPlots()]
   },
   mounted() {
     this.nodeDrag()

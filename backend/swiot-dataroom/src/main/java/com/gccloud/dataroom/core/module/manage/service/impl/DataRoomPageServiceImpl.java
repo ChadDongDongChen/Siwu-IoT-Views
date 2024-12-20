@@ -241,7 +241,8 @@ public class DataRoomPageServiceImpl extends ServiceImpl<DataRoomPageDao, PageEn
             // 说明过滤掉了一些, 按照过滤后的编码查询
             reQueryWrapper.in(PageEntity::getCode, filterByPermission);
         }
-        reQueryWrapper.select(PageEntity::getId, PageEntity::getAppCode, PageEntity::getCode, PageEntity::getName, PageEntity::getParentCode, PageEntity::getOrderNum, PageEntity::getCoverPicture, PageEntity::getUpdateDate);
+        //在这后面添加字段可以决定返回的接口数据
+        reQueryWrapper.select(PageEntity::getId, PageEntity::getAppCode, PageEntity::getCode, PageEntity::getName, PageEntity::getParentCode, PageEntity::getOrderNum, PageEntity::getCoverPicture, PageEntity::getUpdateDate,PageEntity::getCreateBy,PageEntity::getUpdateBy,PageEntity::getCreateDate);
         // 优先序号升序，其次创建时间降序
         reQueryWrapper.orderByAsc(PageEntity::getOrderNum);
         reQueryWrapper.orderByDesc(PageEntity::getCreateDate);

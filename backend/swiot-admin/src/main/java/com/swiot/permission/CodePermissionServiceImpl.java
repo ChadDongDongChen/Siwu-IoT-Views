@@ -1,16 +1,12 @@
 package com.swiot.permission;
 
 import com.gccloud.dataroom.core.permission.IDataRoomPermissionService;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.swiot.permission.service.CodeBigScreenPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.swiot.common.utils.SecurityUtils.getUsername;
 
@@ -23,16 +19,28 @@ import static com.swiot.common.utils.SecurityUtils.getUsername;
 public class CodePermissionServiceImpl implements IDataRoomPermissionService {
     @Autowired
     private CodeBigScreenPageService bigScreenPageService;
+
     /**
      * 在大屏分页查询时会调用，可在该方法中根据用户标识到关联表中查询出用户有权限的大屏编码列表，
      * 然后根据该列表将入参的大屏编码列表过滤，只保留有权限的部分
      */
     @Override
     public List<String> filterByPermission(List<String> allCode) {
+
         // 入参allCode是原先符合大屏查询条件的大屏code列表
-        // 模拟根据当前用户有权限的大屏编码列表过滤allCode，需要根据实际情况自行实现
         List<String> res = bigScreenPageService.getUserDataRoomCodeListByCreateBy(getUsername());
-        allCode.retainAll(res);
+        List<String> res_share = bigScreenPageService.getUserDataRoomCodeListFromShareByCreateBy(getUsername());
+        //如果 res 或 res_share 为空，则可以直接返回 allCode
+        if (res == null || res_share == null || allCode == null) {
+            return allCode;
+        }
+        //使用 LinkedHashSet 来保持插入顺序
+        Set<String> mergedSet = new LinkedHashSet<>();
+        mergedSet.addAll(res);
+        mergedSet.addAll(res_share);
+        // 转换回 List
+        List<String> mergedList = new ArrayList<>(mergedSet);
+        allCode.retainAll(mergedList);
         return allCode;
     }
 

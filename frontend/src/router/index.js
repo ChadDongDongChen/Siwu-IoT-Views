@@ -74,12 +74,25 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('data-room-ui/BigScreenMag'),
+        component: () => import('@/views/overview/index'),
         name: 'Index',
-        meta: { title: '项目管理', icon: 'dashboard' ,breadcrumb: false }
+        meta: { title: '平台概览', icon: 'dashboard' ,breadcrumb: false }
       }
     ]
-  },    
+  },  
+  {
+    path: '',
+    component: Layout,
+    redirect: 'index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/overview/index'),
+        name: 'overviews',
+        meta: { title: '平台概览', icon: 'clipboard',breadcrumb: false  }
+      }
+    ]
+  },  
   {
     path: '',
     component: Layout,

@@ -1,19 +1,11 @@
 <template>
   <div class="login" v-if="showStatus">
-    <!-- <div class='logo-img'>
-
-      
-      <img 
-        style=" width: 200px; height: 200px;" 
-        src="@/assets/images/肆物联云.svg" 
-        class=" el-image__inner">
-    </div> -->
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
       <div style='
      width: 100%;display: flex;
      justify-content: center;
      align-items: center;'>
-        <img src="../../src/assets/logo/logo1.png" height="200px" width="200px" alt="">
+        <img src="../../src/assets/logo/logo1.png" class="img-logo" alt="">
       </div>
       <h3 class="title">SiWU-IoT-VIEWS</h3>
       <el-form-item prop="username">
@@ -48,13 +40,9 @@
         </div>
       </el-form-item>
       <el-divider content-position="center">获取演示账号</el-divider>
-      <div 
-      style=" width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px; " 
-      class="el-image">
-        <img 
-        style=" width: 200px; height: 200px;" 
-        :src="gzh" 
-        class=" el-image__inner">
+      <div style=" width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px; "
+        class="el-image">
+        <img class="img-logo" :src="gzh">
       </div>
     </el-form>
     <!--  底部  -->
@@ -62,7 +50,97 @@
       <span>Copyright © 2018-2024 All Rights Reserved.</span>
     </div>
   </div>
+
 </template>
+<style rel="stylesheet/scss" lang="scss">
+.img-logo {
+  width: 10vw;
+  height: 20vh;
+}
+
+.login {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  background-image: url("../assets/images/loginbk.jpg");
+  background-size: 100% 100%;
+}
+
+.title {
+  margin: 2vh auto 4vh auto;
+  text-align: center;
+  color: #707070;
+  font-size: 4vh;
+  font-weight: bold;
+}
+
+
+.login-form {
+
+  background: #ffffff;
+  width: 25vw;
+  height: 100vh;
+  padding: 5vh 6vh 5vh 6vh;
+
+  .el-input {
+    height: 4vh;
+
+    input {
+      height: 4vh;
+    }
+  }
+
+  .input-icon {
+    height: 4vh;
+    width: 1vh;
+    margin-left: 2px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-form {
+    width: 100VW;
+    padding: 20px 10px;
+    padding: 5vh 6vh 5vh 6vh;
+  }
+
+  .img-logo {
+    width: 40vw;
+    height: 20vh;
+  }
+}
+
+.login-tip {
+  font-size: 13px;
+  text-align: center;
+  color: #bfbfbf;
+}
+
+.login-code {
+  width: 33%;
+  height: 38px;
+  float: right;
+
+  img {
+    cursor: pointer;
+    vertical-align: middle;
+  }
+}
+
+.el-login-footer {
+  height: 4vh;
+  line-height: 4vh;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-family: Arial;
+  font-size: 1vh;
+  letter-spacing: 1px;
+}
+</style>
 
 <script>
 import { getCodeImg } from "@/api/login";
@@ -208,91 +286,3 @@ export default {
   }
 };
 </script>
-
-<style rel="stylesheet/scss" lang="scss">
-.logo-img{
-position: absolute;
-top: 1%;
-left: 1%;
-}
-.login {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 100%;
-  background-image: url("../assets/images/loginbk.jpg");
-  background-size: 100% 100%;
-}
-
-.title {
-  margin: 10vh auto 30px auto;
-  text-align: center;
-  color: #707070;
-  font-size: 30px;
-  font-weight: bold;
-}
-
-
-.login-form {
-
-  background: #ffffff;
-  width: 480px;
-  height: 100%;
-  padding: 25px 50px 5px 50px;
-
-  .el-input {
-    height: 38px;
-
-    input {
-      height: 38px;
-    }
-  }
-
-  .input-icon {
-    height: 39px;
-    width: 14px;
-    margin-left: 2px;
-  }
-}
-
-@media (max-width: 768px) {
-  .login-form {
-    width: 100VW;
-    padding: 20px 10px;
-  }
-}
-
-.login-tip {
-  font-size: 13px;
-  text-align: center;
-  color: #bfbfbf;
-}
-
-.login-code {
-  width: 33%;
-  height: 38px;
-  float: right;
-
-  img {
-    cursor: pointer;
-    vertical-align: middle;
-  }
-}
-
-.el-login-footer {
-  height: 40px;
-  line-height: 40px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  color: #fff;
-  font-family: Arial;
-  font-size: 12px;
-  letter-spacing: 1px;
-}
-
-.login-code-img {
-  height: 38px;
-}
-</style>
