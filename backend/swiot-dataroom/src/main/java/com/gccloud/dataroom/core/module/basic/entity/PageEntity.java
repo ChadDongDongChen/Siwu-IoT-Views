@@ -60,14 +60,4 @@ public class PageEntity extends SuperEntity implements Serializable {
 
     @ApiModelProperty(notes = "所属应用编码")
     private String appCode;
-
-//    @TableField( fill = FieldFill.INSERT,updateStrategy = FieldStrategy.NEVER)
-//    @ApiModelProperty(notes = "创建时间")
-//    private Date create_date;
-//
-//    @TableField(fill = FieldFill.INSERT_UPDATE)
-//    @ApiModelProperty(notes = "更新时间")
-//    private Date update_date;
-
-
 }
