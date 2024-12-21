@@ -190,55 +190,8 @@ export default {
   created() {
     this.getCode();
     this.getCookie();
-    this.autoAuth();
   },
   methods: {
-    autoAuth() {
-      console.log('this.redirect: ', this.redirect);
-      const inputString = this.redirect
-      const regex = /[?&](clientId|clientSecret)=([^&]*)/g;
-
-      let match;
-      const params = {};
-
-      // 使用正则表达式查找匹配的部分
-      while ((match = regex.exec(inputString)) !== null) {
-        params[match[1]] = match[2];
-      }
-
-      // 输出提取的参数
-      console.log(params);
-
-      // 如果包含 clientId 和 clientSecret，显示它们的值
-      if (params.clientId && params.clientSecret) {
-        console.log("clientId:", params.clientId);
-        console.log("clientSecret:", params.clientSecret);
-        this.showStatus = false;
-        this.loginForm.username = params.clientId;
-        this.loginForm.password = encrypt(params.clientSecret);
-        this.loading = true;
-        this.$store.dispatch("Login", this.loginForm).then(() => {
-          this.$router.push({ path: this.redirect || "/" }).catch(() => { });
-        }).catch(() => {
-          this.loading = false;
-        });
-      } else {
-        console.log("clientId 或 clientSecret 不存在");
-      }
-      // const clientId = this.$route.query.clientId;
-      // const clientSecret = this.$route.query.clientSecret;
-      // if (clientId && clientSecret) {
-      //   this.showStatus = false;
-      //   this.loginForm.username = clientId;
-      //   this.loginForm.password = encrypt(clientSecret);
-      //   this.loading = true;
-      //   this.$store.dispatch("Login", this.loginForm).then(() => {
-      //     this.$router.push({ path: this.redirect || "/" }).catch(() => { });
-      //   }).catch(() => {
-      //     this.loading = false;
-      //   });
-      // }
-    },
     getCode() {
       getCodeImg().then(res => {
         this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;

@@ -142,7 +142,7 @@ function registerRouters (config, router) {
 // 注册配置
 function registerTheme (config) {
   const defaultTheme = {
-    '--db-background-appmain': '#151a26',
+    '--db-background-appmain': '#f0f2f5',
     '--bs-el-color-primary': '#409EFF', // elment-ui主题色，激活
     '--bs-background-1': '#151a26', // 整体背景色
     '--bs-background-2': '#232832', // 布局背景色

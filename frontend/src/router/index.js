@@ -66,7 +66,34 @@ export const constantRoutes = [
     component: () => import('@/views/error/401'),
     hidden: true
   },
-  {
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'index',
+  //   hidden: true ,   
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/overview/index'),
+  //       name: 'Index',
+  //       meta: { title: '平台概览', icon: 'dashboard' ,breadcrumb: false }
+  //     }
+  //   ]
+  // },  
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'index',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/overview/index'),
+  //       name: 'overviews',
+  //       meta: { title: '平台概览', icon: 'clipboard',breadcrumb: false  }
+  //     }
+  //   ]
+  // },  
+    {
     path: '',
     component: Layout,
     redirect: 'index',
@@ -74,22 +101,9 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/overview/index'),
+        component: () => import('data-room-ui/BigScreenMag'),
         name: 'Index',
-        meta: { title: '平台概览', icon: 'dashboard' ,breadcrumb: false }
-      }
-    ]
-  },  
-  {
-    path: '',
-    component: Layout,
-    redirect: 'index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/overview/index'),
-        name: 'overviews',
-        meta: { title: '平台概览', icon: 'clipboard',breadcrumb: false  }
+        meta: { title: '项目管理', icon: 'dashboard' ,breadcrumb: false }
       }
     ]
   },  

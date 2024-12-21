@@ -1,5 +1,5 @@
 import Vue from 'vue'
-
+import axios from 'axios'
 import Cookies from 'js-cookie'
 import promise from 'es6-promise'
 import Element from 'element-ui'
@@ -13,7 +13,7 @@ import router from './router'
 import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
 import './assets/css/font.css'
 import './assets/icons' // icon
 import './permission' // permission control
@@ -46,6 +46,10 @@ import customDatasetComponents from '@/customDatasetComponents/exports.js'
 import remoteComponents from '@/remoteComponents/exports'
 import { Column } from '@antv/g2plot'
 
+
+import { encrypt } from '@/utils/jsencrypt';
+import { getToken, setToken } from '@/utils/auth'
+import { getQueryParam } from '@/utils/queryTools'
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
 Vue.prototype.getConfigKey = getConfigKey
@@ -103,10 +107,10 @@ registerConfig(
       baseURL: process.env.NODE_ENV === 'production' ? '/prod-api' : '/dev-api',
       fileUrlPrefix: process.env.NODE_ENV === 'production' ? '/prod-api/static' : '/dev-api/static',
       //添加若依的token
-      headers: { 
+      headers: {
         AuthToken: 'Bearer ' + getToken()
       }
-    }, 
+    },
     customTheme: {
       '--db-background-header': '#007aff', // 头部颜色
       '--db-background-leftPanel': '#eef2f7', // 左侧组件栏背景色
@@ -120,7 +124,6 @@ registerConfig(
       '--db-el-text': '#36474f', // 一般字体颜色
       '--db-el-color-primary': '#409EFF', // elment-ui主题色，激活
       '--db-el-border': 'transparent' // 边框颜色
-      
     },
     // 允许上传的资源库文件类型
     sourceExtends: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'ico', 'xls', 'xlsx', 'csv'],
@@ -157,9 +160,49 @@ Vue.use(Element, {
 
 Vue.config.productionTip = false
 Vue.prototype.$dataRoomAxios = $dataRoomAxios
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
+
+
+
+const clientId = getQueryParam('clientId');
+const clientSecret = getQueryParam('clientSecret');
+if (clientId && clientSecret) {
+  try {
+    axios({
+      baseURL: process.env.VUE_APP_BASE_API,  // 从环境变量中获取基础 URL
+      url: '/login',  // 登录接口地址
+      method: 'post',  // HTTP 方法
+      headers: {
+        isToken: false,  // 假设登录时不需要 token
+        repeatSubmit: false  // 是否允许重复提交
+      },
+      data: {
+        username: clientId,  // 客户端 ID
+        password: encrypt(clientSecret)  // 客户端密钥
+      }  // 请求体数据
+    }).then(response => {
+      // 将 token 存储到本地存储中，以便后续请求使用
+      setToken(response.data.token);
+      new Vue({
+        el: '#app',
+        router,
+        store,
+        render: h => h(App)
+      })
+    });
+  } catch (error) {
+    new Vue({
+      el: '#app',
+      router,
+      store,
+      render: h => h(App)
+    })
+  }
+} else {
+  new Vue({
+    el: '#app',
+    router,
+    store,
+    render: h => h(App)
+  })
+}
+
