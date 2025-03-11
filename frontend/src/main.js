@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import axios from 'axios'
-import Cookies from 'js-cookie'
 import promise from 'es6-promise'
 import Element from 'element-ui'
 import './assets/styles/element-variables.scss'
@@ -155,54 +154,30 @@ promise.polyfill()
  */
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'mini' // set element-ui default size
+  size: localStorage.getItem('size') || 'mini' // set element-ui default size
 })
 
 Vue.config.productionTip = false
 Vue.prototype.$dataRoomAxios = $dataRoomAxios
 
 
+const key = getQueryParam('key');
 
-const clientId = getQueryParam('clientId');
-const clientSecret = getQueryParam('clientSecret');
-if (clientId && clientSecret) {
-  try {
-    axios({
-      baseURL: process.env.VUE_APP_BASE_API,  // 从环境变量中获取基础 URL
-      url: '/login',  // 登录接口地址
-      method: 'post',  // HTTP 方法
-      headers: {
-        isToken: false,  // 假设登录时不需要 token
-        repeatSubmit: false  // 是否允许重复提交
-      },
-      data: {
-        username: clientId,  // 客户端 ID
-        password: encrypt(clientSecret)  // 客户端密钥
-      }  // 请求体数据
-    }).then(response => {
-      // 将 token 存储到本地存储中，以便后续请求使用
-      setToken(response.data.token);
-      new Vue({
-        el: '#app',
-        router,
-        store,
-        render: h => h(App)
-      })
-    });
-  } catch (error) {
-    new Vue({
-      el: '#app',
-      router,
-      store,
-      render: h => h(App)
-    })
+function initializeApp() {
+  if (key) {
+    try {
+      setToken(key); 
+    } catch (error) {
+      console.error("Error storing token:", error);
+      return; 
+    }
   }
-} else {
   new Vue({
     el: '#app',
     router,
     store,
     render: h => h(App)
-  })
+  });
 }
 
+initializeApp();

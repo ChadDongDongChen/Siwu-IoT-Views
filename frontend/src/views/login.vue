@@ -202,9 +202,9 @@ export default {
       });
     },
     getCookie() {
-      const username = Cookies.get("username");
-      const password = Cookies.get("password");
-      const rememberMe = Cookies.get('rememberMe')
+      const username = localStorage.getItem("username");
+      const password = localStorage.getItem("password");
+      const rememberMe = localStorage.getItem('rememberMe')
       this.loginForm = {
         username: username === undefined ? this.loginForm.username : username,
         password: password === undefined ? this.loginForm.password : decrypt(password),
@@ -216,13 +216,13 @@ export default {
         if (valid) {
           this.loading = true;
           if (this.loginForm.rememberMe) {
-            Cookies.set("username", this.loginForm.username, { expires: 30 });
-            Cookies.set("password", encrypt(this.loginForm.password), { expires: 30 });
-            Cookies.set('rememberMe', this.loginForm.rememberMe, { expires: 30 });
+            localStorage.setItem("username", this.loginForm.username, { expires: 30 });
+            localStorage.setItem("password", encrypt(this.loginForm.password), { expires: 30 });
+            localStorage.setItem('rememberMe', this.loginForm.rememberMe, { expires: 30 });
           } else {
-            Cookies.remove("username");
-            Cookies.remove("password");
-            Cookies.remove('rememberMe');
+             localStorage.removeItem("username");
+             localStorage.removeItem("password");
+             localStorage.removeItem('rememberMe');
           }
           this.loginForm.password = encrypt(this.loginForm.password);
           this.$store.dispatch("Login", this.loginForm).then(() => {

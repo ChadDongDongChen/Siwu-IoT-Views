@@ -1,5 +1,5 @@
 <p align="center">
-	<img alt="logo" src="https://oss.jinhuwl.top/swiot/logo.png" width="100" />
+	<img alt="logo" src="./gitee/logo.png" width="100" />
 </p>
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Siwu-IoT-Views v3.8.8</h1>
 <h4 align="center">基于RuoYi-Vue 3.8.8和Dataroom 2.0.0 集成开发的物联网可视化平台</h4>
@@ -8,7 +8,7 @@
 	<a  href='https://gitee.com/jonehoo/Siwu-IoT-Views/stargazers'><img src='https://gitee.com/jonehoo/Siwu-IoT-Views/badge/star.svg?theme=dark' alt='star'></img></a>
 	<a  href='https://gitee.com/jonehoo/Siwu-IoT-Views/members'><img src='https://gitee.com/jonehoo/Siwu-IoT-Views/badge/fork.svg?theme=dark' alt='fork'></img></a>
     <img alt="Static Badge" src="https://img.shields.io/badge/license%20-%20Apache2.0%20-red?color=%230e80c1">
-    <a href="https://sv.jinhuwl.top:5743"><img alt="Static Badge" src="https://img.shields.io/badge/%E9%A2%84%E8%A7%88%20-%20%E6%BC%94%E7%A4%BA%E7%8E%AF%E5%A2%83%20-red?color=%2322b130"></a>
+    <a href="https://bi.jinhuwl.top"><img alt="Static Badge" src="https://img.shields.io/badge/%E9%A2%84%E8%A7%88%20-%20%E6%BC%94%E7%A4%BA%E7%8E%AF%E5%A2%83%20-red?color=%2322b130"></a>
 </p>
 <h4 align="center"> 喜欢的话，给个 Star ⭐️ 吧！</h4>
 
@@ -26,9 +26,9 @@
 ## ✨ 在线体验
 
 > 
-> 项目演示地址：https://sv.jinhuwl.top:5743
+> 项目演示地址：https://sv.jinhuwl.top:5743  
 > 扫码获取账号密码：  
-> <img src="https://vip.123pan.cn/1842051082/ymjew503t0l000d5qave6pjw3t3qz9tfDIYxDqayDIa1Dpx0Dday.jpg" alt="image" width="300" height="auto">  
+> <img src="./gitee/公众号.jpg" alt="image" width="300" height="auto">  
 > ❗ 注意：演示环境为测试环境，请不要在演示环境中放入生产数据。
 
 
@@ -88,40 +88,43 @@
 
 <table>
     <tr>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0l000d5qauzeldo683flpt3DIYxDqayDIa1Dpx0Dday.png"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/ymjew503t0n000d5qavf4pos09ykumoiDIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/登录.png"/></td>
+        <td><img src="./gitee/用户中心.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0n000d5qav0d8gae0yobighDIYxDqayDIa1Dpx0Dday.pngg"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0n000d5qav0d8gaviyoc72bDIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/用户管理.png"/></td>
+        <td><img src="./gitee/在线用户.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0m000d5qauzx43fouj1z4maDIYxDqayDIa1Dpx0Dday.png"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0l000d5qauzeldnot3fkvn8DIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/角色管理.png"/></td>
+        <td><img src="./gitee/角色权限管理.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0m000d5qauzx43f7aj1y47oDIYxDqayDIa1Dpx0Dday.png"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/ymjew503t0m000d5qavemkavgniyhwt4DIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/大屏权限管理.png"/></td>
+        <td><img src="./gitee/大屏设计页面.png"/></td>
     </tr>	 
     <tr>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0l000d5qauzeldn443fjbjbDIYxDqayDIa1Dpx0Dday.png"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0m000d5qauzx43e8qj1w60nDIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/地图数据.png"/></td>
+        <td><img src="./gitee/高代码自定义组件.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://vip.123pan.cn/1842051082/ymjew503t0l000d5qave6pc0yx3c367lDIYxDqayDIa1Dpx0Dday.png"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0n000d5qav0d8g9wwyoa6m9DIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/数据源添加.png"/></td>
+        <td><img src="./gitee/数据接口添加.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://vip.123pan.cn/1842051082/yk6baz03t0m000d5qauzx43eq6j1x43jDIYxDqayDIa1Dpx0Dday.pngg"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/ymjew503t0n000d5qavf4porityktdzoDIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/数据接口配置.png"/></td>
+        <td><img src="./gitee/数据接口管理.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://vip.123pan.cn/1842051082/ymjew503t0l000d5qave6pc1fp3c4t13DIYxDqayDIa1Dpx0Dday.png"/></td>
-        <td><img src="https://vip.123pan.cn/1842051082/ymjew503t0m000d5qavemkauz4iygphsDIYxDqayDIa1Dpx0Dday.png"/></td>
+        <td><img src="./gitee/物联网案例.png"/></td>
+        <td><img src="./gitee/流媒体组件测试.png"/></td>
     </tr>
 </table>
 
 
-## ⛳️ 联系方式（微信：Jonehoo）
 
-<img width="200px" src="https://vip.123pan.cn/1842051082/ymjew503t0n000d5qavf4poshaykvoo2DIYxDqayDIa1Dpx0Dday.jpg"/>
+
+## ⛳️ 捐赠支持
+
+<img width="200px" src="./gitee/weixin.jpg"/>
+<img width="200px" src="./gitee/aliplay.jpg"/>
