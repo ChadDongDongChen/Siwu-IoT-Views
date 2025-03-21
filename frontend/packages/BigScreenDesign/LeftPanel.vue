@@ -161,7 +161,7 @@ export default {
         {
           id: 7,
           name: 'echart',
-          title: '3D',
+          title: 'Echarts',
           icon: 'icon-jichushuju',
           components: this.echartsComponents
         },
@@ -196,7 +196,7 @@ export default {
     this.initList()
     this.g2PlotComponents = [...this.g2PlotComponents, ...getCustomPlots()]
     this.menuList[1].components = this.g2PlotComponents
-    this.menuList[6].components = [...this.echartsComponents,...getCustomPlots()]
+    this.menuList[6].components = [...this.echartsComponents]
   },
   mounted() {
     this.nodeDrag()
@@ -260,13 +260,13 @@ export default {
         this.currentActive = this.activeName
       }
       if (tab.name === 'source') {
-        console.log('。。。。。。。。。。。。。。。。。。source调用了。。。。。。。。。 ');
+        // console.log('。。。。。。。。。。。。。。。。。。source调用了。。。。。。。。。 ');
         this.fold = true
         this.$emit('toggleLeftSidebar')
         this.$emit('openResource')
       }
       if (tab.name === 'component') {
-        console.log('.。。。。。。。。。。。。。。。。。。component调用了。。。。。。。。。 ');
+        // console.log('.。。。。。。。。。。。。。。。。。。component调用了。。。。。。。。。 ');
         this.fold = true
         this.$emit('toggleLeftSidebar')
         this.$emit('openComponent')

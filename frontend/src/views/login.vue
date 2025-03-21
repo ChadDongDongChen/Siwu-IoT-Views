@@ -144,8 +144,6 @@
 
 <script>
 import { getCodeImg } from "@/api/login";
-import Cookies from "js-cookie";
-import { encrypt, decrypt } from '@/utils/jsencrypt'
 
 export default {
   name: "Login",
@@ -207,7 +205,7 @@ export default {
       const rememberMe = localStorage.getItem('rememberMe')
       this.loginForm = {
         username: username === undefined ? this.loginForm.username : username,
-        password: password === undefined ? this.loginForm.password : decrypt(password),
+        password: password === undefined ? this.loginForm.password : password,
         rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
       };
     },
@@ -217,14 +215,14 @@ export default {
           this.loading = true;
           if (this.loginForm.rememberMe) {
             localStorage.setItem("username", this.loginForm.username, { expires: 30 });
-            localStorage.setItem("password", encrypt(this.loginForm.password), { expires: 30 });
+            localStorage.setItem("password", this.loginForm.password, { expires: 30 });
             localStorage.setItem('rememberMe', this.loginForm.rememberMe, { expires: 30 });
           } else {
              localStorage.removeItem("username");
              localStorage.removeItem("password");
              localStorage.removeItem('rememberMe');
           }
-          this.loginForm.password = encrypt(this.loginForm.password);
+          this.loginForm.password = this.loginForm.password;
           this.$store.dispatch("Login", this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || "/" }).catch(() => { });
           }).catch(() => {

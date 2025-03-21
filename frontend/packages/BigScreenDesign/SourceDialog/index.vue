@@ -110,7 +110,6 @@ export default {
     },
     chooseImg(img) {
       this.focus = cloneDeep(img)
-      console.log('2选择的图片。。。。。: ', this.focus);
     },
     close() { },
     init() {

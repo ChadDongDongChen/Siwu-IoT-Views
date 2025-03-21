@@ -65,34 +65,7 @@ export const constantRoutes = [
     path: '/401',
     component: () => import('@/views/error/401'),
     hidden: true
-  },
-  // {
-  //   path: '',
-  //   component: Layout,
-  //   redirect: 'index',
-  //   hidden: true ,   
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/overview/index'),
-  //       name: 'Index',
-  //       meta: { title: '平台概览', icon: 'dashboard' ,breadcrumb: false }
-  //     }
-  //   ]
-  // },  
-  // {
-  //   path: '',
-  //   component: Layout,
-  //   redirect: 'index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/overview/index'),
-  //       name: 'overviews',
-  //       meta: { title: '平台概览', icon: 'clipboard',breadcrumb: false  }
-  //     }
-  //   ]
-  // },  
+  }, 
     {
     path: '',
     component: Layout,
@@ -129,7 +102,7 @@ export const constantRoutes = [
         path: 'big-screen-source',
         component: () => import('data-room-ui/SourceManagement'),
         name: 'source',
-        meta: { title: '素材库管理', icon: 'table'}
+        meta: { title: '素材管理', icon: 'table'}
       }
     ]
   },    
@@ -142,49 +115,75 @@ export const constantRoutes = [
         path: 'big-screen-components',
         component: () => import('data-room-ui/BigScreenComponentMag'),
         name: 'components',
-        meta: { title: '组件库管理', icon: 'zip' }
+        meta: { title: '组件开发', icon: 'zip' }
       }
     ]
   }, 
-  { 
-    path: '',
+  {
+    path: '/data',
     component: Layout,
-    redirect: 'index',
+    redirect: '/index',
+    meta: { title: '数据管理', icon: 'swagger' },
     children: [
       {
         path: 'big-screen-dataSource',
         component: () => import('data-room-ui/DataSourceManagement'),
         name: 'dataSource',
-        meta: { title: '数据源管理', icon: 'swagger' }
-      }
-    ]
-  }, 
-  {
-    path: '',
-    component: Layout,
-    redirect: 'index',
-    children: [
+        meta: { title: '数据源', icon: 'swagger' }
+      },
       {
         path: 'big-screen-dataSet',
         component: () => import('data-room-ui/DataSetManagement'),
         name: 'dataSet',
-        meta: { title: '数据集管理', icon: 'shopping' }
-      }
-    ]
-  },    
-  {
-    path: '',
-    component: Layout,
-    redirect: 'index',
-    children: [
+        meta: { title: '数据集', icon: 'shopping' }
+      },
       {
         path: 'big-screen-map-data',
         component: () => import('data-room-ui/MapDataManagement'),
         name: 'map',
-        meta: { title: '地图集管理', icon: 'monitor' }
+        meta: { title: '地图集', icon: 'monitor' }
       }
     ]
-  },   
+  },
+  // { 
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'index',
+  //   children: [
+  //     {
+  //       path: 'big-screen-dataSource',
+  //       component: () => import('data-room-ui/DataSourceManagement'),
+  //       name: 'dataSource',
+  //       meta: { title: '数据源管理', icon: 'swagger' }
+  //     }
+  //   ]
+  // }, 
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'index',
+  //   children: [
+  //     {
+  //       path: 'big-screen-dataSet',
+  //       component: () => import('data-room-ui/DataSetManagement'),
+  //       name: 'dataSet',
+  //       meta: { title: '数据集管理', icon: 'shopping' }
+  //     }
+  //   ]
+  // },    
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'index',
+  //   children: [
+  //     {
+  //       path: 'big-screen-map-data',
+  //       component: () => import('data-room-ui/MapDataManagement'),
+  //       name: 'map',
+  //       meta: { title: '地图集管理', icon: 'monitor' }
+  //     }
+  //   ]
+  // },   
   {
     path: '/user',
     component: Layout,

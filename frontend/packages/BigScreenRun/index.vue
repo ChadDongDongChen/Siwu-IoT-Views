@@ -1,41 +1,35 @@
 <template>
   <div v-if="hasPermission">
-    <div
-      v-loading="pageLoading"
-      element-loading-background="#151A26"
-      class="bs-preview-wrap"
-      :style="previewWrapStyle"
-    >
-      <div
-        class="bs-render-wrap render-theme-wrap"
-        :style="renderStyle"
-      >
-        <div
-          v-for="chart in chartList"
-          :key="chart.code"
-          :style="getStyle(chart)"
-        >
-          <Configuration
-            :config="chart"
-            @openDataViewDialog="openDataViewDialog"
-          >
-            <RenderCard
-              ref="RenderCardRef"
-              :key="chart.key"
-              :config="chart"
-              @styleHandler="styleHandler"
-            />
-          </Configuration>
+    <!-- 控制按钮 -->
+    <div class="controls" v-if="pageConfig.fitMode=='cover'">
+      <button @click="zoomIn">放大</button>
+      <button @click="zoomOut">缩小</button>
+      <button @click="zoomEnd">归零</button>
+    </div>
+    <!-- 画布区域 -->
+    <div v-loading="pageLoading" element-loading-background="#151A26" class="bs-preview-wrap" :style="previewWrapStyle">
+      <div class="canvas" :style="canvasStyle" @mousedown="onMouseDown" @mousemove="onMouseMove" @mouseup="onMouseUp"
+        @mouseleave="onMouseUp" @wheel="onWheel">
+
+        <div class="bs-render-wrap render-theme-wrap" :style="renderStyle">
+          <div v-for="chart in chartList" :key="chart.code" :style="getStyle(chart)">
+            <Configuration :config="chart" @openDataViewDialog="openDataViewDialog">
+              <RenderCard ref="RenderCardRef" :key="chart.key" :config="chart" @styleHandler="styleHandler" />
+            </Configuration>
+          </div>
         </div>
       </div>
     </div>
-    <data-view-dialog
-      ref="dataViewDialog"
-    />
+
+
+    <data-view-dialog ref="dataViewDialog" />
   </div>
+
   <NotPermission v-else />
+
 </template>
 <script>
+
 import RenderCard from 'data-room-ui/Render/RenderCard.vue'
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { compile } from 'tiny-sass-compiler/dist/tiny-sass-compiler.esm-browser.prod.js'
@@ -62,49 +56,64 @@ export default {
       })
     }
   },
-  data () {
+  data() {
     return {
       innerHeight: window.innerHeight,
       innerWidth: window.innerWidth,
       timer: null,
       hasPermission: true,
       initChartList: [],
+
+      scale: 1, // 缩放比例
+      translateX: 0, // 水平位移
+      translateY: 0, // 垂直位移
+      isDragging: false, // 是否正在拖拽
+      startX: 0, // 拖拽起始 X 坐标
+      startY: 0 // 拖拽起始 Y 坐标
     }
   },
   computed: {
+    // 画布样式
+    canvasStyle() {
+      return {
+        backgroundColor: this.fitPageConfig.customTheme === 'light' ? this.fitPageConfig.lightBgColor : this.fitPageConfig.bgColor,
+        transform: `scale(${this.scale}) translate(${this.translateX}px, ${this.translateY}px)`,
+        transformOrigin: '0 0'
+      };
+    },
     ...mapState({
       pageInfo: state => state.bigScreen.pageInfo,
       pageConfig: state => state.bigScreen.pageInfo.pageConfig,
       chartList: state => state.bigScreen.pageInfo.chartList,
       stateFitMode: state => state.bigScreen.pageInfo.pageConfig.fitMode
     }),
-    pageCode () {
+    pageCode() {
       // 内部系统取到外部iframe上src链接的code参数
       const iframeCode = this.getIframeCode()
       // 兼容外部网页上的code,iframe上的code以及传入的code
       return this.$route.query.code ||
-          iframeCode ||
-          this.config.code
+        iframeCode ||
+        this.config.code
     },
-    fitMode () {
+    fitMode() {
       return this.config.fitMode || this.stateFitMode
     },
-    fitSelector () {
+    fitSelector() {
       return this.config.fitSelector
     },
-    pageLoading () {
+    pageLoading() {
       return this.$store.state.bigScreen.pageLoading
     },
-    fitPageConfig () {
+    fitPageConfig() {
       return this.resolvePageConfig(this.pageConfig)
     },
-    previewWrapStyle () {
+    previewWrapStyle() {
       const bg = this.fitMode !== 'none'
         ? {
-            backgroundColor: this.fitPageConfig.customTheme === 'light' ? this.fitPageConfig.lightBgColor : this.fitPageConfig.bgColor,
-            backgroundImage: this.fitPageConfig.customTheme === 'light' ? `url(${this.getCoverPicture(this.fitPageConfig.lightBg)})` : `url(${this.getCoverPicture(this.fitPageConfig.bg)})`,
-            backgroundSize: 'cover'
-          }
+          backgroundColor: this.fitPageConfig.customTheme === 'light' ? this.fitPageConfig.lightBgColor : this.fitPageConfig.bgColor,
+          backgroundImage: this.fitPageConfig.customTheme === 'light' ? `url(${this.getCoverPicture(this.fitPageConfig.lightBg)})` : `url(${this.getCoverPicture(this.fitPageConfig.bg)})`,
+          backgroundSize: 'cover'
+        }
         : {}
 
       return {
@@ -113,8 +122,7 @@ export default {
         ...bg
       }
     },
-
-    renderStyle () {
+    renderStyle() {
       const style = {
         width: this.fitPageConfig.w,
         height: this.fitPageConfig.h,
@@ -123,12 +131,11 @@ export default {
 
       const bg = this.fitMode === 'none'
         ? {
-            backgroundColor: this.fitPageConfig.customTheme === 'light' ? this.fitPageConfig.lightBgColor : this.fitPageConfig.bgColor,
-            backgroundImage: this.fitPageConfig.customTheme === 'light' ? `url(${this.getCoverPicture(this.fitPageConfig.lightBg)})` : `url(${this.getCoverPicture(this.fitPageConfig.bg)})`,
-            backgroundSize: 'cover'
-          }
+          backgroundColor: this.fitPageConfig.customTheme === 'light' ? this.fitPageConfig.lightBgColor : this.fitPageConfig.bgColor,
+          backgroundImage: this.fitPageConfig.customTheme === 'light' ? `url(${this.getCoverPicture(this.fitPageConfig.lightBg)})` : `url(${this.getCoverPicture(this.fitPageConfig.bg)})`,
+          backgroundSize: 'cover'
+        }
         : {}
-
       return {
         ...style,
         ...bg
@@ -136,20 +143,20 @@ export default {
     }
   },
   watch: {
-    pageCode (val) {
+    pageCode(val) {
       if (val) {
         this.init()
       }
     },
     'pageInfo.pageConfig.refreshConfig.length': {
-      handler (val) {
+      handler(val) {
         if (val) {
           this.startTimer()
         }
       }
     },
     chartList: {
-      handler (val) {
+      handler(val) {
         if (this.initChartList.length === 0) {
           this.initChartList = cloneDeep(this.chartList)
         }
@@ -157,25 +164,77 @@ export default {
       deep: true
     }
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     // 离开的时候 重置大屏的vuex store
     this.$store.commit('bigScreen/resetStoreData')
     next()
   },
-  created () {
+  created() {
     this.permission()
     this.getParentWH()
     this.windowSize()
   },
-  mounted () {
+  mounted() {
     if (this.pageInfo.pageConfig.refreshConfig && this.pageInfo.pageConfig.refreshConfig.length > 0) {
       this.startTimer()
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.stopTimer()
   },
   methods: {
+    // 放大
+    zoomIn() {
+      this.scale += 0.1;
+    },
+    // 缩小
+    zoomOut() {
+      if (this.scale > 0.1) {
+        this.scale -= 0.1;
+      }
+    },
+    zoomEnd() {
+      this.scale = 1
+      this.translateX = 0
+      this.translateY = 0
+    },
+    // 鼠标按下
+    onMouseDown(event) {
+      if(this.pageConfig.fitMode!='cover') return
+      this.isDragging = true;
+      this.startX = event.clientX - this.translateX;
+      this.startY = event.clientY - this.translateY;
+    },
+    // 鼠标移动
+    onMouseMove(event) {
+      if(this.pageConfig.fitMode!='cover') return
+      if (this.isDragging) {
+        this.translateX = event.clientX - this.startX;
+        this.translateY = event.clientY - this.startY;
+      }
+    },
+    // 鼠标松开
+    onMouseUp() {
+      if(this.pageConfig.fitMode!='cover') return
+      this.isDragging = false;
+    },
+    // 鼠标滚轮事件
+    onWheel(event) {
+      if(this.pageConfig.fitMode!='cover') return
+      // 判断是否按下了 Ctrl 键
+      if (event.ctrlKey) {
+        event.preventDefault(); // 阻止默认行为
+        const delta = event.deltaY < 0 ? 0.1 : -0.1; // 根据滚轮方向调整缩放比例
+        this.scale += delta;
+
+        // 限制缩放范围
+        if (this.scale < 0.1) {
+          this.scale = 0.1;
+        } else if (this.scale > 5) {
+          this.scale = 5;
+        }
+      }
+    },
     ...mapActions('bigScreen', [
       'initLayout' // -> this.initLayout()
     ]),
@@ -185,7 +244,7 @@ export default {
       'changePageConfig',
       'changeChartConfig'
     ]),
-    getStyle (chart) {
+    getStyle(chart) {
       if (chart.perspective > 0) {
         return {
           position: 'absolute',
@@ -208,18 +267,18 @@ export default {
       }
     },
     // 右键点击查看数据
-    openDataViewDialog (config) {
+    openDataViewDialog(config) {
       this.$refs.dataViewDialog.init(config)
     },
     // 切换主题时针对远程组件触发样式修改的方法
-    styleHandler (config) {
+    styleHandler(config) {
       this.chartList.forEach((chart, index) => {
         if (chart.code === config.code) {
           this.$refs.RenderCardRef[index].$refs[chart.code].changeStyle(config)
         }
       })
     },
-    permission () {
+    permission() {
       this.$dataRoomAxios.get(`/bigScreen/permission/check/${this.pageCode}`).then(res => {
         this.hasPermission = res
         if (res) {
@@ -227,7 +286,7 @@ export default {
         }
       })
     },
-    init () {
+    init() {
       if (!this.pageCode) { return }
       this.changePageLoading(true)
       this.initLayout(this.pageCode).then(() => {
@@ -236,13 +295,13 @@ export default {
       })
     },
     // 设置定时器
-    startTimer () {
+    startTimer() {
       console.log('开始刷新')
       let time = 1
       const that = this
       // 使用setTimeout代替setInterval，并在每次循环结束后重新设置定时器。这样可以避免定时器的堆积和性能问题
       // 同时，为了方便清除定时器，可以将定时器的引用保存在变量中，以便后续清除
-      this.timer = setTimeout(function refresh () {
+      this.timer = setTimeout(function refresh() {
         // console.log('that.pageInfo: ', that.pageInfo);
         that.pageInfo.pageConfig.refreshConfig.forEach(item => {
           if (item.code) {
@@ -268,10 +327,10 @@ export default {
       }, 1000)
     },
     // 清除定时器
-    stopTimer () {
+    stopTimer() {
       clearTimeout(this.timer)
     },
-    getIframeCode () {
+    getIframeCode() {
       // 获取当前页面的URL
       const url = window.location.href
 
@@ -291,12 +350,12 @@ export default {
       }
       return code
     },
-    windowSize () {
+    windowSize() {
       window.onresize = () => {
         this.getParentWH()
       }
     },
-    getParentWH () {
+    getParentWH() {
       this.$nextTick(() => {
         const parent = document.querySelector(this.fitSelector)
         // 如果设置了自适应的选择器
@@ -316,7 +375,7 @@ export default {
       })
     },
     // 获取到后端传来的主题样式并进行修改
-    styleSet () {
+    styleSet() {
       const style = document.createElement('style')
       if (this.pageConfig.themeJson && this.pageConfig.themeJson.themeCss) {
         const styleStr = this.pageConfig.themeJson.themeCss
@@ -329,7 +388,7 @@ export default {
       }
     },
     // 处理自适应下的页面配置
-    resolvePageConfig (pageConfig) {
+    resolvePageConfig(pageConfig) {
       const { w, h } = pageConfig
       let scaleX = 1
       let scaleY = 1
@@ -399,7 +458,7 @@ export default {
      * @param url
      * @returns {*}
      */
-    getCoverPicture (url) {
+    getCoverPicture(url) {
       return getFileUrl(url)
     }
   }
@@ -407,15 +466,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .bs-preview-wrap {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
+.bs-preview-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 
-    .bs-render-wrap {
-      position: relative;
-      background-size: cover;
-    }
+  .bs-render-wrap {
+    position: relative;
+    background-size: cover;
   }
+
+}
+
+.controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000000000;
+}
+
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #42b983;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3aa876;
+}
 </style>

@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="big-screen-card-img">
-              <el-image :src="getCoverPicture(screen.coverPicture)" fit="fill" style="width: 100%; height: 100%">
+              <el-image :src="getCoverPicture(screen.coverPicture) || require('./images/default.png')" fit="fill" style="width: 100%; height: 100%">
                 <div slot="placeholder" class="image-slot">
                   加载中···
                 </div>

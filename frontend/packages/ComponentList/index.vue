@@ -122,7 +122,7 @@
             </div>
             <div class="big-screen-card-img">
               <el-image
-                :src="catalogInfo !== 'system' ? getCoverPicture(screen.coverPicture) : screen.img"
+                :src="catalogInfo !== 'system' ? (getCoverPicture(screen.coverPicture) || require('./images/default.png')) : screen.img "
                 fit="fill"
                 style="width: 100%; height: 100%"
               >

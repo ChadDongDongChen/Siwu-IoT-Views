@@ -1,10 +1,9 @@
 <template>
   <div style="padding-left: 8px;padding-right: 8px;">
-    <el-collapse>
-      <el-collapse-item :title="item.name" :name="index" class="drag-container" v-for="(item, index) in categorizedData"
+    <el-collapse v-model="activeName" accordion @change="handleOpen">
+      <el-collapse-item :title="item.name" :name="index" class="drag-container" v-for="(item, index) in options"
         :key="index">
         <el-scrollbar>
-          <!-- 为每个卡片添加拖拽事件 -->
           <div v-for="(screen, i) in item.list" :key="i" class="card" draggable="true"
             @dragstart="handleDragStart($event, screen)">
             <div class="card-name">{{ removeExtension(screen.originalName) }}</div>
@@ -27,6 +26,7 @@ import { customSerialize } from 'data-room-ui/js/utils/jsonSerialize.js'
 export default {
   data() {
     return {
+      activeName: '1',
       loading: false,
       options: [],
       code: '',
@@ -34,78 +34,49 @@ export default {
       current: 1,
       searchKey: '',
       imgExtends: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp', 'ico'],
-      configurationOption: [{
-        name: '泵',
-        code: "resourceCatalog_qbDHUfhAC9",
-      }, {
-        name: '电源',
-        code: "resourceCatalog_AxnbaLN0Kh",
-      }, {
-        name: '阀门',
-        code: 'resourceCatalog_YdLjLI50Hn',
-      }, {
-        name: '废水处理',
-        code: 'resourceCatalog_WlTTy5H7bz',
-      }, {
-        name: '锅炉',
-        code: 'resourceCatalog_tm6ExLTove',
-      }, {
-        name: '加热器',
-        code: 'resourceCatalog_PZQQV8hxCL',
-      }, {
-        name: '建筑',
-        code: 'resourceCatalog_Ci7foBhlSE',
-      }, {
-        name: '动态图标',
-        code: 'resourceCatalog_IyICBu1CNE',
-      }],
-      // 分类后的数据
-      categorizedData: [],
     };
   },
   mounted() {
     this.init();
+
   },
   methods: {
+    async handleOpen(e) {
+      let cateName = this.options[parseInt(e)];
+      let itemList = await this.getItemList(cateName.code);
+      this.options[parseInt(e)].list = itemList;
+    },
     init() {
       this.code = '';
       this.focus = -1;
-      this.getDataList();
       this.getCatalogList();
     },
-    // 资源列表
-    getDataList() {
+    getItemList(model) {
       this.loading = true;
-      this.$dataRoomAxios.get('/bigScreen/file', {
-        module: "",  // 这里可以传递特定模块的过滤条件
+      return this.$dataRoomAxios.get('/bigScreen/file', {
+        module: model,  // 这里可以传递特定模块的过滤条件
         current: 1,
         size: 9999,  // 每次请求的条数
         extensionList: this.imgExtends,
         searchKey: this.searchKey,
       }).then((data) => {
         this.totalCount = data.totalCount;
-        // 分类数据
-        this.categorizedData = this.classifyData(data.list);
-        console.log('资源列表分类后: ', this.categorizedData);
+        return data.list
+
       }).finally(() => {
         this.loading = false;
-      });
-    },
-    classifyData(list) {
-      return this.configurationOption.map(option => {
-        return {
-          name: option.name,
-          code: option.code,
-          list: list.filter(item => item.module === option.code)  // 根据 code 分类
-        };
       });
     },
     // 获取目录的列表
     getCatalogList() {
       this.$dataRoomAxios.get('/bigScreen/type/list/resourceCatalog')
         .then((data) => {
-          this.options = data;
-          console.log('获取目录的列表: ', data);
+          this.options = data
+            .filter(r => r.name.startsWith('PID')) // 过滤出 name 以 "PID" 开头的对象
+            .map(r => {
+              r.list = []; // 为每个符合条件的对象添加一个空数组 list
+              return r; // 返回处理后的对象
+            });
         })
         .catch(() => { });
     },

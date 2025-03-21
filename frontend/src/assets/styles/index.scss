@@ -121,6 +121,9 @@ aside {
 
 //main-container全局样式
 .app-container {
+  background-color: #fff;
+  min-height: calc(100vh - 120px);
+  border-radius: 8px;
   padding: 20px;
 }
 

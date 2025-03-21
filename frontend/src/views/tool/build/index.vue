@@ -499,8 +499,11 @@ $lighterBlue: #409EFF;
 
 .container {
   position: relative;
+  padding: 20px;
   width: 100%;
   height: 100%;
+  background-color: #fff;
+  border-radius: 8px;
 }
 
 .components-list {
