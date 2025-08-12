@@ -9,13 +9,13 @@
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item" />
 
-        <el-tooltip content="源码地址" effect="dark" placement="bottom">
-          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
-        </el-tooltip>
+<!--        <el-tooltip content="源码地址" effect="dark" placement="bottom">-->
+<!--          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />-->
+<!--        </el-tooltip>-->
 
-         <el-tooltip content="文档地址" effect="dark" placement="bottom">
-          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />
-        </el-tooltip>
+<!--         <el-tooltip content="文档地址" effect="dark" placement="bottom">-->
+<!--          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />-->
+<!--        </el-tooltip>-->
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import TopNav from '@/components/TopNav'
 import Hamburger from '@/components/Hamburger'
@@ -116,7 +116,7 @@ export default {
   overflow: hidden;
   position: relative;
   // background: #cc1515;
-  background-image: url('../../assets/images/nav_img.png'); 
+  background-image: url('../../assets/images/nav_img.png');
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 
   .hamburger-container {

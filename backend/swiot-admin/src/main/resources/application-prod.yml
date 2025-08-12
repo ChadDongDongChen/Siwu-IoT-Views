@@ -9,9 +9,9 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://localhost:3306/siwu_iot_2?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
-                username: siwu_iot_2
-                password: h8WNNSsfrFTSWGai
+                url: jdbc:mysql://47.111.173.131:3306/big_screen?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&nullCatalogMeansCurrent=true
+                username: hikari
+                password: hikari123
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
@@ -65,13 +65,13 @@ spring:
     # redis 配置
     redis:
         # 地址
-        host: localhost
+        host: 47.111.173.131
         # 端口，默认为6379
         port: 6379
         # 数据库索引
-        database: 0
+        database: 1
         # 密码
-        password:
+        password: hikari123
         # 连接超时时间
         timeout: 10s
         lettuce:

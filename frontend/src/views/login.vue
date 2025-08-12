@@ -7,7 +7,7 @@
      align-items: center;'>
         <img src="../../src/assets/logo/logo1.png" class="img-logo" alt="">
       </div>
-      <h3 class="title">SiWU-IoT-VIEWS</h3>
+      <h3 class="title">富山IOT大屏设计平台</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -36,18 +36,14 @@
           <span v-else>登 录 中...</span>
         </el-button>
         <div style="float: right;margin-top: 20px;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
+          需要注册请联系富山IOT小组
+<!--          <router-link class="link-type" :to="'/register'">立即注册</router-link>-->
         </div>
       </el-form-item>
-      <el-divider content-position="center">获取演示账号</el-divider>
-      <div style=" width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px; "
-        class="el-image">
-        <img class="img-logo" :src="gzh">
-      </div>
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2024 All Rights Reserved.</span>
+      <span>Copyright © 2024-2025 All Rights Reserved.</span>
     </div>
   </div>
 
@@ -143,7 +139,7 @@
 </style>
 
 <script>
-import { getCodeImg } from "@/api/login";
+import {getCodeImg} from "@/api/login";
 
 export default {
   name: "Login",
